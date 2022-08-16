@@ -1,0 +1,216 @@
+<div class="px-3 mx-1" id="orders">
+  <div class="row" *ngIf="newOrders.length>0">
+    <div class="d-flex align-items-center">
+      <p class="card-title me-3" id="order-performance">{{'order.new-tasks'|translate}}</p>
+    </div>
+  </div>
+
+  <div class="row mx-n1">
+    <div class="col-sm-6 col-lg-4 px-1 mb-2" *ngFor="let order of newOrders">
+      <div class="card mt-1 mb-0">
+        <div class="row mx-n1 align-items-center">
+          <div class="col-6 px-1">
+            <img class="img-fluid dashed-img d-block mb-0" src="/assets/img/ico/order-dash.svg">
+          </div>
+          <div class="col-6  text-end">
+            <div class="d-inline-block  ">
+              <a routerLink="/dispatch" [queryParams]="{branchID:order.BranchID}">
+                <span
+                  class="rb-counter rb-counter-sm counter-r500  ms-auto px-2 ">{{'customer.dispatch'|translate}}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p class="font-12 mb-1">{{'order.order-number'|translate}}</p>
+        <div class="mb-2 d-flex align-items-center lh-21">
+          <a class=" font-17 bold" routerLink="/task/details/{{order.Code}}">#{{order.OrderNumber}}</a>
+          <div class="d-inline-block ms-2">
+            <span class="perf status  c-white  bg-b700 mx-2"
+              *ngIf="order.Status==2">{{'dispatch.on-trip'|translate}}</span>
+            <span class="perf status  c-white  bg-b700" *ngIf="order.Status!=2"
+              [title]="order.StatusName">{{order.StatusName|maxLengthDot:11}}</span>
+          </div>
+          <div class="d-inline-block  ">
+            <span class="perf status  c-white mx-2"
+              [style.background-color]="order.RateColore">{{order.RateName}}</span>
+          </div>
+
+        </div>
+
+
+        <div class="">
+          <i class="uil uil-clock-five c-70 font-11 me-1"></i>
+          <p class="d-inline-block  font-11 c-70 "> {{order.Date | date:'dd-MM-yyyy hh:mm a'}}</p>
+        </div>
+        <div class="row  mt-1">
+          <div class="col-6 px-1 mb-1">
+            <div class="d-flex">
+              <div class="info-box bg-blue-light my-auto p-1">
+                <img src="assets/img/new-svgs/clock-blue.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  mb-0 c-70 bold">{{'system.duration'|translate}}</p>
+                <p class="font-13  ">{{order.Duration}} {{'shared.min'|translate}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 px-1 mb-1">
+            <div class="d-flex">
+              <div class="info-box bg-orange-light my-auto p-1">
+                <img src="assets/img/new-svgs/location-point-orange.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  mb-0 c-70 bold">{{'shared.address'|translate}}</p>
+                <p class="font-13   c-112" [title]="order.Address">{{order.Address | maxLengthDot:19}}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 px-1 mb-1">
+            <div class="d-flex">
+              <div class="info-box bg-blue-light my-auto p-1">
+                <img src="assets/img/new-svgs/box-blue.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  mb-0 c-70 bold">{{'system.items'|translate}}</p>
+                <p class="font-13   c-112">{{order.ItemsCount}} {{'system.items'|translate}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 px-1 mb-1">
+            <div class="d-flex">
+              <div class="info-box bg-green-light my-auto p-1">
+                <img src="assets/img/new-svgs/bill-green.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  mb-0 c-70 bold">{{'customer.total-price'|translate}}</p>
+                <p class="font-13   c-112">{{order.Amount}} {{'system.currency'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex py-2 px-3 align-items-center radius-8 justify-content-lg-between bg-f3">
+          <div class="d-flex align-items-center" *ngIf="order.DeliverymanName">
+            <img class="rect-30 circle me-2" [src]="order.DeliverymanImage">
+            <div class="ml-2 d-inline-block mb-1">
+              <p class="font-14  mb-0 c-112 bold" [title]="order.DeliverymanName">{{order.DeliverymanName |
+                maxLengthDot:12}}</p>
+              <p class="mb-0 font-12   c-70">{{order.DeliverymanMobile}}</p>
+            </div>
+          </div>
+          <div class="d-inline-block " [class.ml-auto]="order.DeliverymanName" [class.mx-auto]="!order.DeliverymanName">
+            <div class="d-flex align-items-center justify-content-end">
+              <img src="assets/img/new-svgs/shop-black.svg" class="rect-12 ms-auto">
+              <p class="mb-0 font-12  c-112">
+                {{order.BranchName}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="my-2rem" *ngIf="newOrders.length>0">
+
+  <div class="row">
+    <div class="d-flex align-items-center">
+      <p class="card-title me-3" id="order-performance">{{'customer.previous-tasks'|translate}} </p>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-6 col-lg-4 px-1" *ngFor="let order of previousOrders">
+      <div class="card my-2">
+        <img class="img-fluid dashed-img d-block mb-2" src="/assets/img/ico/order-dash.svg">
+
+        <p class="font-12 mb-1">{{'order.order-number'|translate}}</p>
+
+        <div class=" mb-1">
+          <a class="font-18 bold " routerLink="/task/details/{{order.Code}}">#{{order.OrderNumber}}</a>
+          <div class="d-inline-block    mx-2">
+            <span class="perf status  c-white me-0 bg-b700"
+              *ngIf="order.Status==2">{{'dispatch.on-trip'|translate}}</span>
+            <span class="perf status  c-white me-0 bg-b700" *ngIf="order.Status!=2"
+              [title]="order.StatusName">{{order.StatusName|maxLengthDot:11}}</span>
+          </div>
+          <div class="d-inline-block  ">
+            <span class="perf status  c-white me-0"
+              [style.background-color]="order.RateColore">{{order.RateName}}</span>
+          </div>
+
+        </div>
+        <div class="my-1">
+          <i class="uil uil-clock-five c-70 font-11 me-1"></i>
+          <p class="d-inline-block  font-11 c-70 mb-0">{{order.Date | date:'dd-MM-yyyy'}}</p>
+
+        </div>
+        <div class="row ">
+          <div class="col-4 px-1 mb-1">
+            <div class="d-flex">
+              <div class="info-box bg-blue-light my-auto p-1">
+                <img src="assets/img/new-svgs/clock-blue.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block mb-2">
+                <p class="font-10   c-70 bold mb-1">{{'system.duration'|translate}}</p>
+                <p class="font-13  ">{{order.Duration}} {{'shared.min'|translate}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 px-1 mb-2">
+            <div class="d-flex">
+              <div class="info-box bg-green-light my-auto p-1">
+                <img src="assets/img/new-svgs/bill-green.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  c-70 bold mb-1">{{'customer.total-price'|translate}}</p>
+                <p class="font-13   c-112">{{order.Amount}} {{'system.currency'|translate}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-4 px-1 mb-2">
+            <div class="d-flex">
+              <div class="info-box bg-blue-light my-auto p-1">
+                <img src="assets/img/new-svgs/box-blue.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  c-70 bold mb-1 ">{{'system.items'|translate}}</p>
+                <p class="font-13   c-112">{{order.ItemsCount}} {{'system.items'|translate}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 px-1 mb-2">
+            <div class="d-flex">
+              <div class="info-box bg-orange-light my-auto p-1">
+                <img src="assets/img/new-svgs/location-point-orange.svg" class="img-16 m-auto">
+              </div>
+              <div class="ms-1 d-inline-block">
+                <p class="font-10  mb-1 c-70 bold">{{'shared.address'|translate}}</p>
+                <p class="font-13   c-112" [title]="order.Address">{{order.Address | maxLengthDot:40}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex py-1 px-2 align-items-center b-radius8 bg-f3 py-2">
+          <div class="d-flex align-items-center" *ngIf="order.DeliverymanName">
+            <img class="img-35circle" [src]="order.DeliverymanImage">
+            <div class="ml-2 d-inline-block">
+              <p class="font-14px  c-112 bold" [title]="order.DeliverymanName">{{order.DeliverymanName |
+                maxLengthDot:12}}</p>
+              <p class="font-12   c-70">{{order.DeliverymanMobile}}</p>
+            </div>
+          </div>
+          <div class="d-inline-block " [class.ml-auto]="order.DeliverymanName" [class.mx-auto]="!order.DeliverymanName">
+            <div class="d-flex align-items-center">
+              <img src="assets/img/new-svgs/shop-black.svg" class="rect-12 me-1">
+              <p class="font-12  c-112">
+                {{order.BranchName}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

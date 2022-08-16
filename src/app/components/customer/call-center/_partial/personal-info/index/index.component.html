@@ -1,0 +1,102 @@
+<div class="px-3 ">
+  <div class="row">
+    <div class="card-content px-3">
+      <div class="row ">
+        <div class="col-12">
+          <div class="d-flex align-items-center">
+            <div class="bg-ffe-yellow rect-45 circle d-flex justify-content-center align-items-center">
+              <img src="/assets/img/man.svg" class=" rect-30 ">
+            </div>
+            <div class="ms-2 ">
+              <p class="font-10 c-gray70 bold ">{{'system.customer-name'|translate}}</p>
+              <p class="bold font-20 c-darkblue" id="profile">{{mainInfo.Name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row my-4">
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details ">
+            <i class="uil uil-mobile-android-alt"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'system.customer-mobile'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{mainInfo.Phone}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6  col-md-2 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-mobile-android-alt"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'system.customer-serial-number'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{mainInfo.SerialNumber}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-user-location"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'shared.address'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{mainInfo.Address}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <p class="bold c-gray70 font-13" id="behavior">{{'customer.behavior'|translate}}</p>
+      <div class="row my-4">
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details ">
+            <i class="uil uil-tachometer-fast"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'system.performance'|translate}}</p>
+              <p class="font-13 c-green" *ngIf="modelKPI.ServiceScore<=5 && modelKPI.ServiceScore>=4.5">
+                {{'system.excellent'|translate}}</p>
+              <p class="font-13 c-blue" *ngIf="modelKPI.ServiceScore<4.5 && modelKPI.ServiceScore>=3.5">
+                {{'system.good'|translate}}</p>
+              <p class="font-13 c-yellow" *ngIf="modelKPI.ServiceScore<3.5 && modelKPI.ServiceScore>=2.5">
+                {{'system.late'|translate}}</p>
+              <p class="font-13 c-red mt-n1" *ngIf="modelKPI.ServiceScore<2.5">{{'system.too-late'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-clock"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'store.performance.avg-delivery-time'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{modelKPI.AverageDeliverDuration}} {{'shared.min'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-apps"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'system.total-tasks'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{modelKPI.TotalNumberOfOrders}} {{'system.task'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-invoice"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'customer.highest-ticket'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{modelKPI.HighestTicket}} {{'system.currency'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-2 mb-2 mb-md-0">
+          <div class="icon-details">
+            <i class="uil uil-invoice"></i>
+            <div class="icon-detail">
+              <p class="font-12 c-66 m-0">{{'customer.average-ticket'|translate}}</p>
+              <p class="font-14 c-00f m-0">{{modelKPI.AvgTicket}} {{'system.currency'|translate}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

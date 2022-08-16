@@ -1,0 +1,34 @@
+.fixed-top {
+  z-index: 1031;
+}
+.logo {
+  height: 32px;
+  margin-top: -4px;
+  margin-bottom: -4px;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+.navbar-light .navbar-toggler {
+  border: unset;
+}
+.scooter-logo {
+  height: 48px;
+  width: auto;
+}
+.vendor-info {
+  display: flex;
+  align-items: center;
+  background-color: #f6f7f8;
+  border-radius: 8px;
+  padding: 8px 12px 8px 8px;
+  margin-inline-start: auto;
+  margin-inline-end: 16px;
+}
+.user-nav:hover {
+  background-color: #f6f7f8;
+  border-radius: 6px;
+}
+.btn-notification{
+  padding: 6px !important;
+}

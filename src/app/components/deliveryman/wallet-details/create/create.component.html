@@ -1,0 +1,81 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/accounting/wallet/transaction"></i> {{'wallet.transaction.title-create'|translate}}
+      </div>
+    </div>
+    <div class="tab-action" *ngIf="page.isPageLoaded &&!hasFeature(0)">
+      <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/accounting/wallet/transaction">
+        <span class="rb-btn-text">{{'shared.cancel' | translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-success rb-btn-sm" [disabled]="disabledSubmit()" (click)="save()">
+        <span class="rb-btn-text">{{'shared.create'|translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-container >
+  <div class="page height-unset">
+    <div class=" div-loading" *ngIf="!page.isPageLoaded">
+      <div class="page-content  d-flex align-items-center justify-content-center">
+        <div class="card w-100">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+            <p class="loading">{{'shared.loading' | translate}} ...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-content p-0" *ngIf="page.isPageLoaded">
+      <div class="card">
+        <div class="card-content p-0">
+          <form [formGroup]="page.form">
+            <div class="row row-cols-md-4 g-2">
+              <div class="col">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.form" control="DeliverymanID" 
+                            label="{{'system.deliveryman'| translate}}" placeholder="{{'search.select-dm' | translate}}" 
+                            [items]="deliverymanList" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.form" control="Type" 
+                            label="{{'shared.type'| translate}}" placeholder="{{'search.select-type' | translate}}" 
+                            [items]="typeList" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control  [type]="page.ControlType.INPUT_NUMBER" [form]="page.form" control="TripNumber" label="{{'order.trip-number'| translate}}" 
+                             placeholder="{{'search.enter-trip' | translate}}" ></ng-control>
+              </div>
+
+              <div class="col">
+                <ng-control  [type]="page.ControlType.INPUT_NUMBER" [form]="page.form" control="Amount" label="{{'system.amount'| translate}}" 
+                             placeholder="{{'search.enter-amount' | translate}}" ></ng-control>
+              </div>
+
+              <div class="col">
+                <ng-control [form]="page.form" control="Note" label="{{'shared.note'| translate}}" 
+                             placeholder="{{'search.enter-note' | translate}}" ></ng-control>
+              </div>
+
+              <div class="col">
+                <ng-control [type]="page.ControlType.CHECKBOX" [form]="page.form" control="IsAward" label="{{'wallet.transaction.award' | translate}}" ></ng-control>
+                <!-- <fieldset class="form-group" for="basicInput">
+                  <label>{{'wallet.transaction.award'|translate}} </label>
+                  <div class="form-check pl-unset mt-1">
+                    <input class="form-check-input reset-float rect-14  " type="checkbox" formControlName="IsAward">
+                    <label class="form-check-labelpointer ms-2"> {{'wallet.transaction.set-award'|translate}} </label>
+                  </div>
+                </fieldset> -->
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

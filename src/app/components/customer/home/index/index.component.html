@@ -1,0 +1,138 @@
+<div class="page">
+  <div class="page-content">
+    <div class="card h-100">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col" *ngIf="!isSingleStore()">
+                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="BranchID" label="system.store"
+                  placeholder="search.select-store" [items]="storeList"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Name" label="system.customer-name"
+                  placeholder="system.customer-name">
+                </ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Mobile" label="shared.mobile"
+                  placeholder="search.enter-mobile">
+                </ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Number" label="shared.number"
+                  placeholder="search.enter-number"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [type]="controlType.INPUT_DATE" [form]="page.searchForm" control="FromDate"
+                  label="shared.from-date"></ng-control>
+              </div>
+              <div class="col" *ngIf="isSingleStore()">
+                <ng-control [type]="controlType.INPUT_DATE" [form]="page.searchForm" control="ToDate"
+                  label="shared.to-date"></ng-control>
+              </div>
+              <ng-container *ngIf="advancedSearch">
+                <div class="col" *ngIf="!isSingleStore()">
+                  <ng-control [type]="controlType.INPUT_DATE" [form]="page.searchForm" control="ToDate"
+                  label="shared.to-date"></ng-control>
+                </div>
+
+                
+              </ng-container>
+              <div class="col">
+                <div class="d-flex align-items-end h-100">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                    <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span> <span
+                      class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center w-100" *ngIf="!isSingleStore()">
+                <div class="line"></div>
+                <p class="font-14 c-66 px-2 text-nowrap pointer" (click)="advancedSearch = !advancedSearch">
+                  {{"system.advanced-search" |translate}}
+                  <i class="uil uil-angle-down ms-1 font-16 li-h1" *ngIf="!advancedSearch"></i>
+                  <i class="uil uil-angle-up ms-1 font-16 li-h1" *ngIf="advancedSearch"></i>
+                </p>
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table ">
+            <thead>
+              <tr class="th-header">
+                <th>#</th>
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th class="pointer" (click)="onSortClicked(colum)" *ngIf="!colum.IsHidden">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum.Name) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="11">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="6">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                <tr>
+                  <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                  <td>
+                    <a routerLink="/customer/profile/{{item.ID}}">{{item.Name}}</a>
+                  </td>
+                  <td *ngIf="hasFeature(featureEnum.Customer_CallCenter)">
+                    <button class="rb-btn rb-btn-primary rb-btn-sm "
+                      routerLink="/customer/call-center/{{item.ID}}">{{'system.call-center'|translate}}</button>
+                  </td>
+                  <td>{{item.BranchName}}</td>
+                  <td>{{item.Mobile}}</td>
+                  <td>{{item.Number}}</td>
+                  <td>{{item.CreatedDate | date:'dd-MM-yyyy'}}</td>
+                  <td>
+                    {{item.OrdersCount}}
+                  </td>
+                  <td>
+                    {{item.ShippingAddresses}}
+                  </td>
+                  <td *ngIf="hasFeature(featureEnum.Customer_UpdatePriority)">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" role="switch" type="checkbox" [checked]="item.IsTopPriority"
+                        (click)="changeIsTopPriority(item)">
+                    </div>
+                  </td>
+                  <td *ngIf="hasFeature(featureEnum.Customer_IsTransite)">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" role="switch" type="checkbox" [checked]="item.IsTransite"
+                        (click)="changeIsIsTransite(item)">
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+      </div>
+    </div>
+  </div>
+</div>

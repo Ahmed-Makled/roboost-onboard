@@ -1,0 +1,267 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16">
+        <i class="uil uil-arrow-left  pointer" (click)="_sharedService.back()"></i> {{'user.title'|translate}} / {{'user.profile.tilte'|translate}} 
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="page wrapper-view ">
+  <div class="page-content">
+    <div class="card">
+      <div class="card-content p-0">
+        <div class="performance text-start p-0">
+          <div class="d-flex align-items-center mb-3">
+            <p class="font-16 c-00f bold">{{'shared.details'|translate}}</p>
+            <button *ngIf="  hasFeature(featureEnum.User_ChangePassword)"
+              class='rb-btn rb-btn-primary rb-btn-md ms-auto' (click)="showResetPaswwordConfirmationTemplate()">
+              <i class="uil uil-shield"></i>
+              <span class="rb-btn-text"> {{'user.profile.reset-pass'|translate}}</span>
+            </button>
+          </div>
+          <div class="row  mb-3">
+            <div class="col-12 col-md-3 mb-3">
+              <div class="icon-details ">
+                <img class="user-img my-auto" [src]="mainInfo.ProfilePicture" alt=""
+                  onerror="this.onerror=null; this.src='./assets/img/profile-picturer.png'">
+                <div class="icon-detail text-start ms-2">
+                  <p class="font-12 c-66 m-0">{{'user.profile.user-name'|translate}}</p>
+                  <p class="font-14 c-00f m-0">{{mainInfo.UserName}}</p>
+                  <p class="font-14 c-00f m-0">{{mainInfo.Mobile}}</p>
+                  <p class="font-14 c-00f m-0" *ngIf="isAdminRole()"> {{'user.profile.admin'| translate}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3 mb-3">
+              <div class="icon-details ">
+                <i class="uil uil-user"></i>
+                <div class="icon-detail text-start ms-2">
+                  <p class="font-12 c-66 m-0">{{'user.profile.user-name'|translate}}</p>
+                  <p class="font-14 c-00f m-0">{{mainInfo.UserName}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-3 mb-md-3 ">
+              <div class="icon-details ">
+                <i class="uil uil-envelope-alt c-b300 bg-b25"></i>
+                <div class="icon-detail text-start ms-2">
+                  <p class="font-12 c-66 m-0">{{'shared.email'|translate}}:</p>
+                  <p class="font-14 c-00f m-0">{{mainInfo.Email}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <hr> -->
+        <!-- <div class="performance text-start">
+                <div class="d-flex align-items-center mb-3">
+                  <p class="font-16 c-00f bold">{{'user.profile.behavior'| translate}}</p>
+                </div>
+                <div class="row  mb-3">
+                  <div class="col-6 col-md-3 mb-3" *ngIf="branchManagerFigur">
+                    <div class="icon-details ">
+                      <i class="uil uil-star c-o300 bg-o25 info-box"></i>
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.special-trips'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{branchManagerFigur.SpecialTripsCount}} Trip(s)</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="branchManagerFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/unapproved_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.cancel-trips'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{branchManagerFigur.CanceledTripCount}} {{'system.trip'|
+                          translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="branchManagerFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/fast_orders.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.fast-tasks'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{branchManagerFigur.FastOrderCount}} {{'system.task'| translate}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="branchManagerFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/unapproved_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.cancel-tasks'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{branchManagerFigur.CanceledOrdersCount}} {{'system.task'|
+                          translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="supervisorFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/total_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.total-req'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{supervisorFigur.TotalRequest}} {{'system.request'| translate}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="supervisorFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/under_review_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.uder-review'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{supervisorFigur.UnderReviewRequestCount}} {{'system.request'|
+                          translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="supervisorFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/approved_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.approved-requ'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{supervisorFigur.ApprovedRequestCount}} {{'system.request'|
+                          translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3" *ngIf="supervisorFigur">
+                    <div class="icon-details ">
+                      <img class="info-box" src="assets/img/new-ico/unapproved_requests.svg">
+                      <div class="icon-detail text-start ms-2">
+                        <p class="font-12 c-66 m-0">{{'user.profile.unapproved-requ'| translate}}</p>
+                        <p class="font-14 c-00f m-0">{{supervisorFigur.UnApprovedRequestCount}} {{'system.request'|
+                          translate}}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div> -->
+        <hr>
+        <div class="performance text-start p-0">
+          <div class="d-flex align-items-center mb-3">
+            <p class="font-16 c-00f bold">{{"user.profile.roles"|translate}}</p>
+            <button class='rb-btn rb-btn-primary rb-btn-md ms-auto' (click)="showSelectRole()"
+              *ngIf="hasFeature(featureEnum.User_UpdateRole)">
+              <i class="uil uil-plus"></i>
+              <span class="rb-btn-text"> {{'user.profile.edit-role'| translate}}</span>
+            </button>
+          </div>
+          <div class="p-2 bg-light radius-5">
+            <div class="d-flex align-items-center">
+              <p class=" bold c-darkblue font-14 mb-1 d-inline-block"> {{mainInfo.RoleName}}
+              </p>
+              <p class=" c-blue font-13 pointer d-flex align-content-center ms-auto" (click)="showSelectRole(true)"
+                *ngIf="hasFeature(featureEnum.User_UpdateSore)">
+                <span>{{'user.profile.edit-store'| translate}} </span>
+                <img src="assets/img/ico/arrow-circle-right.svg" class="img-16 ms-1">
+              </p>
+            </div>
+            <div class="d-flex align-items-center flex-wrap mt-2" *ngIf="isAdminRole() || isMarketingRole()">
+              <div class="bg-g25 c-g900 radius-5 px-2 py-1 me-2">
+                <p class=" bold c-112 font-12">All Branches</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-center flex-wrap mt-2" *ngIf="!isAdminRole() || !isMarketingRole()">
+              <div class="bg-g25 c-g900 radius-5 px-2 py-1 me-2" *ngFor="let item of mainInfo.Branches">
+                <p class=" bold c-112 font-12">{{item.Name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<ng-template #chooseRoleTemplate>
+  <div class="modal-body p-0 ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title ">{{'user.profile.choose-role'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <div class="row ">
+          <div class="col-12" *ngIf="!isEditBranch">
+            <fieldset class="form-group">
+              <label for="basicInput"> {{"user.profile.roles"|translate}}</label>
+              <ng-select class="form-control" [items]="roleList" bindLabel="Name" bindValue="ID"
+                placeholder="{{'user.profile.choose-role'|translate}}" appendTo="body" [(ngModel)]="selectedRole"
+                (change)="onRoleChange()">
+              </ng-select>
+            </fieldset>
+          </div>
+          <p class="c-002 font-16 bold" [class.mt-3]="!isEditBranch">{{'search.select-store'|translate}}</p>
+          <p class="font-12 c-g500 mt-2" *ngIf="isMarketingSelect() || isAdminSelect()">You have access to all
+            these stores.</p>
+          <div class="list-300">
+            <div class="row row-cols-2 row-cols-md-4 g-2 m-0"
+              [class.opc-5]=" !isEditBranch && (isMarketingSelect() || isAdminSelect() || !selectedRole)">
+              <div class="col " *ngFor="let item of branchList; let i = index">
+                <div class="select-store pointer bg-white" (click)="selectedRole?selectStore(item):''"
+                  [class.selected]="item.Selected" title="{{item.Name}}">
+                  <p class="text-truncate font-13 ">{{item.Name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="rb-btn rb-btn-primary rb-btn-md" (click)='save();modalRef.hide()'
+          [disabled]="disableBtnEditRole()">{{'shared.update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #reserPasswordConfirmationTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"user.profile.reset-pass"|translate}} </p>
+      <p class="modal-confirm-content mb-2">{{"user.profile.reset-pass-confirm"|translate}} </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="modalRef.hide();showResetPasswordConfirm()">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #viewPasswordTemplate>
+  <div class="modal-body p-0">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{'user.profile.new-pass'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex align-items-end justify-content-between ">
+          <fieldset class="form-group">
+            <label>{{'user.profile.enter-new-pass'|translate}} :<span class="text text-danger">*</span></label>
+            <input type="text" class="form-control form-control-md" [(ngModel)]="generatedPassword"
+              [value]="generatedPassword" name="NewPassword" id="NewPassword">
+          </fieldset>
+          <span type="button" class="info-box-key ms-2 d-flex align-items-center justify-content-center"
+            (click)="generateRandomPasswordButton()" title="{{'user.profile.generate-pass'|translate}}"><i
+              class="uil uil-key-skeleton"></i> </span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-green" (click)='resetPassword();modalRef.hide()'
+          [disabled]="!generatedPassword">{{'shared.update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

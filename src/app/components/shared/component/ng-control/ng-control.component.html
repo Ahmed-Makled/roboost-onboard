@@ -1,0 +1,61 @@
+<section [formGroup]="form">
+  <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched()">
+    <label [class]="labelClass" for="basicInput" [class.text-danger]="isControlNotValidAndDirty()" *ngIf="label">
+      {{label |translate}} <span class="text text-danger" *ngIf="validator()">*</span></label>
+      
+    <input [class]="'form-control ' + inputClass" type="text" placeholder="{{placeholder | translate}}"
+      [formControlName]="control" *ngIf="type==controlType.INPUT_TEXT">
+
+      <input [class]="'form-control ' + inputClass" type="number" placeholder="{{placeholder | translate}}"
+      [formControlName]="control" *ngIf=" type==controlType.INPUT_NUMBER">
+
+      <input [class]="'form-control ' + inputClass" type="text" [formControlName]="control" bsDatepicker *ngIf="type==controlType.INPUT_DATE">
+
+      <ng-select class="form-control" [ngClass]="inputClass" (change)="onChange($event)" [items]="items" [bindLabel]="bindLabel" [bindValue]="bindValue"
+        appendTo="body" [formControlName]="control" placeholder="{{placeholder |translate}}" *ngIf="type==controlType.SELECT" [clearable]="clearable">
+      </ng-select>
+      
+
+      <div class="form-check pl-unset mt-1" *ngIf=" type==controlType.CHECKBOX" >
+        <input class="form-check-input reset-float rect-14" type="checkbox"  [formControlName]="control">
+        <label class="form-check-labelpointer ms-2"> {{'wallet.transaction.set-award'|translate}} </label>
+      </div>
+
+    <div class="text text-danger" *ngIf="isControlNotValidAndDirty()">
+      <p class="mb-0 font-12" *ngIf="isControlHasError('required')">
+        {{'shared.validation.required'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isControlHasError('minlength')">
+        {{'shared.validation.min-length'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isControlHasError('maxlength')">
+        {{'shared.validation.max-length'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isControlHasError('email')">
+        {{'shared.validation.email'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isControlHasError('APIKey')">
+        {{'shared.validation.APIKEYLength'|translate}}</p>
+      <!-- <p class="mb-0 font-12" *ngIf=" isControlHasError('pattern')">
+        {{'shared.validation.only-numbers'|translate}}</p> -->
+      <!-- <p class="mb-0 font-12" *ngIf="isControlHasError('pattern')">
+        {{'shared.validation.no-numbers'|translate}}</p> -->
+      <p class="mb-0 font-12" *ngIf="isMobile() && isControlHasError('pattern')">
+          {{'shared.validation.mobile-validation'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isEmail() && isControlHasError('pattern')">
+        {{'shared.validation.email'|translate}}</p>
+      <p class="mb-0  font-12" *ngIf="isControlHasError('min')">
+          {{'shared.validation.only-positive'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isNationalID() && isControlHasError('pattern')">
+        {{'shared.validation.nationalId-validation'|translate}}</p>
+      <p class="mb-0 font-12" *ngIf="isNameAraibic() && isControlHasError('pattern')">
+        {{'shared.validation.arabic-validation'|translate}}</p>
+    </div>
+  </fieldset>
+
+
+<!-- 
+  <fieldset class="form-group" *ngIf="type==controlType.SELECT">
+    <label for="basicInput" [class]="labelClass">{{label}}</label>
+    <ng-select class="form-control" (change)="onChange($event)" [items]="list" [bindLabel]="bindLabel" [bindValue]="bindValue"
+      appendTo="body" [formControlName]="control" placeholder="{{placeholder}}">
+    </ng-select>
+  </fieldset>
+   -->
+</section>

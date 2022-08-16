@@ -1,0 +1,11 @@
+<svg id="check_circle" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_146328" data-name="Rectangle 146328" width="16" height="16" fill="#fff" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_146327" data-name="Rectangle 146327" width="16" height="16" fill="#fff" opacity="0"/>
+  <g id="Group_75638" data-name="Group 75638" clip-path="url(#clip-path)">
+    <path id="Path_19673" data-name="Path 19673" d="M10.48,6.527,7.62,9.393l-1.1-1.1a.667.667,0,1,0-1.013.867l.073.073,1.567,1.573a.668.668,0,0,0,.94,0L11.42,7.473a.667.667,0,0,0,0-.94h0A.667.667,0,0,0,10.48,6.527ZM8.667,2a6.667,6.667,0,1,0,6.667,6.667A6.667,6.667,0,0,0,8.667,2Zm0,12A5.333,5.333,0,1,1,14,8.667,5.333,5.333,0,0,1,8.667,14Z" transform="translate(-0.667 -0.667)" fill="#fff"/>
+  </g>
+</svg>

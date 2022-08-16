@@ -1,0 +1,6 @@
+<svg id="clock_four_solid" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <rect id="Rectangle_153465" data-name="Rectangle 153465" width="16" height="16" fill="#6b7480" opacity="0"/>
+  <g id="Group_83769" data-name="Group 83769" transform="translate(1.333 1.333)">
+    <path id="Path_22879" data-name="Path 22879" d="M8.667,2A6.667,6.667,0,1,1,2,8.667,6.669,6.669,0,0,1,8.667,2ZM8,8.667a.659.659,0,0,0,.367.593l1.987,1a.665.665,0,1,0,.6-1.187l-1.62-.82V5.333A.667.667,0,0,0,8,5.333V8.667Z" transform="translate(-2 -2)" fill="#6b7480"/>
+  </g>
+</svg>

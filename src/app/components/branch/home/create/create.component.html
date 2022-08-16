@@ -1,0 +1,58 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/store/home"></i> {{'system.store'|translate}} / {{'shared.create'|translate}}
+      </div>
+    </div>
+    <div class="tab-action" *ngIf="page.isPageLoaded">
+      <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/store/home">
+        <span class="rb-btn-text">{{'shared.cancel'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-success rb-btn-sm" [disabled]="disabledSubmit()" (click)="save()">
+        <span class="rb-btn-text">{{(page.isEdit?'shared.edit':'shared.create')|translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content p-0" *ngIf="page.isPageLoaded">
+    <div class="card">
+      <div class="card-content p-0">
+        <form [formGroup]="page.form">
+          <div class="row row-cols-md-4 row-cols-1 g-2">
+            <div class="col">
+              <ng-control [form]="page.form" control="NameEnglish"
+                label=" {{'shared.name' | translate}} {{'shared.english' | translate}}"
+                placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"></ng-control>
+            </div>
+            <div class="col">
+         
+              <ng-control [form]="page.form" control="NameArabic"label=" {{'shared.name' | translate}} {{'shared.arabic' | translate}}"
+                placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"></ng-control>
+            </div>
+            <div class="col">
+              <ng-control [form]="page.form" control="APIKey" label="API Key"></ng-control>
+            </div>
+          </div>
+          <div class="row  g-2 mt-2">
+            <div class="col-md-9 col-12">
+              <ng-control [form]="page.form" control="Address" label=" {{'shared.address' | translate}} "
+                placeholder="{{'shared.enter' | translate}} {{'shared.address' |translate}}"></ng-control>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

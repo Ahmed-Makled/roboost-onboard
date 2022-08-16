@@ -1,0 +1,11 @@
+.card-content .table .th-header th{
+    background-color: #f7f7f7 !important;
+    color: unset;
+}
+.frist-line .timer {
+    font-size: 25px;
+    line-height: 1.1;
+}
+.old-perf{
+    background-color: #005D8E96;
+}

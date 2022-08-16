@@ -1,0 +1,113 @@
+<div class="page heat-map">
+  <div class="page-content">
+    <div class="card h-100">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2">
+            <div class="col">
+              <fieldset class="form-group">
+                <label class="txt-blue" for="basicInput">{{'system.area'|translate}}</label>
+                <ng-select 
+                (change)="getBranchList($event.ID)"
+                 [items]="areaList" 
+                  bindLabel="Name" bindValue="ID" 
+                  placeholder="{{'search.select-area'|translate}}"
+                  class="form-control"
+                  appendTo="body"
+                  formControlName="AreaID">
+                </ng-select>
+            </fieldset>
+            </div>
+            <div class="col">
+              <fieldset class="form-group">
+                <label class="txt-blue" for="basicInput">{{'system.store'|translate}}</label>
+                <ng-select 
+                 [items]="branchList" 
+                  bindLabel="Name" bindValue="ID" 
+                  placeholder="{{'search.select-store'|translate}}" 
+                  appendTo="body"
+                  class="form-control"
+                  formControlName="BranchID">
+                </ng-select>
+            </fieldset>
+            </div>
+            <div class="col ">
+              <fieldset class="form-group">
+                <label for="basicInput">{{'heatmap.amount-from'|translate}}</label>
+                <input class="form-control" formControlName="AmountFrom" 
+                       placeholder="{{'heatmap.enter-amount'|translate}}">
+              </fieldset>
+            </div>
+            <div class="col ">
+              <fieldset class="form-group">
+                <label for="basicInput"> {{'heatmap.amount-to'|translate}}</label>
+                <input class="form-control" formControlName="AmountTo" 
+                       placeholder="{{'heatmap.enter-amount'|translate}}">
+              </fieldset>
+            </div>
+            <ng-container *ngIf="advancedSearch">
+              <div class="col ">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.from-date'|translate}}</label>
+                  <input class="form-control" bsDatepicker formControlName="FromDate" type="text">
+                </fieldset>
+              </div>
+              <div class="col ">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.to-date'|translate}}</label>
+                  <input bsDatepicker class="form-control" formControlName="ToDate" type="text">
+                </fieldset>
+              </div>
+            </ng-container>
+
+
+            <div class="d-flex align-items-center w-100">
+              <div class="line"></div>
+              <p class="font-14 c-66 px-2 text-nowrap pointer" (click)="advancedSearch =! advancedSearch">{{"system.advanced-search"
+                |translate}}<i class="uil uil-angle-down ms-1 font-16 li-h1" *ngIf="!advancedSearch"></i><i
+                  class="uil uil-angle-up ms-1 font-16 li-h1" *ngIf="advancedSearch"></i></p>
+              <div class="line"></div>
+            </div>
+
+            
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="selection-tabs align-self-start">
+                <button *ngFor="let item of mapBtns; let i=index" class="btn" [class.active]="item.Selected"
+                  (click)="mapActions(i)">
+                  {{item.Name|translate}}</button>
+              </div>
+              <div class="d-flex align-items-center">
+                <p class="c-darkblue  ">({{page.options.totalItems}} {{'customer.customer'|translate}})</p>
+              </div>
+              <div class="d-flex align-items-center mb-1 ml-auto">
+                <p class=" c-darkblue me-2">{{'heatmap.opacity'|translate}}</p>
+                <custom-range (changedTripValue)='changeRadius($event)' [min]="10" [max]="100" [value]="radius"
+                  [width]="140" class="d-flex"></custom-range>
+              </div>
+
+              <div>
+                <button class="btn btn-with-icon ms-auto" type="button" (click)="onSearchClicked()"><i
+                    class="uil uil-search font-18 li-h1 me-2"></i>
+                  {{'system.apply-search'|translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+       
+        <div class=" div-loading">
+          <div class="page-content  d-flex align-items-center justify-content-center">
+            <div class="card w-100">
+              <div class="d-flex flex-column justify-content-center align-items-center">
+                <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+                <p class="loading">{{'shared.loading' | translate}} <span class="font-14">{{pageIndex}}/{{pages}}
+                  </span>({{percentage | number: '1.0-0'}}%)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="map" class="my-3"></div>
+      </div>
+    </div>
+  </div>
+</div>

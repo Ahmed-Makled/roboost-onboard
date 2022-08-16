@@ -1,0 +1,101 @@
+<div class="px-3">
+  <div class="row ">
+    <div class="col-lg-7 mb-2 ">
+      <div class="performance row my-2">
+        <div class="col-6 text-start ps-0">
+          <p class="font-14 amp-5 bold mb-3 c-70" id="address">{{"system.address-config"| translate}}</p>
+        </div>
+        <div class="col-6 text-end">
+
+          <button class="btn amp-5 px-2 py-1 font-12 bg-darkblue c-white" (click)="save()"
+            [disabled]="disabledSubmit()">
+
+            <i class="uil uil-edit"></i>
+            {{"shared.edit"| translate}}</button>
+        </div>
+      </div>
+      <form *ngIf="page.isPageLoaded" class="form" [formGroup]="page.form">
+        <div class="form-body">
+          <div class="row ">
+            <div class="col-sm-6 col-md-4   mb-1">
+              <!-- <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Longitude')">
+                <label>{{"system.longitude"| translate }} *</label>
+                <input formControlName="Longitude" type="text" class="form-control">
+                <div *ngIf="isControlNotValidAndDirty('Longitude')" class="text text-danger">
+                  <p *ngIf="isControlHasError('Longitude','required')">{{'shared.validation.required'|translate}}</p>
+                  <p *ngIf="isControlHasError('Longitude','pattern')">
+                    {{'shared.validation.only-numbers'|translate}}</p>
+                </div>
+              </fieldset> -->
+
+              <ng-control [form]="page.form" control="Longitude" label="system.longitude"></ng-control>
+
+            </div>
+            <div class="col-sm-6 col-md-4  mb-1">
+              <!-- <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Latitude')">
+                <label>{{"system.latitude" | translate}}*</label>
+                <input formControlName="Latitude" type="text" class="form-control">
+                <div *ngIf="isControlNotValidAndDirty('Latitude')" class="text text-danger">
+                  <p *ngIf="isControlHasError('Latitude','required')">{{'shared.validation.required'|translate}}</p>
+                  <p *ngIf="isControlHasError('Latitude','pattern')">
+                    {{'shared.validation.only-numbers'|translate}}</p>
+                </div>
+              </fieldset> -->
+              <ng-control [form]="page.form" control="Latitude" label="system.latitude"></ng-control>
+
+            </div>
+            <div class="col-sm-6 col-md-4  mb-1">
+              <!-- <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('AddressPrefix')">
+                <label>{{"store.profile.address-pre"| translate}} </label>
+                <input formControlName="AddressPrefix" type="text" class="form-control">
+                <div *ngIf="isControlNotValidAndDirty('AddressPrefix')" class="text text-danger">
+                  <p *ngIf="isControlHasError('AddressPrefix','required')">{{'shared.validation.required'|translate}}
+                  </p>
+                  <p *ngIf="isControlHasError('AddressPrefix','pattern')">
+                    {{'shared.validation.only-numbers'|translate}}</p>
+                </div>
+              </fieldset> -->
+              <ng-control [form]="page.form" control="AddressPrefix" label="store.profile.address-pre"></ng-control>
+
+            </div>
+
+            <div class="col-sm-6 col-md-12  mb-1">
+              <!-- <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Address')">
+                <label>{{"shared.address"| translate}} </label>
+                <input formControlName="Address" type="text" class="form-control">
+                <div *ngIf="isControlNotValidAndDirty('Address')" class="text text-danger">
+                  <p *ngIf="isControlHasError('Address','required')">{{'shared.validation.required'|translate}}</p>
+                  <p *ngIf="isControlHasError('Address','pattern')">
+                    {{'shared.validation.only-numbers'|translate}}</p>
+                </div>
+              </fieldset> -->
+              <ng-control [form]="page.form" control="Address" label="shared.address"></ng-control>
+
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <div class="col-lg-5 ">
+      <div class="map">
+        <agm-map [latitude]="model.Latitude" [longitude]="model.Longitude" (mapClick)="onMapClick($event)"
+          [zoom]="zoom">
+          <agm-marker [latitude]="model.Latitude" [longitude]="model.Longitude" [iconUrl]="
+                {
+                    url: '/assets/img/new-svgs  /marker/branch-marker.svg',
+                    scaledSize: {
+                        width: 45,
+                        height: 45
+                    }
+                }">
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+
+
+  <hr class="mt-2">
+
+</div>

@@ -1,0 +1,48 @@
+<div class="card mt-3">
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <i class="uil uil-folder font-24 li-h1 me-2"></i>
+      <h3 class="card-title">{{'dashboard.top-deliverymen'|translate}}</h3>
+    </div>
+  </div>
+  <hr class="m-0">
+  <div class="card-content">
+    <div class="scolled">
+      <table class="table">
+        <thead>
+          <tr class="th-header">
+            <th>{{'deliveryman.ranking'|translate}}</th>
+            <th *ngFor="let colum of page.columns ;let i=index;" class="pointer">{{colum.Title | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items ;let i=index;">
+            <td class="hidden-xs">{{i+1}}
+            </td>
+            <td>{{item.BranchName}}</td>
+            <td>
+              <a routerLink="/agent/profiles/profile/{{item.ID}}">
+              <!-- <a  routerLink="/agent" [queryParams]="{ID: item.ID}"> -->
+              <img [src]="item.Image" class="rect-32 circle"
+                    onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+            </a>
+            </td>
+            <td>
+              <a routerLink="/agent/profiles/profile/{{item.ID}}">{{item.Name}} </a>
+            </td>
+            <td>{{item.Mobile}}</td>
+            <td>{{item.TotalPoint}}</td>
+            <td>{{item.Bonus}}</td>
+            <td>{{item.Deduction}}</td>
+            <td>{{item.Percentage}} %</td>
+            <td>
+              <star [size]="'15'" [startsNumber]="'5'" [rate]="item.Stars" [showNumber]=true [lableClass]="'font-14'"
+                [starsClass]="''">
+              </star>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

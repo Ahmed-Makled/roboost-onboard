@@ -1,0 +1,380 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card ">
+      <div class="card-content p-0">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3"> {{'config.order.dist-config' |translate}}
+            </h4>
+          </div>
+          <div class="scolled my-3">
+            <table class="table table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store' | translate}}</th>
+                  <th>{{'config.order.close-distance' | translate}}</th>
+                  <th>{{'config.order.close-to-branch-distance' | translate}}</th>
+                  <th>{{'config.order.within-range-distance' | translate}}</th>
+                  <th>{{'config.order.far-distance' | translate}}</th>
+                  <th>
+                    <a (click)="showDistanceUpdateAllConfirmation()" *ngIf="showUpdateAllDistanceConfig()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllOrderDistance()">
+
+
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orderDistanceConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderCloseDistance" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.CloseToBranchDistance" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderWithinRangeDistance" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderFarDistance" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true" (click)="showDistanceUpdateConfirmation(item)"
+                      *ngIf="!isAllDistanceConfigSelected">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!--Order Time Configuration-->
+      <hr>
+      <div class="card-content">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3">
+              {{'config.order.time-config' | translate}}
+            </h4>
+          </div>
+          <div class="scolled">
+            <table class="table  table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store' | translate}}</th>
+                  <th>{{'config.order.ready-time' | translate}}</th>
+                  <th>{{'config.order.normal-time' | translate}}</th>
+                  <th>{{'config.order.urgent-time' | translate}}</th>
+                  <th>{{'config.order.top-urgent-time' | translate}}</th>
+                  <th>
+                    <a (click)="showTimeUpdateAllConfirmation()" *ngIf="showUpdateAllTimeConfig()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllOrderTime()">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orderTimeConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+
+
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderReadyTime" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderNormalTime" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderUrgentTime" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderTopUrgentTime" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true" (click)="showTimeUpdateConfirmation(item)"
+                      *ngIf="!isAllTimeConfigSelected"><i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                        aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <!--Order KPI -->
+      <hr>
+      <div class="card-content">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3">
+              {{'config.order.order-kpi-config' | translate}}
+            </h4>
+          </div>
+          <div class="scolled">
+            <table class="table  table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store' | translate}}</th>
+                  <th>{{'config.order.order-excelant-time' | translate}}</th>
+                  <th>{{'config.order.order-good-time' | translate}}</th>
+                  <th>{{'config.order.order-late-time' | translate}}</th>
+                  <th>{{'config.order.order-too-late-time' | translate}}</th>
+                  <th>
+                    <a (click)="showKPIUpdateAllConfirmation()" *ngIf="showUpdateAllKPIConfig()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllOrderKPI()">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orderKPIConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderExcelantTime" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderGoodTime" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderLateTime" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderTooLateTime" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true" (click)="showKPIUpdateConfirmation(item)"
+                      *ngIf="!isAllKPIConfigSelected"><i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                        aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <!--Create Trip Configuration-->
+      <hr>
+      <div class="card-content">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3">{{"config.order.create-trip-order"|
+              translate}}</h4>
+          </div>
+          <div class="scolled">
+            <table class="table  table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store' | translate}}</th>
+                  <th>{{'config.order.max-waiting-time' | translate}}</th>
+                  <th>{{'config.order.min-waiting-time' | translate}}</th>
+                  <th>{{'config.trip.max-order' | translate}}</th>
+                  <th>
+                    <a (click)="showCreateTripConfigsUpdateAllConfirmation()" *ngIf="showUpdateAllCreateTripConfigs()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllCreateTripConfigs()">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of createTripConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+
+
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.MaxWaitingTime" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.MinWaitingTime" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  " [(ngModel)]="item.MaxOrders"
+                        placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true"
+                      (click)="showCreateTripConfigsUpdateConfirmation(item)" *ngIf="!isAllCreateTripConfigSelected"><i
+                        class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #distanceUpdateTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"config.order.updata-dist-config"| translate}}</p>
+      <p class="modal-confirm-content mb-2"> {{"config.order.updata-dist-config-msg"| translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateOrderDistanceConfig();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+<ng-template #timeUpdateTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"config.order.updata-order-time-config"| translate}} </p>
+      <p class="modal-confirm-content mb-2"> {{"config.order.updata-order-time-config-msg"| translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateOrderTimeConfig();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #kpiUpdateTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"config.order.updata-order-kpi-config"| translate}} </p>
+      <p class="modal-confirm-content mb-2">{{"config.order.updata-order-kpi-config-msg"| translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateOrderKPIConfig();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #createTripConfigTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"config.order.updata-create-trip-config"| translate}} </p>
+      <p class="modal-confirm-content mb-2">{{"config.order.updata-create-trip-config-msg"| translate}}<strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateOrderCreateTripConfigs();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

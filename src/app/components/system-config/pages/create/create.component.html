@@ -1,0 +1,195 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/system-config/page/home"></i> {{'system-config.title'|translate}} / {{'system-config.page'|translate}} / {{'shared.create'|translate}}
+      </div>
+    </div>
+    <div class="tab-action">
+      <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/system-config/page/home">
+        <span class="rb-btn-text">{{'shared.cancel'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-success rb-btn-sm" (click)="save()">
+        <span class="rb-btn-text">{{(page.isEdit?'shared.edit':'shared.create')|translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <!-- <div class="card mx-n3 mt-n3">
+      <div class="card-header py-3">
+        <div class="mt-3 mb-2">
+          <div class="d-flex align-items-center">
+            <i class="uil uil-arrow-left me-2 font-16 pointer li-h1" routerLink="/system-config/page"></i>
+            <p class="font-13 ">Pages</p>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-md-8 mb-2 mb-md-0">
+            <p class="font-24 c-00f">{{(page.?'shared.edit':'shared.create')|translate}}</p>
+          </div>
+          <div class="col-md-4">
+            <div class="d-flex align-items-center ">
+              <button class="btn cancel-btn me-2 ms-md-auto ms-0"
+                routerLink="/branch">{{'shared.cancel'|translate}}</button>
+              <button type="button" class="btn btn-without-icon bg-green" [disabled]="disabledSubmit()"
+                (click)="save()">{{(page.isEdit?'shared.edit':'shared.create')|translate}} </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+          <div class="card">
+            <div class="card-content">
+              <p class="c-002 font-16 bold"> {{'shared.details'|translate}}</p>
+              <form [formGroup]="page.form">
+                <div class="row mt-4">
+                  <div class="col-md-4 mb-2" *ngIf="page.isEdit">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('ParentPageID')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('ParentPageID')"> 
+                        {{'system-config.parentID'|translate}}  <span class="text text-danger">*</span></label>
+                      <input type="text" class="form-control" placeholder="ParentPageID" formControlName="ParentPageID">
+                      <div *ngIf="isControlNotValidAndDirty('ParentPageID')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('ParentPageID','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('ParentPageID','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4 mb-2" *ngIf="!page.isEdit">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('ID')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('ID')"> {{'shared.id'|translate}} <span
+                          class="text text-danger">*</span></label>
+                      <input type="text" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}" formControlName="ID">
+                      <div *ngIf="isControlNotValidAndDirty('ID')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('ID','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('ID','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('NameEnglish')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('NameEnglish')">
+                        {{'shared.name' | translate}} ({{'shared.english' | translate}}) <span
+                          class="text text-danger">*</span></label>
+                      <input type="text" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"
+                        formControlName="NameEnglish">
+                      <div *ngIf="isControlNotValidAndDirty('NameEnglish')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('NameEnglish','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('NameEnglish','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('NameArabic')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('NameArabic')">
+                        {{'shared.name' | translate}} ({{'shared.arabic' | translate}}) <span
+                          class="text text-danger">*</span></label>
+                      <input type="text" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"
+                        formControlName="NameArabic">
+                      <div *ngIf="isControlNotValidAndDirty('NameArabic')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('NameArabic','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('NameArabic','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('DisplayOrder')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('DisplayOrder')">
+                        {{'system-config.display-order'|translate}} <span class="text text-danger">*</span></label>
+                      <input type="number" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"
+                        formControlName="DisplayOrder">
+                      <div *ngIf="isControlNotValidAndDirty('DisplayOrder')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('DisplayOrder','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('DisplayOrder','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Url')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('Url')">
+                        {{'system-config.url'|translate}} <span class="text text-danger">*</span></label>
+                      <input type="text" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}" formControlName="Url">
+                      <div *ngIf="isControlNotValidAndDirty('Url')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('Url','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('Url','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Icon')">
+                      <label for="basicInput" [class.text-danger]="isControlNotValidAndDirty('Icon')">
+                        {{'shared.icon'|translate}} <span class="text text-danger">*</span></label>
+                      <input type="text" class="form-control"
+                        placeholder="{{'shared.enter' | translate}} {{'shared.name' |translate}}"
+                        formControlName="Icon">
+                      <div *ngIf="isControlNotValidAndDirty('Icon')" class="text text-danger">
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('Icon','required')">
+                          {{'shared.validation.required'|translate}}</p>
+                        <p class="mb-0 font-12" *ngIf="isControlHasError('Icon','minLength')">
+                          {{'shared.validation.min-length'|translate}}</p>
+                      </div>
+                    </fieldset>
+                  </div>
+                </div>
+                <div class="row ">
+                  <div class="col-lg-4 col-md-6 my-2 d-flex align-items-end mb-2">
+                    <div class="form-group">
+                      <div class="form-check d-flex align-items-center">
+                        <input formControlName="ShowInMenu" type="checkbox" class="form-check-input mt-0" id="active">
+                        <label class="form-check-label ms-2" for="active">  {{'system-config.show-in-menu'|translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 my-2 d-flex align-items-end mb-2">
+                    <div class="form-group">
+                      <div class="form-check d-flex align-items-center">
+                        <input formControlName="IsActive" type="checkbox" class="form-check-input mt-0" id="active">
+                        <label class="form-check-label ms-2" for="active">{{'system-config.active'|translate}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="mx-n3">
+                <div class="row">
+                  <div class="col-md-8">
+                    <button class="btn cancel-btn me-2"
+                      routerLink="/system-config/page">{{'shared.cancel'|translate}}</button>
+                  </div>
+                  <div class="col-md-4">
+                    <button type="button" class="btn btn-without-icon bg-green ms-auto" [disabled]="disabledSubmit()"
+                      (click)="save()">{{(page.isEdit?'shared.edit':'shared.create')|translate}} </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>

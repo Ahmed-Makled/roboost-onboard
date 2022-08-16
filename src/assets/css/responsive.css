@@ -1,0 +1,150 @@
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .row-cols-lg-8 > * {
+    flex: 0 0 auto;
+    width: 12.5%;
+  }
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+}
+
+
+@media (max-width: 575.98px) {
+  .map {
+    height: 360px;
+  }
+
+  .page {
+    padding: 12px;
+  }
+  .side-menu {
+    left: -120px !important;
+  }
+  .trips-imnformation {
+    left: 0 !important;
+  }
+  .main-panel {
+    padding-inline-start: 0px;
+  }
+  .vendor-info {
+    padding: 8px !important;
+  }
+  .card-content {
+    padding: 12px;
+  }
+  .btn-without-icon {
+    padding: 8px;
+  }
+  .btn-with-icon {
+    padding: 8px;
+  }
+  .page-content.with-side {
+    display: block;
+  }
+  .first-tabs,
+  .page-side {
+    width: 100%;
+  }
+
+  .dispatch-container,
+  .dispatch-container .dispatch-start-section,
+  .dispatch-container .dispatch-end-section {
+    flex-direction: column;
+  }
+  .dispatch-container{
+    position: relative;
+    padding-bottom: 62.2px;
+  }
+  
+  .dispatch-container .dispatch-start-section{
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  .dispatch-container .dispatch-end-section {
+    margin-inline-start: unset;
+    max-width: unset;
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: calc(100% - 62.2px);
+    /* z-index: 1020; */
+  }
+  
+  .dispatch-container.show-tasks{
+    padding-bottom: 370px;
+  }
+   .dispatch-container.page-create-trip.show-tasks{
+    padding-bottom: 500px;
+  }
+  .dispatch-container.show-tasks .dispatch-end-section {
+    top: calc(100% - 370px);
+  }
+   .dispatch-container.page-create-trip.show-tasks .dispatch-end-section{
+    top: calc(100% - 500px);
+  }
+
+  .tab-filter-container .tab-content{
+    flex-direction: column;
+    border: unset !important;
+    border-radius: unset !important;
+    padding: 8px !important;
+    width: unset !important;
+  }
+  .tab-filter-container .tab-content .tab-text{
+    margin-top: 4px;
+    font-size: 11px !important;
+  }
+  .tab-filter-container .tab-content .rb-counter{
+    margin-inline-end: unset !important;
+  }
+  .loading-block .loading-container{
+    width: unset;
+  }
+  .filter-model,
+  .modal-special-trip{
+    width: calc(100% - 40px);
+    min-width: unset;
+    margin: auto;
+  }
+  .modal-special-trip .scroll-container{
+    max-height: 300px;
+    min-height: 200px;
+  }
+
+  .modal-special-trip .order-card{
+    width: 190px !important;
+  }
+  
+}
+
+
+@media(max-width:767.98px){
+  .page-side{
+    padding-inline-start: unset;
+  }
+  .tab-container{
+    box-shadow: unset;
+    background: transparent;
+  }
+}
+
+@media (min-width: 576px) {
+  .single-store .trip-card {
+    width: unset;
+  }
+  .h-sm-100 {
+    height: 100% !important;
+  }
+  .page-content.with-side, .page-side {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

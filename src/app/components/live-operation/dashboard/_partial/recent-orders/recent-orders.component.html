@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header mb-1">
+    <div class="row">
+      <div class="col-md-9 col-sm-8">
+        <img class="rect-20 me-2 mt-1" src="/assets/img/ico/file.svg">
+        <h3 class="card-title mt-1 me-2 mb-0 d-inline-block text-bold-600">Recent orders</h3>
+      </div>
+    </div>
+  </div>
+  <div class="card-content">
+    <div class="scolled">
+      <table class="table  table-striped  ">
+        <thead>
+          <tr class="th-header">
+            <th>#</th>
+            <th *ngFor="let colum of page.columns ;let i=index;"> {{colum.Title | translate}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items | paginate : page.options;let i=index;">
+            <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+            <td>
+              <a routerLink="/task/details/index/{{item.Code}}" routerLinkActive="active">
+                {{item.OrderNumber}}</a>
+            </td>
+            <td>{{item.CreatedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+            <td>{{item.Date | date:'dd-MM-yyyy hh:mm a'}}</td>
+            <td>{{item.CustomerName}}</td>
+            <td>{{item.BranchName}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

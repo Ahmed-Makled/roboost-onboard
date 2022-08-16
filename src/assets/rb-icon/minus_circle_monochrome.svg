@@ -1,0 +1,12 @@
+<svg id="minus_circle_monochrome" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_146218" data-name="Rectangle 146218" width="40" height="40" fill="#2a00e5" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_146217" data-name="Rectangle 146217" width="40" height="40" fill="#2a00e5" opacity="0"/>
+  <g id="Group_75328" data-name="Group 75328" clip-path="url(#clip-path)">
+    <circle id="Ellipse_2916" data-name="Ellipse 2916" cx="16.667" cy="16.667" r="16.667" transform="translate(3.333 3.333)" fill="#2a00e5" opacity="0.3"/>
+    <path id="Path_19608" data-name="Path 19608" d="M23.667,12.667A1.667,1.667,0,0,1,22,14.333H8.667a1.667,1.667,0,0,1,0-3.333H22A1.667,1.667,0,0,1,23.667,12.667Z" transform="translate(4.667 7.333)" fill="#2a00e5"/>
+  </g>
+</svg>

@@ -1,0 +1,232 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col" *ngIf="!isSingleStore()">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="BranchID" 
+                            label="{{'system.store'| translate}}" placeholder="{{'search.select-store' | translate}}" 
+                            [items]="branchList" (change)="getDeliverymanList($event?.ID)"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="ID" label="{{'shared.id'| translate}}" 
+                            placeholder="{{'search.enter-trip-id' | translate}}" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Number" label="{{'shared.number'| translate}}" 
+                            placeholder="{{'search.enter-trip' | translate}}" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="DeliverymanID" 
+                              label="{{'system.deliveryman'| translate}}" placeholder="{{'search.select-dm' | translate}}" 
+                              [items]="deliverymanList" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="EnrollID" label="{{'system.enrollid'| translate}}" 
+                            placeholder="{{'search.enter-enrollid' | translate}}" ></ng-control>
+              </div>
+              <div class="col" *ngIf="isSingleStore()">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="Status" label="{{'shared.status'| translate}}" 
+                             placeholder="{{'search.select-status' | translate}}"  [items]="statusList" ></ng-control>
+              </div>
+              <ng-container *ngIf="advancedSearch">
+                <div class="col" *ngIf="!isSingleStore()">
+                  <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="Status" label="{{'shared.status'| translate}}" 
+                             placeholder="{{'search.select-status' | translate}}"  [items]="statusList" ></ng-control>
+                </div>
+                <div class="col">
+                  <!-- <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="IsSpecialTrip" label="{{'trip.is-special'| translate}}" 
+                             placeholder="{{'trip.is-special' | translate}}"  [items]="isSpecialList" bindValue="Code" ></ng-control> -->
+                  <fieldset class="form-group">
+                    <label for="basicInput" class="label-sm">{{'trip.is-special' | translate}}</label>
+                    <ng-select class="form-control " formControlName="IsSpecialTrip"
+                      placeholder="{{'trip.is-special'|translate}}">
+                      <ng-option value="">{{'shared.select-all'|translate}}</ng-option>
+                      <ng-option value="true">{{'shared.yes'|translate}}</ng-option>
+                      <ng-option value="false">{{'shared.no'|translate}}</ng-option>
+                    </ng-select>
+                  </fieldset>
+                </div>
+                <div class="col">
+                  <ng-control [type]="page.ControlType.INPUT_DATE" [form]="page.searchForm" control="FromDate" 
+                              label="{{'shared.from-date'| translate}}" ></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="page.ControlType.INPUT_DATE" [form]="page.searchForm" control="ToDate" 
+                              label="{{'shared.to-date'| translate}}" ></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="Performance" label="{{'system.performance'| translate}}" 
+                             placeholder="{{'search.select-performance' | translate}}"  [items]="rateOptionList" ></ng-control>
+                </div>
+              </ng-container>
+              <div class="col">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                   <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span>    
+                   <span class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center w-100">
+                <div class="line"></div>
+                <p class="font-14 c-66 px-2 text-nowrap pointer" (click)="advancedSearch = !advancedSearch">
+                  {{"system.advanced-search" |translate}}
+                  <i class="uil uil-angle-down ms-1 font-16 li-h1" *ngIf="!advancedSearch"></i>
+                  <i class="uil uil-angle-up ms-1 font-16 li-h1" *ngIf="advancedSearch"></i>
+                </p>
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table ">
+            <thead>
+              <tr class="th-header">
+                <th>#</th>
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)" *ngIf="!colum.IsHidden">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+                <th *ngIf="hasFeature(featureEnum.Trip_EditRate)"></th>
+                <th *ngIf="hasFeature(featureEnum.Task_GetAlternativeOrders)"></th>
+                <!-- <th><i class="fa fa-sort"></i></th> -->
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="100%">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                <tr [class.bg-blue-d7]="item.IsSpecialTrip" [class.by-darkblue]="item.IsSpecialTrip">
+                  <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+
+                    i+1}}</td>
+                  <td>
+                    <a routerLink="/trip/details/{{item.Code}}">{{item.Number}}</a>
+                  </td>
+                  <td *ngIf="!isSingleStore()">{{item.BranchName}}</td>
+                  <td><a routerLink="/agent/profiles/profile/{{item.DeliverymanID}}"    routerLinkActive="active">{{item.DeliverymanName}}</a></td>
+                  <td>{{item.OrdersCount}}</td>
+                  <td [style.color]="item.StatusColor">
+                    <anotation title="{{getTripAnotationByStatus(item.Status)?.title|translate}}"
+                      [content]="getTripAnotationByStatus(item.Status)?.content" [isSpan]="true"
+                      [spanText]="item.StatusName"></anotation>
+                  </td>
+                  <td>
+                    <span class="performance" [style.background-color]="item.PerformanceColor"
+                      *ngIf="item.RateStatus !=0">{{item.RateStatusName}}</span>
+                  </td>
+                  <td>{{(item.IsSpecialTrip?'shared.yes':'shared.no')|translate}}</td>
+                  <td>{{item.Duration}}</td>
+                  <td>{{item.PlannedDistance}}</td>
+                  <td>{{item.Amount}}</td>
+                  <td>{{item.CreatedDate | date:'longDate'}}</td>
+                  <td>{{item.StartTime | date:'shortTime'}}</td>
+                  <td>{{item.CloseTime | date:'shortTime'}}</td>
+                  <td *ngIf="hasFeature(featureEnum.Trip_EditRate)">
+                    <a *ngIf="isTripClosed(item.Status)" (click)="showEditPerformanceTemplate(item)">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"></i></a>
+                  </td>
+                  <td *ngIf="hasFeature(featureEnum.Task_GetAlternativeOrders)">
+                    <a *ngIf="!item.IsSpecialTrip" routerLink="/trip/alternative/{{item.ID}}">
+                      <i class="fuil uil-info font-20 li-h1"></i></a>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<ng-template #EditPerformanceTemplate>
+  <div class="modal-body">
+    <p class="font-20 mb-3">{{'trip.edit-performance.title'|translate}}</p>
+    <p class=" font-16 c-darkblue mb-3">{{'trip.edit-performance.trip-performance'|translate}}</p>
+    <div class="ch-performance  font-13 c-darkblue mb-3 text-center">
+      <div
+        [ngClass]="{'c-white':editRateModel.Rate == tripChangeperformanceRate.EXCELLENT || item.RateStatus == tripChangeperformanceRate.EXCELLENT,'bg-green':editRateModel.Rate == tripChangeperformanceRate.EXCELLENT,'old-perf':item.RateStatus == tripChangeperformanceRate.EXCELLENT ,'b-green':editRateModel.Rate == tripChangeperformanceRate.EXCELLENT,
+          'br-none':editRateModel.Rate != tripChangeperformanceRate.EXCELLENT,'opc-1':editRateModel.Rate == tripChangeperformanceRate.EXCELLENT}"
+        class="perf" (click)="editRateModel.Rate = tripChangeperformanceRate.EXCELLENT">{{'system.excellent'|translate}}</div>
+      <div
+        [ngClass]="{'c-white':editRateModel.Rate == tripChangeperformanceRate.GOOD || item.RateStatus == tripChangeperformanceRate.GOOD,'bg-blue':editRateModel.Rate == tripChangeperformanceRate.GOOD,'old-perf':item.RateStatus == tripChangeperformanceRate.GOOD ,'b-blue':editRateModel.Rate == tripChangeperformanceRate.GOOD,
+          'br-none':editRateModel.Rate != tripChangeperformanceRate.GOOD,'bl-none':editRateModel.Rate == tripChangeperformanceRate.EXCELLENT,'opc-1':editRateModel.Rate == tripChangeperformanceRate.GOOD}"
+        class="perf" (click)="editRateModel.Rate = tripChangeperformanceRate.GOOD">{{'system.good'|translate}}</div>
+      <div
+        [ngClass]="{'c-white':editRateModel.Rate == tripChangeperformanceRate.LATE || item.RateStatus == tripChangeperformanceRate.LATE,'bg-yellow':editRateModel.Rate == tripChangeperformanceRate.LATE,'old-perf':item.RateStatus == tripChangeperformanceRate.LATE ,'b-yellow':editRateModel.Rate == tripChangeperformanceRate.LATE,
+          'br-none':editRateModel.Rate !=tripChangeperformanceRate.LATE,'bl-none':editRateModel.Rate == tripChangeperformanceRate.GOOD,'opc-1':editRateModel.Rate == tripChangeperformanceRate.LATE}"
+        class="perf" (click)="editRateModel.Rate =tripChangeperformanceRate.LATE">{{'system.late'|translate}}</div>
+      <div
+        [ngClass]="{'c-white':editRateModel.Rate == tripChangeperformanceRate.TOO_LATE || item.RateStatus == tripChangeperformanceRate.TOO_LATE,'bg-red':editRateModel.Rate == tripChangeperformanceRate.TOO_LATE,'old-perf':item.RateStatus == tripChangeperformanceRate.TOO_LATE ,'b-red':editRateModel.Rate == tripChangeperformanceRate.TOO_LATE,
+          'bl-none':editRateModel.Rate == tripChangeperformanceRate.LATE,'opc-1':editRateModel.Rate == tripChangeperformanceRate.TOO_LATE}"
+        class="perf" (click)="editRateModel.Rate = tripChangeperformanceRate.TOO_LATE"> {{'system.too-late'|translate}}</div>
+    </div>
+    <p class=" font-16 c-darkblue mb-3">{{'trip.edit-performance.choose-reason'|translate}}:</p>
+    <div *ngFor="let reason of  tripRateEditReasons" class=" text-start font-14 d-flex align-items-center mb-2">
+      <label class="form-check-label">
+        <input type="radio" (change)="onReasonChange(reason.ID)" class="form-check-input my-0 me-2" name="optradio"
+          value="reason.ID">{{reason.Name}}
+        <span *ngIf="reason.ID == 13">({{'trip.edit-performance.write-reason'|translate}})</span>
+      </label>
+    </div>
+
+    <textarea class="form-control  my-2" id="w3review" name="w3review" rows="4" cols="50"
+      placeholder="{{'search.type-specific-reason'|translate}}" [(ngModel)]="editRateModel.Note"></textarea>
+    <button [disabled]="disableUpdateRate()"
+      class="btn c-white bg-darkblue box-sh-none pull-right mt-1 min-w80 font-14 " type="button"
+      (click)="editRate() ; modalRef.hide()"> {{'shared.done'|translate}}</button>
+  </div>
+</ng-template>
+<ng-template #deleteTemplate>
+  <div class="modal-body text-center">
+    <p> {{'shared.delete-confirmation.message'|translate}}<br> <strong *ngIf="selectedItem">{{selectedItem.ID}}</strong>
+    </p>
+    <button type="button" *ngIf="selectedItem" class="btn btn-default"
+      (click)="remove();modalRef.hide();">{{'shared.yes'|translate}}</button>
+    <!-- <button type="button" *ngIf="!selectedItem" class="btn btn-default" (click)="removeAll();modalRef.hide();">{{'shared.delete-confirmation.yes'|translate}}</button> -->
+    <button type="button" class="btn btn-primary"
+      (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+  </div>
+</ng-template>

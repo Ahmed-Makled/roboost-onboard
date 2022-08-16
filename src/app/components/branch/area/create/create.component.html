@@ -1,0 +1,60 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/store/area"></i> {{'system.store'|translate}} / {{'system.area'|translate}} /
+        {{'shared.create'|translate}}
+      </div>
+    </div>
+    <div class="tab-action" *ngIf="page.isPageLoaded">
+      <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/store/area">
+        <span class="rb-btn-text">{{'shared.cancel'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-success rb-btn-sm" (click)="save()" [disabled]="disabledSubmit()">
+        <span class="rb-btn-text">{{(page.isEdit?'shared.edit':'shared.create')|translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content p-0" *ngIf="page.isPageLoaded">
+    <div class="card">
+      <div class="card-content p-0">
+        <form [formGroup]="page.form">
+          <div class="row ">
+            <div class="col-md-4 col-12">
+              <ng-control [form]="page.form" control="Name" label=" {{'shared.name' | translate}}"
+                placeholder="{{'search.enter-name' | translate}} "></ng-control>
+            </div>
+          </div>
+        </form>
+        <div class="mt-3">
+          <div class="row mb-2">
+            <div class="col-md-6 col-12">
+              <p class="c-g900 font-14  mt-3"> {{'search.select-store'|translate}} <span
+                  class="text text-danger">*</span></p>
+              <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-2 mt-2">
+                <div class="col mb-2" *ngFor="let item of storeList; let i = index">
+                  <div class="select-store pointer bg-white" (click)="selectStore(item)"
+                    [class.selected]="item.Selected">
+                    <p class="d-flex align-items-center text-nowrap font-13">{{item.Name|maxLengthDot:24}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="57" height="5" viewBox="0 0 57 5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #162944;
+      }
+
+      .cls-2 {
+        fill: #ffc400;
+      }
+
+      .cls-3 {
+        fill: #cc324c;
+      }
+    </style>
+  </defs>
+  <g id="Group_16443" data-name="order-dash" transform="translate(-658 -452)">
+    <rect id="Rectangle_395" data-name="Rectangle 395" class="cls-1" width="15" height="5" rx="2.5" transform="translate(658 452)"/>
+    <rect id="Rectangle_397" data-name="Rectangle 397" class="cls-2" width="15" height="5" rx="2.5" transform="translate(700 452)"/>
+    <rect id="Rectangle_396" data-name="Rectangle 396" class="cls-3" width="15" height="5" rx="2.5" transform="translate(679 452)"/>
+  </g>
+</svg>

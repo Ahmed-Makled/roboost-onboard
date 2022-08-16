@@ -1,0 +1,38 @@
+<div class="tab-container card h-100 m-3">
+  <div class="tab" [class.sub]="showTabLinks()" *ngIf="showLayout()">
+    <div class="tab-header">
+      <div class="tab-title">
+        <i class="{{getPage().Icon}}" *ngIf="!getPage().IsImage"></i>
+        <p class="title">{{getParentPage().Name}} / {{getPage()?.Name}} </p>
+      </div>
+      <div class="tab-action" *ngIf="canShowActionCreate() && hasFeature(featureEnum.Agent_Post)">
+        <button class="rb-btn rb-btn-primary rb-btn-sm" routerLink="/agent/profiles/create">
+          <i class="uil uil-plus"></i>
+          <span class="rb-btn-text">{{'shared.create'| translate}}</span>
+        </button>
+      </div>
+      <div class="tab-action" *ngIf="canShowReport()">
+        <button class="rb-btn rb-btn-primary rb-btn-sm" [disabled]="page.isSearching" (click)="fireChildEvent()">
+          <i class="uil uil-file-download"></i>
+          <span class="rb-btn-text">{{'system.download-report'|translate}}</span>
+        </button>
+      </div>
+    </div>
+    <ul class="tab-links" *ngIf="showTabLinks()">
+      <ng-container *ngFor="let item of getChildList()">
+        <li class="tab-item active d-flex align-items-center" (click)="onTabClick(item)"
+          [style.order]="item.DisplayOrder" [class.active]="getCurrentChild().ID == item.ID">
+          <i class="{{item.Icon}}" *ngIf="!item.IsImage"></i>
+          <img [src]="item.Icon" *ngIf="item.IsImage">
+          <span>{{item.Name}}</span>
+           <div class="rb-counter rb-counter-sm"  *ngIf="getCurrentChild().ID == item.ID && tabTotalItems !=null">
+              <p class="counter-text">{{tabTotalItems}}</p>
+            </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div [class.wrapper-view]="showLayout()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

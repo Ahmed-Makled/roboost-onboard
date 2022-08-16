@@ -1,0 +1,13 @@
+<svg id="book_medical_monochrome" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_146225" data-name="Rectangle 146225" width="40" height="40" fill="#1a9cff" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_146223" data-name="Rectangle 146223" width="40" height="40" fill="#1a9cff" opacity="0"/>
+  <g id="Group_75331" data-name="Group 75331" clip-path="url(#clip-path)">
+    <path id="Path_19611" data-name="Path 19611" d="M32.667,11V27.667a5,5,0,0,1-5,5H11a5,5,0,0,1-5-5V26H21a5,5,0,0,0,5-5V6h1.667A5,5,0,0,1,32.667,11Z" transform="translate(4 4)" fill="#1a9cff" opacity="0.3"/>
+    <rect id="Rectangle_146224" data-name="Rectangle 146224" width="26.667" height="26.667" rx="5" transform="translate(3.333 3.333)" fill="#1a9cff" opacity="0.6"/>
+    <path id="Path_19612" data-name="Path 19612" d="M17.667,11H14.333V7.667a1.667,1.667,0,1,0-3.333,0V11H7.667a1.667,1.667,0,1,0,0,3.333H11v3.333a1.667,1.667,0,0,0,3.333,0V14.333h3.333a1.667,1.667,0,0,0,0-3.333Z" transform="translate(4 4)" fill="#1a9cff"/>
+  </g>
+</svg>

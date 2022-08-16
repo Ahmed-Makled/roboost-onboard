@@ -1,0 +1,11 @@
+<svg id="invoice_solid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10" viewBox="0 0 10 10">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_157871" data-name="Rectangle 157871" width="10" height="10" fill="#828b97" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_157870" data-name="Rectangle 157870" width="10" height="10" fill="#828b97" opacity="0"/>
+  <g id="Group_93127" data-name="Group 93127" clip-path="url(#clip-path)">
+    <path id="Path_25604" data-name="Path 25604" d="M9.917,6.164H8.667V2.414a.418.418,0,0,0-.208-.363.414.414,0,0,0-.417,0l-1.25.717-1.25-.717a.414.414,0,0,0-.417,0l-1.25.717-1.25-.717a.414.414,0,0,0-.417,0A.418.418,0,0,0,2,2.414V9.08a1.248,1.248,0,0,0,1.25,1.25H9.083a1.248,1.248,0,0,0,1.25-1.25V6.58A.418.418,0,0,0,9.917,6.164Zm-5-1.667H5.75a.417.417,0,1,1,0,.833H4.917a.417.417,0,0,1,0-.833ZM6.583,8.664h-2.5a.417.417,0,1,1,0-.833h2.5a.417.417,0,1,1,0,.833ZM6.583,7h-2.5a.417.417,0,1,1,0-.833h2.5a.417.417,0,0,1,0,.833ZM9.5,9.08a.417.417,0,0,1-.833,0V7H9.5Z" transform="translate(-1.167 -1.164)" fill="#828b97"/>
+  </g>
+</svg>

@@ -1,0 +1,209 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card h-100">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col" *ngIf="!isSingleStore()">
+                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="branchID"
+                  label="system.stores" [items]="branchList" placeholder="search.select-store"
+                  (change)="getDeliverymanList($event?.ID)"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="DeliverymanID"
+                  label="system.deliveryman" [items]="deliverymanList" placeholder="search.select-dm"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="TripNumber" label="order.trip-number"
+                  placeholder="search.enter-trip"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="OrderNumber" label="order.order-number"
+                  placeholder="search.enter-order-number"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="EnrollID" label="system.enrollid"
+                  placeholder="search.enter-enrollid"></ng-control>
+              </div>
+              <div class="col" *ngIf="isSingleStore()">
+                <ng-control [form]="page.searchForm" control="CustomerMobile" label="system.customer-mobile"
+                  placeholder="search.enter-customer-mobile"></ng-control>
+              </div>
+              <ng-container *ngIf="advancedSearch">
+                <div class="col" *ngIf="!isSingleStore()">
+                  <ng-control [form]="page.searchForm" control="CustomerMobile" label="system.customer-mobile"
+                    placeholder="search.enter-customer-mobile"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [form]="page.searchForm" control="CustomerName" label="system.customer-name"
+                    placeholder="search.enter-customer-name"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [form]="page.searchForm" control="CustomerNumber" label="system.customer-serial-number"
+                    placeholder="search.enter-customer-serial"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="Status"
+                    label="shared.status" [items]="statusList" placeholder="search.select-status"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="Performance"
+                    label="system.performance" [items]="performanceList" placeholder="search.select-performance">
+                  </ng-control>
+                </div>
+                <div class="col">
+                  <fieldset class="form-group">
+                    <label for="basicInput" class=label-sm>{{'order.is-fast-order' |
+                      translate}}</label>
+                    <ng-select class="form-control " formControlName="IsFastOrder"
+                      placeholder="{{'order.is-fast-order'| translate}}">
+                      <ng-option value="">{{'shared.select-all'|translate}}</ng-option>
+                      <ng-option value="true">{{'shared.yes'|translate}}</ng-option>
+                      <ng-option value="false">{{'shared.no'|translate}}</ng-option>
+                    </ng-select>
+                  </fieldset>
+                </div>
+                <div class="col">
+                  <fieldset class="form-group">
+                    <label for="basicInput" class=label-sm>{{'order.is-transite' |
+                      translate}}</label>
+                    <ng-select class="form-control " formControlName="IsTransite"
+                      placeholder="{{'order.is-transite'| translate}}">
+                      <ng-option value="">{{'shared.select-all'|translate}}</ng-option>
+                      <ng-option value="true">{{'shared.yes'|translate}}</ng-option>
+                      <ng-option value="false">{{'shared.no'|translate}}</ng-option>
+                    </ng-select>
+                  </fieldset>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="ServiceID"
+                    label="system.service" [items]="serviceList" placeholder="search.select-service"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="TripRate"
+                    label="order.trip-performance" [items]="tripRateList" placeholder="search.select-performance">
+                  </ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.INPUT_DATE" [form]="page.searchForm" control="FromDate"
+                    label="shared.from-date"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [type]="controlType.INPUT_DATE" [form]="page.searchForm" control="ToDate"
+                    label="shared.to-date"></ng-control>
+                </div>
+              </ng-container>
+              <div class="col">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                    <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span> <span
+                      class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center w-100">
+                <div class="line"></div>
+                <p class="font-14 c-66 px-2 text-nowrap pointer" (click)="advancedSearch = !advancedSearch">
+                  {{"system.advanced-search" |translate}}
+                  <i class="uil uil-angle-down ms-1 font-16 li-h1" *ngIf="!advancedSearch"></i>
+                  <i class="uil uil-angle-up ms-1 font-16 li-h1" *ngIf="advancedSearch"></i>
+                </p>
+                <div class="line"></div>
+              </div>
+            </div>
+            <!-- <div class="d-flex align-items-center pt-3 px-3">
+                            <p class="font-16 c-00f">{{'system.order'|translate}} ({{page.options.totalItems}})</p>
+                            <button class="btn btn-with-icon ms-auto" type="button" (click)="onSearchClicked()"
+                                [disabled]="page.searchForm.invalid || page.isSearching">
+                                <i class="uil uil-search font-20 li-h1 me-2"></i>
+                                {{'system.apply-search'|translate}}
+                            </button>
+                            <button class="btn btn-with-icon ms-2" type="button" (click)="getReport()"
+                                [disabled]="page.searchForm.invalid || page.isSearching">
+                                {{'system.download-report'|translate}}
+                            </button>
+                        </div> -->
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table ">
+            <thead>
+              <tr class="th-header">
+                <th>#</th>
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="100%">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                <tr [class.bg-blue-d7]="item.IsFastOrder" [class.by-darkblue]="item.IsFastOrder">
+                  <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+
+                    i+1}}
+                  </td>
+                  <td>
+                    <a routerLink='/task/details/{{item.Code}}' [queryParams]="{isArchived:isArchive}"
+                      routerLinkActive="active">{{item.OrderNumber}}</a>
+                  </td>
+                  <td> <a routerLink="/agent/profiles/profile/{{item.DeliverymanID}}"
+                      routerLinkActive="active">{{item.DeliverymanName}}</a></td>
+                  <td>{{item.BranchName}}</td>
+                  <td><a routerLink="/trip/details/{{item.TripCode}}" routerLinkActive="active">{{item.TripNumber}}</a>
+                  </td>
+                  <td><span class="performance" [style.background-color]="item.StatusColor"
+                      *ngIf="item.Rate !=0">{{item.RateName}}</span></td>
+                  <td>{{item.OrderDeliveryTime}}</td>
+                  <td><a routerLink="/customer/profile/{{item.CustomerID}}">{{item.CustomerName}}</a>
+                  </td>
+                  <td>{{item.CreatedDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+                  <td>{{item.CustomerMobile}}</td>
+                  <td>{{item.Address}}</td>
+                  <td>{{item.Distance}}</td>
+                  <td *ngIf="item.Status!=2">{{item.StatusName}}</td>
+                  <td *ngIf="item.Status==2">{{'dispatch.on-trip'|translate}}</td>
+                  <td>{{item.DeliveryTime|date:'hh:mm a'}}</td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,212 @@
+<div class="px-3">
+  <div class="performance row my-2">
+    <div class="col-6 text-start ps-0">
+      <p class="font-14  bold mb-3 c-70" id="order">{{"store.profile.order-config"| translate}}</p>
+    </div>
+    <div class="col-6 text-end">
+      <button class="btn  px-2 py-1 font-12 bg-darkblue c-white" (click)="save()" [disabled]="disabledSubmit()">
+        <i class="uil uil-edit"></i>
+        {{"shared.edit"| translate}}</button>
+    </div>
+  </div>
+  <form *ngIf="page.isPageLoaded" class="form" [formGroup]="page.form">
+    <div class="form-body">
+      <div class="row ">
+
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderReadyTime')">
+            <label>{{"store.profile.order-ready-time"| translate}}*</label>
+            <anotation class="ms-1" title="Ready Time"
+              [content]="'A configuration that specifies the length of time the order has been on the system              since it was created, accordingly defining the urgency of an order.'">
+            </anotation>
+            <input formControlName="OrderReadyTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderReadyTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderReadyTime','required')">{{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('OrderReadyTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderNormalTime')">
+            <label>{{"stroe.profile.order-normal-time" | translate }} *</label>
+            <input formControlName="OrderNormalTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderNormalTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderNormalTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderNormalTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderUrgentTime')">
+            <label>{{"store.profile.order-urgent-time"| translate}} *</label>
+            <input formControlName="OrderUrgentTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderUrgentTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderUrgentTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderUrgentTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderTopUrgentTime')">
+            <label>{{"store.profile.order-top-urgent-time"| translate}} *</label>
+            <input formControlName="OrderTopUrgentTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderTopUrgentTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderTopUrgentTime','required')">{{'shared.validation.required'|translate}}
+              </p>`
+              <p *ngIf="isControlHasError('OrderTopUrgentTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MaxWaitingTime')">
+            <label>{{"store.profile.max-wait-time"| translate}}*</label>
+            <anotation class="ms-1" title="Maximum Waiting Time"
+              [content]="'The Maximum waiting time for an order in the “ready orders” section till it is dispatched to a trip if the maximum number of orders per trip             was not fulfilled while there are orders in the “in-progress order” section.'">
+            </anotation>
+            <input formControlName="MaxWaitingTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MaxWaitingTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('MaxWaitingTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('MaxWaitingTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MinWaitingTime')">
+            <label>{{"store.profile.min-wait-time"| translate}} *</label>
+            <anotation class="ms-1" title="Min Waiting Time"
+              [content]="'the waiting time  for an order in the “ready orders” section till it is dispatched to a trip if the maximum number of orders per trip was not fulfilled while there are no orders in the “in-progress order” section.'">
+            </anotation>
+            <input formControlName="MinWaitingTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MinWaitingTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('MinWaitingTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('MinWaitingTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderServiceTime')">
+            <label>{{"store.profle.service-time"|translate}} *</label>
+
+            <anotation class="ms-1" title="Service Time"
+              [content]="'The time in which the delivery agent is expected to hand the customer their order and receive its payment.   Service time is taken into consideration by the AI rating of the order performance.'">
+            </anotation>
+            <input formControlName="OrderServiceTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderServiceTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderServiceTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderServiceTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('CloseToBranchDistance')">
+            <label>{{"store.profile.close-distance"| translate}} *</label>
+            <input formControlName="CloseToBranchDistance" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('CloseToBranchDistance')" class="text text-danger">
+              <p *ngIf="isControlHasError('CloseToBranchDistance','required')">
+                {{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('CloseToBranchDistance','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderFarDistance')">
+            <label>{{"store.profle.order-far-dist"| translate}} *</label>
+            <anotation class="ms-1" title="Far Distance"
+              [content]="'Configuration that indicates the order is at a     great distance from the initial order.'">
+            </anotation>
+            <input formControlName="OrderFarDistance" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderFarDistance')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderFarDistance','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderFarDistance','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderCloseDistance')">
+            <label>{{"store.profile.close-order-distance"| translate}} *</label>
+            <anotation class="ms-1" title="Close Distance"
+              [content]="'Configuration that shows the order is at a    close distance to the first order.'">
+            </anotation>
+            <input formControlName="OrderCloseDistance" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderCloseDistance')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderCloseDistance','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderCloseDistance','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('OrderWithinRangeDistance')">
+            <label>{{"store.profile.order-dist-range"| translate}} *</label>
+            <anotation class="ms-1" title="Within Range Distance"
+              [content]="'Configuration that shows the order is at a closer range to  the initial order than orders which are at a far distance.'">
+            </anotation>
+            <input formControlName="OrderWithinRangeDistance" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('OrderWithinRangeDistance')" class="text text-danger">
+              <p *ngIf="isControlHasError('OrderWithinRangeDistance','required')">
+                {{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('OrderWithinRangeDistance','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('PreparationTime')">
+            <label>{{"store.profile.pre-time"| translate}} *</label>
+            <anotation class="ms-1" title="Preparation Time"
+              [content]="'Time needed for an order to be transferred to the       ready section in the dispatching system.'">
+            </anotation>
+            <input formControlName="PreparationTime" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('PreparationTime')" class="text text-danger">
+              <p *ngIf="isControlHasError('PreparationTime','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('PreparationTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <hr class="mt-2">
+  </form>
+</div>

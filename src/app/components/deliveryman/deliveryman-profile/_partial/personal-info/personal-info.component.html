@@ -1,0 +1,286 @@
+<div class="performance col-12 bt-F0 pt-3 pr-0">
+  <div class="row mb-2">
+    <div class="col-6 text-start">
+      <h5 class="deliveryman bold mb-3 c-112" id="PersonalInfo">{{'shared.details'|translate}}</h5>
+    </div>
+    <div class="col-6 text-end">
+      <div class="d-flex align-items-center justify-content-end ">
+        <button type="button" class=" btn-with-icon c-white me-2" (click)="showEditPersonalInfo()"><i
+            class="uil uil-edit-alt font-18 li-h1 c-white me-2"></i>{{'shared.edit'| translate}}</button>
+        <button class="btn-with-icon c-white" (click)="showChangePasswordTemplate()">
+          <i class="uil uil-shield font-18 li-h1 me-1"></i>
+          {{'deliveryman.profile.personal-inf.change-password'|translate}}</button>
+      </div>
+    </div>
+  </div>
+  <div class="performance c-112 text-start">
+    <div class="row mb-3">
+      <div class="col-6 col-md-3 mb-1">
+        <p class=" font-12 ">{{'shared.status'|translate}}:<span class=" ms-1"
+            [style.color]="modelInfo.Color">{{modelInfo.StatusName}}</span></p>
+      </div>
+      <div class=" col-6 col-md-3 mb-1 ">
+        <p class=" font-12 ">{{'deliveryman.profile.personal-inf.login'|translate}}:<span class="c-green ms-1"
+            *ngIf="modelInfo.IsLoggedIn">{{'shared.yes'|translate}}</span> <span class="c-red ms-1"
+            *ngIf="!modelInfo.IsLoggedIn">{{'shared.no'|translate}}</span></p>
+      </div>
+      <div class="col-6 col-md-3 mb-1">
+        <p class=" font-12 ">{{'deliveryman.profile.personal-inf.queue'|translate}}:<span class="c-green ms-1"
+            *ngIf="modelInfo.QueueNo > 0">{{modelInfo.QueueNo}}</span>
+          <span class="c-red ms-1"
+            *ngIf="modelInfo.QueueNo==0">{{'deliveryman.profile.personal-inf.out-of-queue'|translate}}</span>
+        </p>
+      </div>
+      <div class="col-md-3 col-6 mb-1">
+        <p class="font-12 ">{{'shared.id'|translate}}:<span class="c-fb ml-1 font-15">{{modelInfo.ID}}</span></p>
+      </div>
+    </div>
+    <div class="row  mb-3">
+      <div class="col-6 col-md-3 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'deliveryman.profile.personal-inf.dm-mobile'|translate}}:</p>
+            <p class="font-14 c-00f m-0">{{modelInfo.Mobile}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0"> {{'shared.national-id'|translate}}:</p>
+            <p class="font-14 c-00f m-0">{{modelInfo.NationalID}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'shared.username'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{modelInfo.UserName}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'system.enrollid'|translate}} </p>
+            <p class="font-14 c-00f m-0">{{modelInfo.EnrollID}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" col-12 bt-F0 pt-3 pe-0">
+  <div class="row mb-2 align-items-center">
+    <div class="col-6">
+      <h5 class="bold c-112 me-auto" id="Services">{{'system.services'|translate}}</h5>
+    </div>
+    <div class="col-6 ">
+      <!-- showEditService() -->
+      <button type="button" class=" btn-with-icon c-white ms-auto" (click)="showEditService()"><i
+          class="uil uil-edit-alt font-18 li-h1 c-white me-2"></i>{{'shared.edit'| translate}}</button>
+    </div>
+  </div>
+  <div class="row mx-n1 mb-2 c-112 text-start">
+    <ng-container *ngFor="let service of serviceList">
+      <div class="col-md-4 col-sm-6 col-12 mb-1 px-1" *ngIf="service.Selected == true">
+        <div class="service-box p-2">
+          <img [src]="service.Icon" class="me-2" alt="icon" onerror="this.onerror=null; this.src='./assets/image/skill.png'">
+          <span class="deliveryman font-14" [title]="service.Name">{{service.Name|maxLengthDot:30}}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
+<ng-template #editServiceTemplate>
+  <div class="modal-body p-0">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{'system.services'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <p class="deliveryman font-13 c-70 mb-3">{{'deliveryman.profile.edit-service.selected-service'|translate}}</p>
+        <div class="modal-orders" >
+          <div class="row mx-0 g-2">
+            <ng-container *ngFor="let service of deliverymanServices;let i=index">
+              <div class="col-md-4 col-sm-6 col-12 mb-1">
+                <div class="service-box active p-2 d-flex justify-content-between align-items-center">
+                  <img [src]="service.Icon" class="me-2" onerror="this.onerror=null; this.src='./assets/image/skill.png'">
+                  <span class="deliveryman font-12" [title]="service.Name">{{service.Name|maxLengthDot:30}}</span>
+                  <i class="uil uil-times  c-r500 ms-auto pointer" (click)="removeService(service,i)"></i>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="my-3">
+          <p class="deliveryman font-13 c-70 mb-3">{{'deliveryman.profile.edit-service.select-service'|translate}}</p>
+          <div class="modal-search mb-3">
+            <fieldset class="form-group">
+              <i class="fas fa-search"></i>
+              <input id="search" [(ngModel)]="serviceName" (ngModelChange)="searchForService()" type="text"
+                class="form-control" placeholder="Search for Service...">
+            </fieldset>
+          </div>
+          <div class="modal-orders">
+            <div class="row mx-0 g-2">
+              <ng-container *ngFor="let service of selectServices;let i=index">
+                <div class="col-md-4 col-sm-6 col-12">
+                  <div class="service-box pointer p-2" (click)="selectService(service,i)">
+                    <img [src]="service.Icon" class="me-2" alt="icon" onerror="this.onerror=null; this.src='./assets/image/skill.png'">
+                    <span class="deliveryman font-12" [title]="service.Name">{{service.Name|maxLengthDot:30}}</span>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="rb-btn rb-btn-primary rb-btn-sm" (click)="updateServices();modalRef.hide()">
+          {{'shared.save'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #editPersonalInfoTemplate>
+  <div class="modal-body p-0">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="modal-title">{{'deliveryman.profile.edit-personal-info.title'|translate}}</p>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <form class="form" [formGroup]="page.form">
+          <div class="row row-cols-1 gy-1">
+            <div class="col">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Name')">
+                <label class="c-70">{{'shared.name'|translate}} <span class="c-red">*</span></label>
+                <input formControlName="Name" type="text" class="form-control">
+              </fieldset>
+              <div *ngIf="isControlNotValidAndDirty('Name')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('Name','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Name','maxlength')">
+                  {{'shared.validation.max-length'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Name','minlength')">
+                  {{'shared.validation.min-length'|translate}}</p>
+              </div>
+            </div>
+            <div class="col">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('UserName')">
+                <label class="c-70">{{'shared.username'|translate}} <span class="c-red">*</span></label>
+                <input formControlName="UserName" type="text" class="form-control">
+              </fieldset>
+              <div *ngIf="isControlNotValidAndDirty('UserName')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('UserName','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('UserName','maxlength')">
+                  {{'shared.validation.max-length'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('UserName','minlength')">
+                  {{'shared.validation.min-length'|translate}}</p>
+              </div>
+            </div>
+            <div class="col">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Mobile')">
+                <label class="c-70">{{'shared.mobile'|translate}} <span class="c-red">*</span></label>
+                <input formControlName="Mobile" type="text" class="form-control">
+              </fieldset>
+              <div *ngIf="isControlNotValidAndDirty('Mobile')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('Mobile','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Mobile','maxlength')">
+                  {{'shared.validation.max-length'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Mobile','minlength')">
+                  {{'shared.validation.min-length'|translate}}</p>
+              </div>
+            </div>
+            <div class="col">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('NationalID')">
+                <label class="c-70">{{'shared.national-id'|translate}} </label>
+                <input formControlName="NationalID" type="text" class="form-control">
+              </fieldset>
+              <div class="mb-0" *ngIf="isControlNotValidAndDirty('NationalID')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('NationalID','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('NationalID','maxlength')">
+                  {{'shared.validation.max-length'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('NationalID','minlength')">
+                  {{'shared.validation.min-length'|translate}}</p>
+              </div>
+            </div>
+            <div class="col">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('EnrollID')">
+                <label class="c-70">{{'system.enrollid'|translate}}<span class="c-red">*</span></label>
+                <input formControlName="EnrollID" type="text" class="form-control"
+                  placeholder="{{'search.enter-enrollid'|translate}}">
+              </fieldset>
+              <div class="mb-0" *ngIf="isControlNotValidAndDirty('EnrollID')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('EnrollID','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('EnrollID','pattern')">
+                  {{'shared.validation.only-numbers'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="rb-btn rb-btn-primary rb-btn-sm" (click)="save();modalRef.hide()"
+          [disabled]="disabledSubmit()">{{'shared.update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #changePasswordTemplate>
+  <div class="modal-content modal-300">
+    <div class="modal-body p-0">
+      <div class="modal-header">
+        <h5 class="modal-title">{{'deliveryman.profile.personal-inf.change-password'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <form class="form" [formGroup]="page.form">
+          <div class="row ">
+            <div class="col-12">
+              <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('Password')">
+                <label class="c-70">{{'shared.password'|translate}} <span class="c-red">*</span></label>
+                <input formControlName="Password" type="text" class="form-control">
+              </fieldset>
+              <div *ngIf="isControlNotValidAndDirty('Password')" class="text text-danger mt-1">
+                <p class="font-12" *ngIf="isControlHasError('Password','required')">
+                  {{'shared.validation.required'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Password','maxlength')">
+                  {{'shared.validation.max-length'|translate}}</p>
+                <p class="font-12" *ngIf="isControlHasError('Password','minlength')">
+                  {{'shared.validation.min-length'|translate}}</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="rb-btn rb-btn-primary rb-btn-sm" (click)="changePassword();modalRef.hide()"
+          [disabled]="disabledSubmit()">{{'shared.update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,14 @@
+<svg id="MoveOut_BTN" data-name="MoveOut BTN" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_157941" data-name="Rectangle 157941" width="16" height="16" fill="#0005f1" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_157943" data-name="Rectangle 157943" width="16" height="16" rx="4" fill="rgba(0,5,241,0)"/>
+  <g id="move_out_solid">
+    <rect id="Rectangle_157940" data-name="Rectangle 157940" width="16" height="16" fill="#0005f1" opacity="0"/>
+    <g id="Group_93454" data-name="Group 93454" clip-path="url(#clip-path)">
+      <path id="Path_25657" data-name="Path 25657" d="M15.28,8.92a.688.688,0,0,1-.14.22l-2.667,2.667a.676.676,0,0,1-.947,0,.672.672,0,0,1,0-.947L13.06,9.333H6.667A.667.667,0,0,1,6.667,8H13.06L11.527,6.473a.672.672,0,0,1,0-.947.676.676,0,0,1,.947,0L15.14,8.193a.688.688,0,0,1,.14.22.667.667,0,0,1,0,.507ZM9.333,10.667H6A1.337,1.337,0,0,1,4.667,9.333V8A1.337,1.337,0,0,1,6,6.667H9.333A.669.669,0,0,0,10,6V4A2.006,2.006,0,0,0,8,2H4A2.006,2.006,0,0,0,2,4v9.333a2.006,2.006,0,0,0,2,2H8a2.006,2.006,0,0,0,2-2v-2A.669.669,0,0,0,9.333,10.667Z" transform="translate(-0.667 -0.667)" fill="#0005f1"/>
+    </g>
+  </g>
+</svg>

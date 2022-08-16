@@ -1,0 +1,211 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card ">
+
+      <div class="card-content p-0">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3">{{'config.revenue.order.title'| translate}}
+            </h4>
+          </div>
+          <div class="scolled">
+            <table class="table  table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store-name' | translate}}</th>
+                  <th>{{'config.trip.oreder-revenue-excelent-trip' | translate}}</th>
+                  <th>{{'config.trip.oreder-revenue-good-trip' | translate}}</th>
+                  <th>{{'config.trip.oreder-revenue-late-trip' | translate}}</th>
+                  <th>{{'config.trip.oreder-revenue-too-late-trip' | translate}}</th>
+                  <th>
+                    <a (click)="showOrderRevenueUpdateAllConfirmation()" *ngIf="showUpdateAllOrderRevenueConfig()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllOrderRevenue()">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of orderRevenueConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+
+
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderRevenueInExcelantTrip" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderRevenueInGoodTrip" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td>
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderRevenueInLateTrip" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.OrderRevenueInTooLateTrip" placeholder="">
+                    </fieldset>
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true" (click)="showOrderRevenueUpdateConfirmation(item)"
+                      *ngIf="!isAllOrderRevenueConfigSelected"><i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                        aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!--Trip Revenue Configuration-->
+
+      <hr>
+      <div class="card-content">
+        <div class="px-3">
+          <div class="row">
+            <h4 class="d-inline-block font-15px bold amp-5 c-dark-gray ml-3">{{'config.revenue.trip.title'| translate}}
+            </h4>
+          </div>
+          <div class="scolled">
+            <table class="table  table-striped">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.id' | translate}}</th>
+                  <th>{{'system.store-name' | translate}}</th>
+                  <th>{{'config.trip.excelent-trip-revenue' | translate}}</th>
+                  <th>{{'config.trip.good-trip-revenue' | translate}}</th>
+                  <th>{{'config.trip.late-trip-revenue' | translate}}</th>
+                  <th>{{'config.trip.too-late-trip-revenue' | translate}}</th>
+                  <th>
+                    <a (click)="showTripRevenueUpdateAllConfirmation()" *ngIf="showAllTripRevenueConfig()">
+                      <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer" aria-hidden="true"></i></a>
+                  </th>
+                  <th>
+                    <input type="Checkbox" class="d-inline" value="item.ID" (change)="selectAllTripRevenue()">
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of tripRevenueConfigs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+
+
+                  <td>{{item.BranchID}}</td>
+                  <td> {{item.BranchName}}</td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.ExcelantTripRevenue" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.GoodTripRevenue" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  "
+                        [(ngModel)]="item.LateTripRevenue" placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td>
+
+
+
+                    <fieldset class="form-group">
+                      <input type="number" min="0" class="form-control  " [(ngModel)]="item.Longitude"
+                        placeholder="">
+                    </fieldset>
+
+                  </td>
+                  <td><a [class.disabled]="page.isSaving == true" (click)="showTripRevenueUpdateConfirmation(item)"
+                      *ngIf="!isAlltripRevenueConfigSelected"><i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                        aria-hidden="true"></i></a></td>
+                  <td>
+                    <input type="Checkbox" class="d-inline" value="item.ID" [(ngModel)]="item.IsSelected">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #orderRevenueTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">Update Revenue Order </p>
+      <p class="modal-confirm-content mb-2"> Are You sure You want to Update This Branch Order Revenue
+        Configuration<strong *ngIf="selectedItem">{{selectedItem.Name }}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateOrderRevenueConfig();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #tripRevenueTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">Update Revenue Trip </p>
+      <p class="modal-confirm-content mb-2"> Are You sure You want to update This Branch/es Trip Revenue
+        Configuration<strong *ngIf="selectedItem">{{selectedItem.Name }}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateTripRevenueConfig();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

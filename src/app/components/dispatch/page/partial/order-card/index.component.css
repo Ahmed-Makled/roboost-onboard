@@ -1,0 +1,14 @@
+.m-inline {
+  margin-inline-start: 12px;
+}
+
+.order-card {
+  user-select: none;
+}
+
+.order-address {
+  width: 2px;
+  height: 18px;
+  background-color: #9BA2AB;
+  margin-inline-end: 4px;
+}

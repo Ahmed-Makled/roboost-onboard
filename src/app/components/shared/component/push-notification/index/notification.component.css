@@ -1,0 +1,206 @@
+.box--shadow {
+    box-shadow: 0px 25px 50px #15171A40;
+}
+.mt-14 {
+    margin-top: 14px;
+}
+.mt-24 {
+    margin-top: 24px;
+}
+.ms-85 {
+    margin-inline-start: 85px;
+}
+.mx-n12{
+    margin-inline: -12px !important;
+}
+.pb-100 {
+    padding-bottom: 100px;
+}
+.agent-list-container {
+    box-shadow: 1px 0px 2px #00000029;
+    border-radius: 0px 0px 0px 8px;
+}
+.vertical-text{
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
+.top-header {
+    display: flex;
+    align-items: center;
+}
+.w-162{
+    max-width: 162px;
+}
+@media(max-width:767.98px){
+    .top-header{
+    padding-inline-end: 12px;
+
+    }
+    .w-162{
+        max-width: unset;
+        width: 100%;
+    }
+}
+.rb-dropdown-status.online {
+    max-width: 162px;
+}
+@media(max-width:767.98px){
+    .rb-dropdown-status.online {
+        max-width: unset;
+        width: 100%;
+    }
+    .rb-dropdown-status.online .uil-angle-down {
+      margin-inline-start: auto;
+    }
+}
+.rb-dropdown-status.online img {
+    width: 16px;
+    height: 16px;
+    margin-inline-end: 4px;
+}
+.top-header .rb-dropdown-header {
+    padding: unset;
+    padding-block: 3px;
+    display: flex;
+    align-items: center;
+}
+.top-header .rb-dropdown-status.online .rb-dropdown-header {
+    padding-inline-start: 12px;
+    padding-inline-end: 5px;
+}
+.search-icon {
+    background: #F0F1F2;
+    box-shadow: 0px 1px 2px #15171A26;
+    border: 1px solid #CDD1D5;
+    border-radius: 6px;
+    margin-inline-start: 14px;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+}
+.search-icon img {
+    margin: auto;
+}
+@media(max-width:767.98px){
+    .search-icon {
+    margin-inline-start: 8px;
+
+    }
+}
+.accordion-header {
+    box-shadow: inset 0px -1px 0px #cdd1d5;
+    background: #E6E8EA;
+    padding: 8px 12px;
+    font-size: 10px;
+    color: #15171A;
+}
+.accordion-button::after {
+    width: 14px;
+    height: 14px;
+    background-size: 14px;
+    background-image: url('../../../../../../assets/rb-icon/angle-down.svg');
+}
+.form-check {
+    padding-left: unset;
+    min-height: unset;
+    margin-bottom: unset;
+    min-height: unset;
+    margin-bottom: unset;
+    padding-inline-end: unset;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+.form-check-label {
+    margin-bottom: 0 !important;
+  }
+.form-check-input {
+    width: 14px;
+    height: 14px;
+    margin-inline-end: 8px;
+    border: 1px solid rgba(0, 0, 0, .25);
+    border-radius: 4px;
+    /* margin-top: unset;    */
+    font-size: 14px;
+    /* margin-inline-end: unset;
+    margin: 0.75rem; */
+    margin-top: unset;
+}
+.form-check-input:checked {
+    background-color: #009DFF;
+    border-color: #009DFF !important;
+}
+.delivery-box {
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+}
+.delivery-box:hover {
+    background: #F0F1F2;
+}
+.accordion {
+    max-height: 411px;
+}
+.accordion-body {
+    padding: unset
+}
+.accordion-item:last-of-type .accordion-collapse {
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+.accordion-item:last-of-type {
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+.accordion-button {
+    width: unset;
+    background: unset;
+    width: 14px;
+    height: 14px;
+    background-size: 14px;
+    padding: unset;
+    font-size: 14px;
+}
+.accordion-button:focus {
+    border: unset;
+    box-shadow: unset;
+}
+.accordion-item:first-of-type .accordion-button {
+    border-top-right-radius: unset;
+    border-top-left-radius: unset;
+}
+.accordion-button:not(.collapsed)::after {
+    background-image: url('../../../../../../assets/rb-icon/angle-up.svg');
+}
+.accordion-button:not(.collapsed) {
+    box-shadow: unset;
+}
+.agent-hover {
+    background: #F0F1F2;
+}
+.reset-float {
+    float: unset;
+    margin-left: unset;
+}
+.notification .modal-footer {
+    padding: unset;
+    padding-inline-start: 12px;
+    padding-inline-end: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+.select-all-container {
+    padding: 12px;
+    border-radius: 0px 0px 0px 8px;
+    box-shadow: 0px -1px 2px #15171a26;
+}
+.select-all-container:hover {
+    background-color: #f2f2f2;
+}
+
+.form-check .form-check-input {
+    float: unset;
+    margin-right:0;
+}

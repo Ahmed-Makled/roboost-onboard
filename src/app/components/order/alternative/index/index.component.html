@@ -1,0 +1,155 @@
+<div class="tab ">
+    <div class="tab-header">
+        <div class="tab-title">
+            <div class="title d-flex align-content-center font-16">
+                <i class="uil uil-arrow-left  pointer" routerLink="/trip"></i> {{'system.trips'|translate}} / {{'system.alternative-tasks' | translate}}
+            </div>
+        </div> 
+    </div>
+</div>
+<div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+        <div class="card w-100">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+                <p class="loading">{{'shared.loading' | translate}} ...</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="page.isPageLoaded && items.length>0">
+    <div class="col-md-12">
+        <div class="card mt-0">
+            <div class="card-header mb-3">
+                <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                        <div class="frist-line mb-2 mt-2" dropdown>
+                            <i routerLink="/trip/recent-trips" routerLinkActive="active" class="fas fa-arrow-left"></i>
+                            <h3 class="card-title mt-1 bold mb-0 d-inline-block  c-b500"> {{'order.trip-number'| translate}}
+                                <span class=" c-b500">
+                                    #{{firsIitem.TripNumber}}
+                                </span>
+                                <span *ngIf="firsIitem.BranchName" class="c-r500">
+                                    ( {{firsIitem.BranchName}} ) </span>
+                            </h3>
+                        </div>
+                        <div class="row mx-n1">
+                            <div class="col-md-8 col-sm-8 px-1 mb-0">
+                            </div>
+                        </div>
+                        <div class="row mt-1 mb-3 px-2 d-block">
+                            <hr>
+                        </div>
+                        <div class="card-content mt-2 mb-2">
+                            <h6 class="amp-5 bold c-b500">{{'order.title'| translate}}</h6>
+                            <div class="table-responsive scolled">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="th-header">
+                                            <th class="py-1">#</th>
+                                            <th>Number</th>
+                                            <th>Distance From First Order</th>
+                                            <th>Distance From Branch</th>
+                                            <th>Distance Status</th>
+                                            <th>Time Status</th>
+                                            <th>Priority</th>
+                                            <th>Is Added To Trip</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="items">
+                                        <tr *ngFor="let item of items | paginate : page.options;let i=index;">
+                                            <td class="hidden-xs">
+                                                {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                                            <td><a
+                                                    routerLink="/task/details/{{item.OrderCode}}">{{item.OrderNumber}}</a>
+                                            </td>
+                                            <td>{{item.DistanceFromFirstOrder}}</td>
+                                            <td>{{item.DistanceFromBranch}}</td>
+                                            <td>{{item.DistanceStatusName}}</td>
+                                            <td>{{item.DeliveryTimeStatusName}}</td>
+                                            <td>{{item.Priority}}</td>
+                                            <td>{{item.IsAddedToTrip}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="map">
+                            <agm-map [latitude]="firsIitem.BranchLatitude" [longitude]="firsIitem.BranchLongitude"
+                                (mapClick)="onMapClick($event)" [zoom]="zoom">
+                                <agm-marker [latitude]="firsIitem.BranchLatitude"
+                                    [longitude]="firsIitem.BranchLongitude" [iconUrl]="
+                                    {
+                                        url: '/assets/img/marker/branch-marker.svg',
+                                        scaledSize: {
+                                            width: 45,
+                                            height: 45
+                                        }
+                                    }">
+                                </agm-marker>
+                                <ng-container *ngIf="items">
+                                    <agm-marker *ngFor="let order of items; let i = index"
+                                        [latitude]="order.PlannedLatitude" [longitude]="order.PlannedLongitude"
+                                        (markerClick)="clickedMarker(infowindow)" [iconUrl]="
+                                        {
+                                            url: '/assets/img/marker/map-marker'+(i+1)+'.svg',
+                                            scaledSize: {
+                                                width: 35,
+                                                height: 35
+                                            }
+                                        }">
+                                        <agm-info-window #infowindow>
+                                            <div class="info">
+                                                <div class="card Order-cart my-2">
+                                                    <div class="card-content">
+                                                        <div class="card-header">
+                                                            <div class="row">
+                                                                <div class="col-12 padd-r-0 padd-l-0">
+                                                                    <img src="/assets/app-assets/img/ico/order-dash.svg"
+                                                                        alt="" class="img-fluid">
+                                                                    <h6 class="card-subtitle text-muted mt-1">
+                                                                        {{order.CustomerName}} {{i}}
+                                                                    </h6>
+                                                                </div>
+                                                                <div class="col-7 padd-r-5 padd-l-0">
+                                                                    <h5 class="text-bold-500 mb-0">
+                                                                        <a>#<span>{{order.OrderNumber}}</span></a>
+                                                                    </h5>
+                                                                    <p class="card-text Branch my-0">Delivery Time
+                                                                        Status
+                                                                        {{order.DeliveryTimeStatusName}} </p>
+                                                                    <p class="card-text Branch my-0">Distance Status
+                                                                        {{order.DistanceStatusName}} </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer b-radius">
+                                                            <div class="row">
+                                                                <div class="col-6 padd-r-5 padd-l-0">
+                                                                    <img src="/assets/img/ico/calendar.svg" class="mr-1"
+                                                                        style="width: 12px; height: 12px;">
+                                                                    <p *ngIf="order.IsAddedToTrip"
+                                                                        class="card-title mt-1 mb-0 d-inline-block Branch">
+                                                                        Added To Trip</p>
+                                                                    <p *ngIf="!order.IsAddedToTrip"
+                                                                        class="card-title mt-1 mb-0 d-inline-block Branch">
+                                                                        Not Added To Trip</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </agm-info-window>
+                                    </agm-marker>
+                                </ng-container>
+                            </agm-map>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

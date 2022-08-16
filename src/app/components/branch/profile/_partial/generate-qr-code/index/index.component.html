@@ -1,0 +1,150 @@
+<div class="px-3">
+  <div class="performance row  my-2">
+    <div class="col-12  text-start ps-0">
+      <h5 class=" bold mb-3 c-darkblue" id="qr-code">{{item.BranchName}} {{"system.store"| translate}}</h5>
+    </div>
+    <div class="col-lg-7  text-start">
+      <div class="row ">
+        <div class="col-sm-6 col-md-4   mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-orange-light ">
+              <img src="assets/img/new-svgs/box-orange.svg">
+              <!-- <i class="fas fa-tachometer-alt c-red d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.total-number"| translate}}</p>
+              <p class="mb-0 font-13px  c-112">{{kpi.TotalOrderCount}} {{"system.orders"| translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4  mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-green-light ">
+              <img src="assets/img/new-svgs/apps-green.svg">
+              <!-- <i class="fas fa-clock c-blue d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.avg-month-order"| translate}}</p>
+              <p class="mb-0 font-13 c-112 mt-1  ">{{kpi.AvgOrderCount}} {{'system.order'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4  mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-blue-light ">
+              <img src="assets/img/new-svgs/user-blue.svg">
+
+              <!-- <i class="fas fa-clock c-blue d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.num-customer"|translate}}</p>
+              <p class="mb-0 font-13 c-112 mt-1  ">{{kpi.CustomersCount}} {{'customer.customer'|translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4  mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-green-light ">
+              <img src="assets/img/new-svgs/clock-green.svg">
+
+              <!-- <i class="fas fa-money-bill-wave c-green d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.avg-duty-time"| translate}}</p>
+              <p class="mb-0 font-13 c-112 mt-1  ">{{kpi.AvgOnDutyTime}} {{"shared.min" | translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4  mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-yellow-light ">
+              <img src="assets/img/new-svgs/stopwatch-yellow.svg">
+
+              <!-- <i class="fas fa-money-bill-wave c-green d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.avg-delivery-time"| translate}}</p>
+              <p class="mb-0 font-13 c-112 mt-1  ">{{kpi.AverageDeliveryTime}} {{"shared.min" | translate}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4  mb-2">
+          <div class="d-flex align-item-center">
+            <div class="info-box bg-orange-light ">
+              <img src="assets/img/new-svgs/award-orange.svg">
+
+              <!-- <i class="fas fa-money-bill-wave c-green d-inline-block m-auto font-17px"></i> -->
+            </div>
+            <div class="ml-2 d-inline-block">
+              <p class="font-10px line-13  mb-0 c-70 bold">{{"store.profile.rank"| translate}}</p>
+              <p class="mb-0 font-13 c-112 mt-1  c-orange">{{kpi.Ranking}} {{'shared.of'|translate}} {{kpi.BranchesCount}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5 ">
+      <div class="qr-code p-2 mb-1">
+        <div class="row ">
+          <div class="col-sm-6  col-lg-12 col-xl-6 d-flex">
+            <div class="d-inline-block me-2">
+              <ngx-qrcode id="print-qr-code" [elementType]="item.ElementType" [value]="item.Code" class="qr-img" errorCorrectionLevel="L">
+              </ngx-qrcode>
+            </div>
+            <div class="d-flex flex-colomn justify-content-center">
+              <p class="c-70  font-11 mb-0 mt-1"> {{"system.qr-code"| translate}}</p>
+              <p class="c-112 amp-3 font-13px mt-n3px mb-0"> Sunday</p>
+              <p class="c-112 amp-3 font-13px mt-n3px mb-0">26/10/2020</p>
+              
+            </div>
+          </div>
+          <div class="col-sm-6 col-lg-12 col-xl-6  d-flex justify-content-end">
+            <div class="row align-items-center">
+   
+                <div class="col">
+                  <button class='rb-btn rb-btn-danger rb-btn-sm radius-20 ' (click)="printPage()">
+                    <i class="uil uil-print"></i>
+                  <span class="rb-btn-text">{{"shared.print"| translate}}</span>
+                  </button>
+                </div>
+
+                
+                  <div class="col">
+                    <button class='rb-btn rb-btn-outline rb-btn-sm  c-r500 radius-20 bc-r500' (click)="showQrCodeTemplate()">
+                      <i class="uil uil-qrcode-scan"></i>
+                    <span class="rb-btn-text"> {{"system.new-qr-code"| translate}}</span>
+                    </button>
+                    </div>
+
+  
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+  </div>
+ 
+  <hr class="mt-2">
+
+</div>
+
+
+
+<ng-template #qrCodeTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{"system.generate.new-qrcode"| translate}}</p>
+      <p class="modal-confirm-content mb-2"> {{"store.profile.confirm-new-qrcode"| translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong> </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="updateService();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

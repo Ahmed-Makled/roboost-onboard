@@ -1,0 +1,29 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<div class="tab-container card h-100 m-3" *ngIf="page.isPageLoaded">
+  <div class="tab " [class.sub]="showTabLinks()" *ngIf="showLayout()">
+    <div class="tab-header">
+      <div class="tab-title">
+        <img src="/assets/img/side-menu/{{getPage().Icon}}-active.svg" class="rect-20">
+        <p class="title"> {{getPage().Name}} <span *ngIf="!showTabLinks()"></span></p>
+      </div>
+    </div>
+    <ul class="tab-links" *ngIf="showTabLinks()">
+      <ng-container *ngFor="let item of getChildList()">
+        <li class="tab-item active d-flex align-items-center" (click)="onTabClick(item)"
+          [style.order]="item.DisplayOrder" [class.active]="getCurrentChild().ID == item.ID">
+          <i class="{{item.Icon}}" *ngIf="!item.IsImage"></i>
+          <img src="assets/icon/{{item.Icon}}" *ngIf="item.IsImage" class="rect-16 me-2 ">
+          <span>{{item.Name}}</span>
+          <div class="rb-counter rb-counter-sm"  *ngIf="getCurrentChild().ID == item.ID && tabTotalItems !=null">
+            <p class="counter-text">{{tabTotalItems}}</p>
+          </div>
+          
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div [class.wrapper-view]="showLayout()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

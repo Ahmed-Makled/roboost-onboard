@@ -1,0 +1,10 @@
+export enum ControlType{
+  INPUT_TEXT=1,
+  INPUT_NUMBER=2,
+  TEXTAREA=3,
+  CHECKBOX=4,
+  RADIO=5,
+  SWITCH=6,
+  SELECT=7,
+  INPUT_DATE=8,
+}

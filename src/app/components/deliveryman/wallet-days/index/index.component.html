@@ -1,0 +1,111 @@
+<div class="tab ">
+  <div class="tab-header ">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/accounting/wallet/agent"></i> {{'deliveryman.wallet'|translate}} / {{'system.deliveryman'|translate}} / {{'wallet.wallet-days.days'|translate}}
+        <div class="rb-counter rb-counter-sm c-white bg-b500 ms-1 " *ngIf="page.options.totalItems">
+          <p class="counter-text">{{page.options.totalItems}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view">
+  <!-- <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="page-content">
+    <div class="card">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col">
+                <fieldset class="form-group">
+                  <label class="label-sm" for="basicInput">{{'shared.from-date' | translate}}</label>
+                  <input bsDatepicker formControlName="FromDate" type="text" class="form-control ">
+                </fieldset>
+              </div>
+              <div class="col">
+                <fieldset class="form-group">
+                  <label class="label-sm" for="basicInput">{{'shared.to-date' | translate}}</label>
+                  <input bsDatepicker formControlName="ToDate" type="text" class="form-control ">
+                </fieldset>
+              </div>
+              <div class="col ms-md-auto">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                   <span class="rb-btn-text d-md-inline-block d-none" > {{'system.apply-search'|translate}}</span>    <span class="rb-btn-text d-md-none d-inline-block" > {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table ">
+            <thead>
+              <tr class="th-header">
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+                <!-- <th></th>
+                <th></th> -->
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="100%">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                <tr class="pointer" (click)="navigateToDetails(item)">
+                  <!-- <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}
+                  </td> -->
+                  <td>{{item.Date | date:'dd-MM-yyyy'}}</td>
+                  <td>{{item.ShiftHours}}</td>
+                  <td><span class="c-green">{{item.ShiftBonus}} </span> <span
+                      class="font-11">{{'system.currency'|translate}}</span></td>
+                  <td><span class="c-green">{{item.TripBonus}} </span> <span
+                      class="font-11">{{'system.currency'|translate}}</span></td>
+                  <td><span class="c-red">{{item.Detuction}} </span> <span
+                      class="font-11">{{'system.currency'|translate}}</span></td>
+                  <td>{{item.TotalAmount}} <span class="font-11px">{{'system.currency'|translate}}</span></td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="page">
+    <div class=" div-loading" *ngIf="!page.isPageLoaded">
+        <div class="page-content  d-flex align-items-center justify-content-center">
+            <div class="card w-100">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+                    <p class="loading">{{'shared.loading' | translate}} ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content" *ngIf="page.isPageLoaded">
+        <div class="card">
+            <!-- <div class="card-header">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col ">
+                        <div class="d-flex align-items-center">
+                            <img src="/assets/icon/motorbike-blue.svg" class="rect-20 me-2">
+                            <p class="card-title me-3">Role Feature</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-0"> -->
+
+            <div class="card-content p-0">
+                <form class="form" [formGroup]="page.searchForm">
+                    <div class="form-body">
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2">
+                            <div class=" col">
+                                <fieldset class="form-group">
+                                    <label for="basicInput">{{'system.role'|translate}}</label>
+                                    <ng-select class="form-control" [items]="roleList" bindLabel="Name" bindValue="ID"
+                                        appendTo="body" formControlName="RoleID" placeholder="search.select-role"
+                                        [clearable]="false" (change)="getFeatureByRoleID($event.ID)">
+                                    </ng-select>
+                                </fieldset>
+                            </div>
+                            <div class=" col">
+                                <fieldset class="form-group">
+                                    <label for="basicInput">{{'system-config.module'|translate}}</label>
+                                    <ng-select class="form-control" [items]="moduleList" bindLabel="Name" bindValue="ID"
+                                        appendTo="body" formControlName="ModuleID" placeholder="Select Module"
+                                        (change)="onChangeModule()" [clearable]="false">
+                                    </ng-select>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="scolled my-3">
+                    <table class="table ">
+                        <thead>
+                            <tr class="th-header">
+                                <th>#</th>
+                                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                                    <th [class.pointer]="colum.Sortable">
+                                        {{colum.Title | translate}}
+                                    </th>
+                                </ng-container>
+                                <th>
+                                    <div class="form-check">
+                                        <input class="form-check-input reset-float" [checked]="isAllSelected()"
+                                            (change)="onSelectAllClicked()" type="checkbox">
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of getFeatureList(); let i=index;">
+                                <tr>
+                                    <td class="hidden-xs"> {{i+1}}</td>
+                                    <td>{{item.ID}}</td>
+                                    <td>{{item.Name|translate}}</td>
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="form-check-input reset-float " [(ngModel)]="item.Selected"
+                                                type="checkbox">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

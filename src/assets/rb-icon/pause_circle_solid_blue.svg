@@ -1,0 +1,11 @@
+<svg id="pause_circle_solid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_145929" data-name="Rectangle 145929" width="16" height="16" fill="#009dff" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_145928" data-name="Rectangle 145928" width="16" height="16" fill="#009dff" opacity="0"/>
+  <g id="Group_73351" data-name="Group 73351" clip-path="url(#clip-path)">
+    <path id="Path_19558" data-name="Path 19558" d="M8.667,2a6.667,6.667,0,1,0,6.667,6.667A6.667,6.667,0,0,0,8.667,2ZM8,11.333a.667.667,0,0,1-1.333,0V6A.667.667,0,1,1,8,6Zm2.667,0a.667.667,0,0,1-1.333,0V6a.667.667,0,1,1,1.333,0Z" transform="translate(-0.667 -0.667)" fill="#009dff"/>
+  </g>
+</svg>

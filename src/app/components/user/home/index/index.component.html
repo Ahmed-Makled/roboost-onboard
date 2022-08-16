@@ -1,0 +1,166 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col">
+                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="branchID"
+                  label="system.stores" [items]="branchList" placeholder="search.select-store">
+                </ng-control>
+              </div>
+              <div class="col">
+                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="roleID" label="system.role"
+                  [items]="roleList" placeholder="search.select-role">
+                </ng-control>
+              </div>
+              <div class="col">
+                <fieldset class="form-group">
+                  <label class="label-sm" for="basicInput"> {{'shared.name'|translate}}</label>
+                  <input class="form-control " type="text" [(ngModel)]="searchViewModel.Name"
+                    (ngModelChange)="fillterList('name')" [ngModelOptions]="{standalone: true}"
+                    placeholder="{{'search.enter-name'|translate}}">
+                </fieldset>
+              </div>
+              <div class="col">
+                <fieldset class="form-group">
+                  <label class="label-sm" for="basicInput"> {{'shared.mobile'|translate}}</label>
+                  <input class="form-control " type="text" [(ngModel)]="searchViewModel.Mobile"
+                    placeholder="{{'search.enter-mobile'|translate}}" (ngModelChange)="fillterList('mobile')"
+                    [ngModelOptions]="{standalone: true}">
+                </fieldset>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                    <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span> <span
+                      class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table">
+            <thead>
+              <tr class="th-header">
+                <th class="py-1">#</th>
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)" *ngIf="!colum.IsHidden">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+                <!-- <th></th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="100%">
+                  <img src="/assets/img/loading/gif-loading-png-2.gif" class="d-block"
+                    style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <tr *ngFor="let item of getItems() ;let i=index;">
+                <td class="hidden-xs" align="center">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}
+                </td>
+                <td>{{item.ID}}</td>
+                <td>
+                  <a routerLink="/user/profile/{{item.ID}}" class="pointer">{{item.Name}}</a>
+                </td>
+                <td>{{item.Mobile}}</td>
+                <td>{{item.Email}}</td>
+                <td>
+                  <ng-container *ngIf="item.Roles.length > 0">
+                    <ng-container *ngFor="let role of item.Roles let i = index">{{role.RoleName}}
+                      <span *ngIf="item.Roles.length > i+1"> , </span>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="item.RoleName">
+                    <span> {{item.RoleName}} </span>
+                  </ng-container>
+                </td>
+                <td *ngIf="hasFeature(featureEnum.User_SwitchAllowMultipleDevices)">
+                  <div class="form-switch " (click)="switchAllowMultipleDevices(item)">
+                    <input class="form-check-input  " type="checkbox" [(checked)]="item.AllowMultipleDevices">
+                  </div>
+                </td>
+                <td *ngIf="hasFeature(featureEnum.User_ChangeActivationStatus)">
+                  <div class="form-switch " (click)="showConfirmDeactivateUserTemplate(item)">
+                    <input class="form-check-input  " type="checkbox" [(checked)]="item.IsActive">
+                  </div>
+                </td>
+                <td *ngIf="hasFeature(featureEnum.User_ForceLogout)">
+                  <i class="uil uil-signout font-18" (click)="showForceLogOutTemplate(item)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #confirmDeactivateUserTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f" *ngIf="selectedItem.IsActive">{{'user.deactivate-user'|translate}}</p>
+      <p class="modal-title font-16 bold c-00f" *ngIf="!selectedItem.IsActive">{{'user.activate-user'|translate}}</p>
+      <p class="modal-confirm-content mb-2" *ngIf="!selectedItem.IsActive">
+        {{ 'user.activate-user-confirmation-message'|translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <p class="modal-confirm-content mb-2" *ngIf="selectedItem.IsActive">
+        {{'user.deactive-user-confirmation-message'|translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" *ngIf="selectedItem && selectedItem.IsActive" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="deactivate();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+        <button type="button" *ngIf="selectedItem && !selectedItem.IsActive" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="activate() ;modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #logOutTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.force-log-out'|translate}}</p>
+      <p class="modal-confirm-content mb-2">{{'user.force-log-out-confirmation.message'|translate}} </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="forceLogout()">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

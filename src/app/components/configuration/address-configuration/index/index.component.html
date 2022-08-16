@@ -1,0 +1,104 @@
+<div class="page">
+    <div class=" div-loading" *ngIf="!page.isPageLoaded">
+        <div class="page-content  d-flex align-items-center justify-content-center">
+            <div class="card w-100">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+                    <p class="loading">{{'shared.loading' | translate}} ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content" *ngIf="page.isPageLoaded">
+        <div class="card">
+
+            <div class="card-content p-0">
+                <div class="scolled my-3">
+                    <table class="table vendor-table">
+                        <thead>
+                            <tr class="th-header">
+                                <th>#</th>
+                                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                                    <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)">
+                                        {{colum.Title | translate}}
+                                        <div *ngIf="colum.Sortable" class="d-inline-block"
+                                            [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                                            <i class="uil uil-sort sort-icon"
+                                                [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                                        </div>
+                                    </th>
+                                </ng-container>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr [hidden]="!page.isSearching && page.isPageLoaded">
+                                <td colspan="11">
+                                    <img src="/assets/img/gif-loading.gif" class="d-block"
+                                        style="width:300px;margin: 0 auto;">
+                                </td>
+                            </tr>
+                            <tr [hidden]="page.isSearching || items.length>0">
+                                <td colspan="6">
+                                    <span>{{'shared.no-data-found'|translate}}</span>
+                                </td>
+                            </tr>
+                            <tr *ngFor="let item of items | paginate : page.options;let i=index;">
+                                <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}
+                                </td>
+
+                                <td>{{item.BranchName}}</td>
+
+                                <td>
+
+                                    <!-- <input class="" type="number" min="0" [(ngModel)]="item.Longitude"> -->
+
+                                    <fieldset class="form-group">
+                                        <input type="number" min="0" class="form-control  "
+                                            [(ngModel)]="item.Longitude" placeholder="">
+                                    </fieldset>
+                                </td>
+
+                                <td>
+                                    <!-- <input class="" type="number" min="0" [(ngModel)]="item.Latitude"> -->
+                                    <fieldset class="form-group">
+                                        <input type="number" min="0" class="form-control  "
+                                            [(ngModel)]="item.Latitude" placeholder="">
+                                    </fieldset>
+
+                                </td>
+
+                                <td>
+                                    <fieldset class="form-group">
+                                        <input type="text" class="form-control  "
+                                            [(ngModel)]="item.AddressPrefix" placeholder="">
+                                    </fieldset>
+                                    <!-- <input class="" type="text" [(ngModel)]="item.AddressPrefix"> -->
+                                </td>
+
+                                <td>
+                                    <!-- <input class="" type="text" [(ngModel)]="item.Address"> -->
+
+                                    <fieldset class="form-group">
+                                        <input type="text" class="form-control  "
+                                            [(ngModel)]="item.Address" placeholder="">
+                                    </fieldset>
+                                </td>
+
+
+                                <!-- <td><span class="badge  bg-color-w b-radius "><div class="T-active-point Ready-c"></div> Active</span></td> -->
+                                <td><a [class.disabled]="page.isSaving == true" (click)="save(item)"><i
+                                            class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                                            aria-hidden="true"></i></a></td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+                </ng-pagination>
+            </div>
+        </div>
+    </div>
+</div>

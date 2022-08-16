@@ -1,0 +1,427 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'dispatch.dispatching-loading-describ'|translate}}" [inline]="false"
+  desc="{{'dispatch.dispatching-loading-describ'|translate}}"></loading>
+<div class="map tracking-page" *ngIf="page.isPageLoaded">
+  <agm-map [latitude]="selectagent.Latitude?selectagent.Latitude:30.0502338"
+    [longitude]="selectagent.Longitude?selectagent.Longitude:31.2379254" (mapClick)="onMapClick($event)"
+    (zoomChange)="onZoomChange($event)" [styles]="customSMaptyle" [zoom]="zoom">
+    <ng-container *ngFor="let branch of  getSelectedStroreList()">
+      <agm-overlay [latitude]="branch.Latitude" [longitude]="branch.Longitude"
+        (markerClick)="onStoreClick(branch,infowindow)">
+        <div class="map-marker-store pointer">
+          <div class="marker-store">
+            <span
+              class="rb-counter rb-counter-sm bg-white c-b500 bc-b500 b-1 ">{{getOrderByStoreCount(branch.ID)}}</span>
+            <img src="/assets/image/store.svg" alt="" srcset="">
+          </div>
+        </div>
+        <agm-info-window #infowindow>
+          <div class="position-relative">
+            <div class="close-window pointer" (click)="closeInfoWindow(true)">
+              <i class="uil uil-times c-black font-16 li-h1"></i>
+            </div>
+            <div class="dm-info">
+              <div class="rb-p-12">
+                <p class="cg-900 font-14 bold text-center">{{branch.Name}}</p>
+              </div>
+            </div>
+          </div>
+        </agm-info-window>
+      </agm-overlay>
+    </ng-container>
+    <agm-marker-cluster [styles]="clusterOrderStyles">
+      <ng-container *ngFor="let order of getFilterOrderListOnMap() ; let i = index">
+        <agm-overlay [latitude]="getOrderLatitude(order)" [longitude]="getOrderLongtude(order)"
+          (markerClick)="clickedMarker(infowindow)" *ngIf="showOrderMarker(order)">
+          <div class="d-flex flex-column align-items-center justify-content-center">
+            <p class="font-10 c-white bg-g600 radius-4 px-1 mb-1" *ngIf="isShowAgentTrip()">{{order.OrderNumber}}</p>
+            <img [src]="getOrderMarker(order)" class="rect-35">
+          </div>
+          <agm-info-window #infowindow>
+            <div class="position-relative">
+              <div class="close-window pointer" (click)="closeInfoWindow()">
+                <i class="uil uil-times c-black font-16 li-h1"></i>
+              </div>
+              <div class="order-info">
+                <div class="rb-p-12 d-flex align-items-center">
+                  <p class="cg-900 font-14 text-truncate me-2">{{order.OrderNumber}}</p>
+                  <p class="c-g500 font-14 bold ms-auto">{{order.SpentTime | timer}}</p>
+                </div>
+                <hr class="m-0">
+                <div class="rb-p-12">
+                  <div class=" d-flex align-items-start rb-mb-12">
+                    <i class="uil uil-user-square font-16 c-g700 li-h1 me-2 mt-1 d-block"></i>
+                    <div>
+                      <p class="font-12 c-g900 text-truncate">{{order.Name}}</p>
+                      <p class="font-12 c-g900 me-2 order-address" title="{{order.Address}}">{{order.Address}}</p>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <i class="uil uil-store font-16 li-h1 c-g500 me-2"></i>
+                    <p class="c-g900 font-12">{{order.BranchName}}</p>
+                  </div>
+                </div>
+                <hr class="m-0">
+                <div class="rb-p-12 pointer" *ngIf="this.isOrderhasTrip(order)">
+                  <div class="assign-orders d-flex align-items-center p-1"
+                    (click)="selectedAgentId = getOrderTrip(order).DeliverymanID ">
+                    <img class="rect-32 circle me-2" [src]='getOrderTrip(order)?.DeliverymanImage'
+                      onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+                    <p class="c-g800 font-12">{{getOrderTrip(order)?.DeliverymanName |maxLengthDot:20}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-overlay>
+      </ng-container>
+    </agm-marker-cluster>
+    <agm-marker-cluster [styles]="clusterAgentStyles" [minimumClusterSize]="3">
+      <ng-container *ngFor="let dm of getAgentsbyStatusForMap(); let i = index">
+        <agm-overlay [latitude]="dm.Latitude" [longitude]="dm.Longitude" (markerClick)="onAgentClick(dm,infowindow)">
+          <div class="pulse pointer" *ngIf="dm.Image == null"
+            [ngClass]="{'pulse-available': isAgentAvailable(dm),'pulse-onDuty':isAgentOnDuty(dm),'bg-pu300':dm.IsStoreSelect}">
+            <div class="rb-avatar rb-avatar-md h-100 d-flex justify-content-center ">
+              <div class="avatar-img h-100 w-100 d-flex align-items-center justify-content-center">
+                <p class="font-12 c-g900 bold text-center">{{getFirstLetterOfAgentName(dm.Name)}}</p>
+                <div class="rb-active-point" [style.background-color]="dm.StatusColor"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pulse pointer"
+            [ngClass]="{'pulse-available': isAgentAvailable(dm),'pulse-onDuty':isAgentOnDuty(dm)}"
+            *ngIf="dm.Image !=null">
+            <div class="rb-avatar rb-avatar-md">
+              <div class="avatar-img">
+                <img [src]="dm.Image">
+                <div class="rb-active-point" [style.background-color]="dm.StatusColor"></div>
+              </div>
+            </div>
+          </div>
+          <agm-info-window #infowindow>
+            <div class="position-relative">
+              <div class="close-window pointer" (click)="closeInfoWindow()">
+                <i class="uil uil-times c-black font-16 li-h1"></i>
+              </div>
+              <div class="dm-info">
+                <div class="rb-p-12">
+                  <p class="cg-900 font-14 bold text-center">{{dm.Name}}</p>
+                  <!-- <p class="c-g500 font-10">Last Location: 8mins ago</p> -->
+                </div>
+                <hr class="m-0">
+                <div class="rb-p-12 d-flex align-items-center">
+                  <i class="uil uil-store font-16 li-h1 c-g500 me-2"></i>
+                  <p class="c-g900 font-12">{{getStoreById(dm.BranchID)?.Name}}</p>
+                </div>
+                <hr class="m-0">
+                <div class="rb-p-12" *ngIf="isAgentHasTrip(dm.ID)">
+                  <div class="d-flex align-items-center">
+                    <img class="rect-16 me-2 d-block" src='/assets/rb-icon/motorbike.png'>
+                    <div>
+                      <p class="d-flex align-items-center c-g900 rb-p-xs bold">{{'system.trip'|translate}}
+                        #{{agentTrip(dm.ID).Number}}</p>
+                      <p class="font-12 bold c-g500">{{getTaskAgent(dm.ID).length}}
+                        {{'system.tasks'|translate}}<span class="c-g500 mx-1">·</span> <span
+                          class="c-b500">({{agentTrip(dm.ID).SpentTime|timer:'mm:ss'}})</span>
+                      </p>
+                    </div>
+                  </div>
+                  <button class='rb-btn rb-btn-primary rb-btn-sm d-flex justify-content-center w-100 mt-2' (click)="showTaskUnassign(dm.ID)">
+                    Show Trip
+                  </button>
+                </div>
+                <div class="p-2 pointer" (click)="showTaskUnassign(dm.ID)"
+                  *ngIf="!isAgentHasTrip(dm.ID) && hasFeature(featureEnum.Trip_CreateSpecialTrip)">
+                  <div class="assign-orders d-flex align-items-center p-1">
+                    <img class="rect-28 me-2" src='./assets/rb-icon/assign.svg'>
+                    <p class="c-g800 font-12">{{'deliveryman.live-tracking.assign-tasks'|translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </agm-info-window>
+        </agm-overlay>
+      </ng-container>
+    </agm-marker-cluster>
+  </agm-map>
+  <!-- /////////////// Kpi //////////// -->
+  <!-- <div class="track-kpi">
+    <div class="scroll-x hide-scroll ">
+      <app-kpai [isKpisSearching]="isKpisSearching"></app-kpai>
+    </div>
+  </div> -->
+  <div class="map-label-info" *ngIf="!isShowAgentTrip()">
+    <ng-container *ngFor="let item of clusterInfos ; let last = last">
+      <div class="d-flex align-items-center" [class.mb-2]="!last">
+        <div [style.background]="item.code" class="rect-8 radius-2"></div>
+        <p class="rb-p-sm c-g900 ms-2">{{item.title|translate}} </p>
+      </div>
+    </ng-container>
+  </div>
+  <!-- ////////////////// delivermen-list   ////////////  -->
+  <div class="delivermen-list">
+    <div class="top-header">
+      <div class="rb-dropdown-status store w-100 mb-2" *ngIf="!isSingleStore()">
+        <a class="rb-dropdown-header " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <img src="/assets/rb-icon/filter_alt.svg" class="rect-16">
+          <div class="text-truncate">
+            <span class="text"> {{getStoreById(agentStoreSearch)? getStoreById(agentStoreSearch).Name :
+              "search.select-store"|translate}}</span>
+          </div>
+          <i class="uil uil-angle-down font-16 li-h1 ms-auto"></i>
+        </a>
+        <ul class="dropdown-menu m-0 " aria-labelledby="dropdownMenuLink">
+          <li (click)="agentStoreSearch = null">
+            <a class="dropdown-item font-12">{{'user.profile.all-store'|translate}}</a>
+          </li>
+          <li *ngFor="let item of storeList" (click)="agentStoreSearch = item.ID">
+            <a class="dropdown-item font-12 py-1">{{item.Name}}</a>
+          </li>
+        </ul>
+      </div>
+      <fieldset class="form-group">
+        <input type="text" class="form-control  search" [(ngModel)]="agentSearchValue"
+          placeholder="{{'search.find-agent'|translate}}">
+      </fieldset>
+    </div>
+    <ng-container *ngFor="let branch of getSelectedStroreList() ; let i =index ; let last = last">
+      <div *ngIf="getAgentList(branch.ID).length>0">
+        <div class="rb-py-12">
+          <div class="d-flex align-items-center rb-px-12 mb-2 "
+            *ngIf="getAgentList(branch.ID).length>0 && !isSingleStore()">
+            <input class="form-check-input reset-float rect-14" type="checkbox" [(ngModel)]="branch.Selected"
+              (ngModelChange)="onStoreAgentClick(branch)">
+            <p class="font-10 ms-2">{{branch.Name}}</p>
+            <div class="counter-g700 rb-counter rb-counter-sm ms-2">
+              <p class="counter">{{getAgentList(branch.ID).length}} </p>
+            </div>
+          </div>
+          <div class="delivery-box text-truncate" *ngFor="let item of  getAgentList(branch.ID)" (click)="agentSelect(item,$event)">
+            <input class="form-check-input reset-float rect-14" [(ngModel)]="item.Selected" type="checkbox"
+              (ngModelChange)="onAgentChange(branch)" (click)="agentSelect(item,$event,false)">
+            <div class="d-flex align-items-center ms-2" >
+              <div class="rb-avatar rb-avatar-md">
+                <div class="avatar-img">
+                  <img [src]="item.Image"
+                    onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+                  <div class="rb-active-point" [style.background-color]="item.StatusColor"></div>
+                </div>
+              </div>
+              <div class="rb-ms-12">
+                <p class="c-g900 font-12 bold text-truncate ">{{item.Name | maxLengthDot:24}}</p>
+                <p class="font-12 bold mt-1" *ngIf="isAgentHasTrip(item.ID)">{{getTaskAgent(item.ID).length}}
+                  {{'system.tasks'|translate}} <span
+                    class="c-b500">({{agentTrip(item.ID).SpentTime|timer:'mm:ss'}})</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="m-0" *ngIf="!last">
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- //////// trip Agent //////////////  -->
+
+  <div class="track-trip" *ngIf="isShowAgentTrip()">
+    <div class="agent-trip-card">
+      <div class="trip-card px-1">
+        <div class="px-1 pb-2">
+          <div class="d-flex align-items-center bg-g50 radius-6 p-1">
+            <a><img [src]="currentAgentTrip.DeliverymanImage" class="rect-36 radius-4"
+                onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'"></a>
+            <div class="rb-ms-6 me-auto text-truncate">
+              <p class="rb-p-xs c-b900 text-truncate" [title]="currentAgentTrip.DeliverymanName">
+                <a>{{currentAgentTrip.DeliverymanName}}</a>
+              </p>
+              <p class="rb-p-xs c-b500 text-truncate"><a>{{currentAgentTrip.BranchName}}</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="trip-info-containter">
+          <div class="px-1 mt-2">
+            <div class="d-flex align-items-center w-100">
+              <div class="d-flex align-items-center me-1">
+                <p class="rb-p-sm c-g900 bold">#{{currentAgentTrip.Number}}</p>
+                <p class="font-10 c-g900 text-nowrap rb-ms-6">
+                  [{{getTripDeliveredOrderList(currentAgentTrip.ID).length}}/{{getTripOrderList(currentAgentTrip.ID).length}}]
+                </p>
+                <img src="/assets/rb-icon/robot_slash_blue.svg" class="rect-16 ms-1"
+                  *ngIf="currentAgentTrip.IsSpecialTrip" title="{{'system.special-trip'|translate}}">
+              </div>
+
+              <div class="d-flex align-items-center ms-auto" *ngIf="currentAgentTrip.ArrivalTime">
+                <i class="uil uil-store-alt font-12 lh-normal"
+                  [class]="currentAgentTrip.PickupTime?'c-gr600':'c-g900'"></i>
+                <div class="rb-badge badge-xxs ms-1"
+                  [class]="currentAgentTrip.PickupTime?'bg-gr600  c-white':'c-g900 bg-y500'">
+                  <p class="badge-text">{{currentAgentTrip.ArrivalTimeSecond | timer:'mm:ss'}}</p>
+                </div>
+                <p class="rb-p-sm c-g900 bold rb-ms-6">{{currentAgentTrip.SpentTime | timer:'mm:ss'}}</p>
+              </div>
+              <!-- <div class="ms-auto">
+                <p class="rb-p-md c-g900">{{item.SpentTime | timer:'mm:ss'}}</p>
+                <div class="rb-badge ms-1" *ngIf="item.ArrivalTime"
+                  [ngClass]="{'bg-gr600 c-white': item.PickupTime,'bg-y500 c-g900': !item.PickupTime}">
+                  <i class="uil uil-store font-16"></i>
+                  <span class="ms-1">{{item.ArrivalTimeSecond | timer}}</span>
+                </div>
+              </div> -->
+            </div>
+            <div class="order-list mt-2 ">
+              <div class="rb-mb-6" *ngFor="let order of  getTripOrderList(currentAgentTrip.ID)">
+                <order-card [item]="order" [withSelect]="false" [allowFastAction]="false"></order-card>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <hr class="mx-n2 my-0">
+        <div class="d-flex align-items-center p-2">
+          <button class="close" (click)="selectedAgentId=null">
+            <i class="uil uil-times font-16 li-h1 me-2"></i>
+            {{'system.close'|translate}}
+          </button>
+          <button class='rb-btn rb-btn-secondary rb-btn-sm ms-auto' (click)="showAddTaskTamplet()"
+            *ngIf="hasFeature(featureEnum.Task_AddToTrip)">
+            <i class="uil uil-plus"></i>
+            <span class="rb-btn-text">{{'deliveryman.live-tracking.add-task'|translate}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /////////////// Order List ///////////// -->
+  <div class="task-filter">
+    <div class="assign-task ">
+      <ng-container>
+        <div class="form-check form-switch">
+          <input type="checkbox" id="flexSwitchCheckDefault" class="form-check-input me-2"
+            [(ngModel)]="taskFilter.AssignTask">
+        </div>
+        <div class="font-14 text-nowrap">{{'deliveryman.live-tracking.assigned-tasks'|translate}}</div>
+      </ng-container>
+      <ng-container>
+        <div class="form-check form-switch ms-4">
+          <input type="checkbox" id="flexSwitchCheckDefault" class="form-check-input me-2"
+            [(ngModel)]="taskFilter.UnAssignTasks">
+        </div>
+        <div class=" font-14 text-nowrap"> {{'deliveryman.live-tracking.unassigned-tasks'|translate}}</div>
+      </ng-container>
+    </div>
+    <div class="all-agent ">
+      <div class="rb-dropdown-status">
+        <a role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"
+          class="rb-dropdown-header d-flex">
+          <div *ngIf="!agentStatusfilter" class="d-inline">
+            <img src='/assets/rb-icon/circles_colored.png' class="rect-24">
+            <span class="text">{{'deliveryman.live-tracking.all-agents'|translate}}</span>
+          </div>
+          <div *ngIf="agentStatusfilter" class="d-flex align-items-center">
+            <div class="rect-12 circle me-2" [style.background-color]="getStatusById().bg"></div>
+            <div class="font-14"> {{getStatusById().Name|translate}}</div>
+          </div>
+          <i class="uil uil-angle-down ms-auto"></i>
+        </a>
+        <ul aria-labelledby="dropdownMenuLink" class="dropdown-menu">
+          <li *ngFor="let item of agentFilter.FiltterByList" (click)="agentStatusfilter = item.ID">
+            <a class="dropdown-item d-flex justify-content-start align-items-center pointer p-2">
+              <div class="rb-active-point me-2" [style.background-color]="item.bg"></div>
+              <div class="font-14"> {{item.Name|translate}}</div>
+              <div class="counter-g700 rb-counter rb-counter-md ms-auto">
+                <p class="counter">{{getAgentStatusCount(item.ID)}} </p>
+              </div>
+            </a>
+          </li>
+          <li class="d-flex align-items-center " (click)="agentStatusfilter=null">
+            <a class="dropdown-item d-flex justify-content-start align-items-center pointer p-2">
+              <img src="./assets/image/activecircle.svg" class="me-2">
+              <span class="text font-14"> {{'deliveryman.live-tracking.all-agents'|translate}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="order-list-decolapse pointer" *ngIf="!showOrderList" (click)="showTaskWithoutLocation()">
+    <p class="c-g900 font-14 d-flex align-items-center">All Tasks<span
+        class="counter-g700 mx-2 rb-counter rb-counter-sm">{{getOrder(1).length}}</span>
+      <i class="uil uil-angle-right-b font-16 li-h1 rb-ms-12"></i>
+    </p>
+  </div>
+  <div class="order-list-incolapse d-flex flex-column pb-0" *ngIf="showOrderList">
+    <div class="scroll-container">
+      <div class="row g-1 mx-0">
+        <ng-container *ngFor="let tab of TasksTabList">
+          <div class="col-6">
+            <div class="tab-tracking" [class.active]="currentTasksTab == tab.ID"
+              (click)="!showUnassignTask?currentTasksTab = tab.ID:''">
+              <p class="font-14 d-flex align-items-center">{{tab.Name}} <span
+                  class="bg-g500 c-white mx-2 rb-counter rb-counter-sm">{{getOrder(tab.ID).length}}</span></p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <hr class="rb-mt-6 rb-mb-12 mx-n2">
+      <div class="remain-h scroll-y smooth-scroll">
+        <div class="row g-1 mx-0">
+          <ng-container *ngFor="let order of getOrder(currentTasksTab)">
+            <div class="col-6">
+              <order-card [item]="order" [withSelect]="showUnassignTask" [allowFastAction]="false"></order-card>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center rb-py-6 rb-px-12"
+        *ngIf="showUnassignTask && hasFeature(featureEnum.Trip_CreateSpecialTrip)">
+        <button class='rb-btn rb-btn-primary rb-btn-md' [disabled]="getOrderSelected().length == 0"
+          (click)="createSpecialTrip()">
+          <i class="uil uil-plus"></i>
+          <span class="rb-btn-text">Assign to {{getAgentById(agentCreateTrip).Name|maxLengthDot:16}}</span>
+        </button>
+      </div>
+      <div class="rb-py-6 rb-px-12" *ngIf="!showUnassignTask">
+        <button
+          class='rb-btn rb-btn-invisible rb-btn-md d-flex align-items-center justify-content-center text-center w-100'
+          (click)="showOrderList=false">{{'system.close'|translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <ng-template #addTaskToTripTemplate>
+    <div class="modal-body p-0">
+      <div class="modal-content">
+        <div class="modal-header bg-g25">
+          <h5 class="modal-title">{{'deliveryman.live-tracking.add-task'|translate}}</h5>
+          <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+        </div>
+        <div class="modal-body p-0">
+          <div class="row mx-0">
+            <div class="col-12 px-3 pt-3">
+              <div class="scroll-container">
+                <div class="remain-h scroll-y mt-3 pb-2">
+                  <div class="row row-cols-3 gx-2">
+                    <div class="col mb-2" *ngFor="let item of getOrderListToAddTrip(); let i=index">
+                      <order-card [item]="item" [withSelect]="true" [allowFastAction]="false"></order-card>
+                    </div>
+                  </div>
+                  <p class="rb-p-sm c-00f bold" *ngIf="getOrderListToAddTrip().length==0">
+                    {{'system.no-tasks-found'|translate}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <p class="rb-p-sm c-b500 me-auto">{{'dispatch.special-trip.selected'|translate}}
+            {{getOrderListToAddTrip(true).length}} {{'system.tasks'|translate}}</p>
+          <button type="button" class="rb-btn rb-btn-sm rb-btn-invisible me-2"
+            (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+          <button type="button" class="rb-btn rb-btn-sm rb-btn-primary"
+            [disabled]="getOrderListToAddTrip(true).length==0"
+            (click)='modalRef.hide();addToTrip()'>{{'deliveryman.live-tracking.add-tasks'|translate}}</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,125 @@
+<div class=" card mt-3 p-3" id="orders">
+  <p class="amp-5 bold c-0b font-17 mb-2">{{'system.tasks'|translate}} <span class="font-11">{{orders .length}}</span>
+    <span class="text-muted font-10"> {{'system.task'|translate}} </span> <span class="text-muted font-11">|</span>
+    <span class="font-11"> {{amount}}</span> <span class="text-muted font-10"> {{'system.currency'|translate}} </span>
+  </p>
+  <div class="row mx-n1">
+    <div class="col-md-8">
+      <div class="cards-scroll">
+        <ng-container *ngFor="let order of orders;let i=index">
+          <div class="card card-shadow mb-1 b-none pointer" (click)="onAddressClick(i)"
+            [class.show-on-map]="order.IsShownOnMap">
+            <div class="b-left p-3">
+              <div class="row align-items-center">
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <p class="font-16 bold me-2"><a>#{{order.OrderNumber}}
+                      </a></p>
+                    <div class="my-auto vert-middle">
+                      <span class="performance c-white font-10"
+                        [style.background-color]="order.RateColore">{{order.RateName}}</span>
+                    </div>
+                  </div>
+                  <p class="font-11 c-gray70 mt-1"><i class="uil uil-clock c-gray70 font-11 me-1"></i>{{order.Date |
+                    date:'medium'}}</p>
+
+                </div>
+                <div class="col-6">
+                  <div class="icon-details">
+                    <i class="uil uil-user-location"></i>
+                    <div class="icon-detail">
+                      <p class="font-12 c-66 m-0">{{'shared.address'|translate}}</p>
+                      <p class="font-14 c-00f m-0">{{order.Address | maxLengthDot:45}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-6 col-md-3 mt-2">
+                  <div class="icon-details">
+                    <div class="info-box bg-green-light circle me-2">
+                      <img src="/assets/icon/motorbike-green.svg" class="rect-20 m-auto">
+                    </div>
+                    <div class="icon-detail">
+                      <p class="font-12 c-66 m-0">{{'system.status'|translate}}</p>
+                      <p class="c-66 font-14 bold" [class.c-green]="order.Status==3"
+                        [class.c-red]="order.Status==4||order.Status==6" *ngIf="order.Status!=2"
+                        [title]="order.StatusName">{{order.StatusName|maxLengthDot:12}}</p>
+                      <p class="c-00f font-14 bold" *ngIf="order.Status==2">{{'dispatch.on-trip'|translate}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3 mt-2">
+                  <div class="icon-details">
+                    <i class="uil uil-invoice"></i>
+                    <div class="icon-detail">
+                      <p class="font-12 c-66 m-0">{{'customer.total-price'|translate}}</p>
+                      <p class="font-14 c-00f bold">{{order.Amount | number : '1.2-2'}} {{'system.currency'|translate}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3 mt-2">
+                  <div class="icon-details">
+                    <i class="uil uil-clock"></i>
+                    <div class="icon-detail">
+                      <p class="font-12 c-66 m-0">{{'dispatch.deliver-time'|translate}}</p>
+                      <p class="font-14 c-00f bold">{{order.Duration}} {{'shared.min'|translate}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3 mt-2">
+                  <div class="d-flex align-items-center " *ngIf="order.DeliverymanName">
+                    <img class="img-35circle me-2" [src]="order.DeliverymanImage">
+                    <div class="info-content">
+                      <p class="font-12 c-gray70 bold" [title]="order.DeliverymanName">
+                        {{order.DeliverymanName | maxLengthDot:14}}</p>
+                      <p class="mb-0 font-12 c-blue">{{order.BranchName}}</p>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center " *ngIf="!order.DeliverymanName">
+                    <div class="icon-details">
+                      <i class="uil uil-store c-blue font-20 me-2"></i>
+                    </div>
+                    <div class="info-content ml-1 d-inline-block">
+                      <p class="font-12 amp-5 mb-0 c-gray70">{{'system.store-name'|translate}}</p>
+                      <p class="font-14 bold c-blue">{{order.BranchName}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+
+    <!-- <div class="col-sm-4 px-1">
+      <div class="map height-xs-300" >
+        <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+          <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="
+              {
+                  url: '/assets/img/marker/customer.svg',
+                  scaledSize: {
+                      width: 45,
+                      height: 45
+                  }
+              }">
+          </agm-marker>
+          <agm-marker [latitude]="branchLatitude" [longitude]="branchLongitude" [iconUrl]="
+              {
+                  url: '/assets/img/marker/branch-marker.svg',
+                  scaledSize: {
+                      width: 45,
+                      height: 45
+                  }
+              }">
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div> -->
+  </div>
+
+</div>

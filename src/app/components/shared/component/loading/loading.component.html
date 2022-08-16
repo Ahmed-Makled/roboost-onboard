@@ -1,0 +1,17 @@
+<div class="h-100 p-3" *ngIf="!inline">
+    <div class="loading-block card" >
+        <div class="loading-container">
+            <img src="/assets/image/spinner_loading.gif" class="rect-64">
+            <p class="rb-h5 c-g900 bold mt-3">{{title}}</p>
+            <p class="rb-p-s c-g500 mt-2" *ngIf="desc">{{desc}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="loading-inline" *ngIf="inline">
+    <div class="loading-container">
+        <img src="/assets/image/spinner_loading.gif" class="rect-36">
+        <p class="rb-p-lg c-g900 bold ms-3">{{title}}</p>
+    </div>
+</div>
+

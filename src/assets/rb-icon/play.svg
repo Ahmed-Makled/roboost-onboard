@@ -1,0 +1,14 @@
+<svg id="Play_BTN" data-name="Play BTN" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_157935" data-name="Rectangle 157935" width="16" height="16" fill="#009dff" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_157945" data-name="Rectangle 157945" width="16" height="16" rx="4" fill="rgba(0,5,241,0)"/>
+  <g id="play_circle_solid">
+    <rect id="Rectangle_157934" data-name="Rectangle 157934" width="16" height="16" fill="#009dff" opacity="0"/>
+    <g id="Group_93451" data-name="Group 93451" clip-path="url(#clip-path)">
+      <path id="Path_25654" data-name="Path 25654" d="M8.667,2a6.667,6.667,0,1,0,6.667,6.667A6.667,6.667,0,0,0,8.667,2Zm2.667,7.82L8,11.747a1.333,1.333,0,0,1-2-1.153V6.74A1.334,1.334,0,0,1,8,5.587l3.333,1.927a1.333,1.333,0,0,1,0,2.307Zm-.667-1.153L7.333,10.593V6.74Z" transform="translate(-0.667 -0.667)" fill="#009dff"/>
+    </g>
+  </g>
+</svg>

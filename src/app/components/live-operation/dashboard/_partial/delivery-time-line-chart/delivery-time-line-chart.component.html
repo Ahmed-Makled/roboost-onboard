@@ -1,0 +1,38 @@
+<div class="card mt-3">
+  <div class="card-header">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-1 mb-md-0">
+        <div class="d-flex align-items-center">
+          <i class="uil uil-folder font-24 li-h1 me-2"></i>
+          <h3 class="card-title">{{'dashboard.avg-deliver-time'|translate}}</h3>
+          <anotation class="ms-2" [ID]="'avg-deliver-time-popover'" title="{{'dashboard.avg-deliver-time'|translate}}"
+            [content]="'Total average time taken for an order to be delivered to a customer. The average delivery time is calculated using 3 factors:
+            Integration duration: The time taken by the client’s system to transfer the order to Tayar’s system. The average integration time should be 0 mins unless a connection problem occurs.
+            Pending duration: The average waiting duration of a ready order to be assigned to a deliveryman. The duration might increase if there were no delivery men available or in case the order was manually paused by 
+            the user.
+            Delivery duration: average time taken by deliverymen from the moment they left the store till the order is delivered to the customer. 
+            '">
+          </anotation>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="list-unstyled ms-auto me-2">
+            <i class="uil uil-sync font-16 li-h1 ms-3 pointer  c-gray70" (click)="getData();GetData()"></i>
+          </div>
+          <div class="selection-tabs align-self-start ">
+            <button class="" [class.active]="!isDayMode"class="btn"
+            (click)="getChartHour()">{{'system.by-hour'|translate}}</button>
+            <button class="" [class.active]="isDayMode"class="btn"
+            (click)="getChartDay()">{{'system.by-day'|translate}}</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+  <hr class="m-0">
+  <div class="card-content">
+    <div id="avg-container"></div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.profile-content {
+    height: 78vh;
+}
+.icon{
+    font-size: 123%;
+}
+.input-search{
+    animation: input-search 2s ease ;
+}
+.search-icon{
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 9px 0;
+    width: 17px;
+}
+@keyframes input-search{
+    0%{width: 0%;}
+    100%{width: 100%;}
+}

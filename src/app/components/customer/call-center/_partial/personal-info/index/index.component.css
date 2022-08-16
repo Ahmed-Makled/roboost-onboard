@@ -1,0 +1,23 @@
+
+.checkBox{
+    width: auto !important; 
+    display: inline !important ;  
+    vertical-align:middle !important;
+}
+
+.img-info img{
+    width: 45px;
+    height: 45px;
+    border-radius: 7px;
+}
+.statistics{
+    box-shadow: 0px 0px 2px 0.5px #857f7f8c;
+    border: 1px solid #a8a8a83d;
+    border-radius: 5px;
+}
+.info-box{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    border-radius: 8px;
+}

@@ -1,0 +1,98 @@
+
+.leader-board .img-box{
+  /* padding: 3px; */
+  position: relative;
+}
+.top-one{
+  background: url(/assets/img/new-ico/congrates.png) top no-repeat;
+  background-size: contain;
+}
+.leader-board .top-one .img-box{
+  width: 200px;
+  height: 200px;
+}
+.leader-board .top-three .img-box{
+  width: 170px;
+  height: 170px;
+}
+.leader-board .top-three .img-box img{
+  width: 164px;
+  height: 164px;
+}
+.top-one .floating-top{
+  width: 41px;
+  height: 41px;
+  top: -20px;
+  left: 79.5px;
+}
+.top-three .floating-top{
+  border: 2.5px solid #FB7D45;
+  top: -20px;
+  left: 67px;
+}
+.floating-bottom{
+  width: 116px;
+  height: 28px;
+  bottom: -3px;
+}
+.top-one .floating-bottom{
+  left: 42px;
+}
+.top-three .floating-bottom{
+  left: 27px;
+}
+.floating-bottom star{
+  padding: 4px 4px;
+}
+.floating-top img{
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+}
+.top-three .floating-top .bg-white{
+  width: 27px;
+  height: 27px;
+}
+.floating-bottom,
+.floating-top{
+  position: absolute;
+}
+.floating-top img,
+.floating-bottom star{
+  background-color: #fff;
+  border: 2.5px solid #FB7D45;
+}
+
+.top-three {
+  border: 2px solid #FB7D45;
+}
+.leader-board .img-box{
+  border: 3px solid #FB7D45;
+}
+.floating-top,
+.floating-top img,
+.top-three .floating-top .bg-white,
+.leader-board .img-box,
+.leader-board .img-box img{
+  border-radius: 50%;
+}
+
+
+.top-three .rank-box{
+  border: 2.4px solid #FB7D45;
+}
+.floating-bottom star,
+.floating-bottom,
+.last-top,
+.top-three,
+.top-three .bg-white{
+  border-radius: 12px;
+}
+.floating-bottom,
+.floating-bottom star{
+  border-radius: 20px;
+}
+.top-three .rank-box,
+.top-three .rank-box .bg-white{
+  border-radius: 8px;
+}

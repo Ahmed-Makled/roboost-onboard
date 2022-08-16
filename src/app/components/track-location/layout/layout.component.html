@@ -1,0 +1,5 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<ng-container  *ngIf="page.isPageLoaded">
+  <router-outlet></router-outlet>
+</ng-container>

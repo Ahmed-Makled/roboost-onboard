@@ -1,0 +1,405 @@
+<div class="px-2 mx-1 py-2 card" *ngIf="model">
+  <div class="row mx-n1">
+    <div class="col-sm-8 px-1">
+      <p class="amp-5 bold c-70 font-15px mb-1" id="branches">{{'customer.last-store'|translate}}</p>
+      <div class="row mx-n1 mb-1">
+        <div class="col-6 col-sm-4 col-md-3 mb-1 px-1">
+          <i class="fas fa-store mr-1"></i>
+          <p class="amp-5 font-14px c-darkblue bold d-inline-block mb-0">{{lastBranch.Name}}</p>
+        </div>
+        <div class="col-lg-9 px-1">
+          <div class="row mx-n1">
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-green-light my-auto">
+                  <i class="fas fa-street-view c-green d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">{{'system.distance'|translate}}</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.Distance}} <span
+                      class="font-9 c-70 vert-middle">M</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-blue-light my-auto">
+                  <i class="fas fa-clock c-blue d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">{{'kpis.pending-tasks'|translate}}</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.PenddingOrders}} <span
+                      class="font-9 c-70 vert-middle">{{'system.task'|translate}}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-green-light my-auto">
+                  <i class="fas fa-motorcycle c-green d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">{{'system.available'|translate}}</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.OnShiftDeliverymen - lastBranch.OnDutyDeliverymen}}
+                    <span class="font-9 c-70 vert-middle">{{'system.deliveryman'|translate}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-red-light my-auto">
+                  <i class="fas fa-motorcycle c-red d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">{{'system.on-duty'|translate}}</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.OnDutyDeliverymen}} <span
+                      class="font-9 c-70 vert-middle">{{'system.deliveryman'|translate}}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-2">
+      <div class="scolled mb-2">
+        <table class="table table-striped">
+          <thead>
+            <tr class="th-header">
+              <th colspan="3" class="py-1 text-left c-0b-i bold pl-0"><span
+                  class="font-15px">{{'customer.closest-stores'|translate}}</span></th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-green-light my-auto">
+                    <i class="fas fa-street-view c-green  d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-10px amp-5 mb-0 c-70 bold">{{'system.distance'|translate}}</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-blue-light my-auto">
+                    <i class="fas fa-clock c-blue d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-10px amp-5 mb-0 c-70 bold">{{'kpis.pending-tasks'|translate}}</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-green-light my-auto">
+                    <i class="fas fa-motorcycle c-green d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-10px amp-5 mb-0 c-70 bold">{{'system.available'|translate}}</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-red-light my-auto">
+                    <i class="fas fa-motorcycle c-red d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-10px amp-5 mb-0 c-70 bold">{{'system.on-duty'|translate}}</p>
+                  </div>
+                </div>
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of model.Branches;let i=index">
+
+              <td class="text-left pl-0" colspan="3">
+                <div class="d-inline-block">
+                  <div class="info-box-circle bg-darkblue m-auto">
+                    <div class="c-white d-inline-block amp-5 bold m-auto font-14px">{{i+1}}</div>
+                  </div>
+                </div>
+                <a class="c-darkblue bold d-inline-block ml-1" routerLink="/dispatch"
+                  [queryParams]="{branchID:item.ID}">{{item.Name}}</a>
+                <!-- <p class="mb-0 amp-5 font-12px">Distance: 
+                  <span class="c-0b-i font-14px">{{item.Distance}}</span><span class="ml-1 font-9 c-70 vert-middle">M</span>
+                </p> -->
+              </td>
+              <td class="c-0b-i">{{item.Distance}}<span class="ml-1 font-9 c-70 vert-middle">M</span></td>
+              <td class="c-0b-i">{{item.PenddingOrders}}<span
+                  class="ml-1 font-9 c-70 vert-middle">{{'system.task'|translate}}</span></td>
+              <td class="c-0b-i">{{item.OnShiftDeliverymen - item.OnDutyDeliverymen}}<span
+                  class="ml-1 font-9 c-70 vert-middle">{{'system.deliveryman'|translate}}</span></td>
+              <td class="c-0b-i">{{item.OnDutyDeliverymen}}<span
+                  class="ml-1 font-9 c-70 vert-middle">{{'system.deliveryman'|translate}}</span></td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="scolled">
+        <table class="table  table-striped">
+          <thead>
+            <tr class="th-header">
+              <th class="py-1">#</th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-orange-light my-auto">
+                    <i class="fas fa-store c-orange d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-9 amp-5 mb-0 ">Branch Name</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-green-light my-auto">
+                    <i class="fas fa-street-view c-green d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-9 amp-5 mb-0">Distance</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-blue-light my-auto">
+                    <i class="fas fa-clock c-blue d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-9 amp-5 mb-0 ">Pending Orders</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-green-light my-auto">
+                    <i class="fas fa-motorcycle c-green d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-9 amp-5 mb-0">Available</p>
+                  </div>
+                </div>
+              </th>
+              <th class="py-1">
+                <div class="d-flex">
+                  <div class="info-box bg-red-light my-auto">
+                    <i class="fas fa-motorcycle c-red d-inline-block m-auto font-15px vert-middle"></i>
+                  </div>
+                  <div class="ml-1 d-inline-block">
+                    <p class="font-9 amp-5 mb-0">On Duty</p>
+                  </div>
+                </div>
+              </th>
+              
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td colspan="6" class="c-0b bold">Last Branch</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="info-box-circle bg-darkblue m-auto">
+                  <i class="fas fa-store c-white d-inline-block m-auto font-10px"></i>
+                </div>
+              </td>
+              <td>
+                <a class="c-darkblue bold" routerLink="/dispatch"
+                  [queryParams]="{branchID:lastBranch.ID}">{{lastBranch.Name}}</a>
+              </td>
+              <td>{{lastBranch.Distance}}<span class="ml-1 font-9 c-70 vert-middle">M</span></td>
+              <td>{{lastBranch.PenddingOrders}}<span class="ml-1 font-9 c-70 vert-middle">Order(s)</span></td>
+              <td>{{lastBranch.OnShiftDeliverymen - lastBranch.OnDutyDeliverymen}}<span class="ml-1 font-9 c-70 vert-middle">Delivermen</span></td>
+              <td>{{lastBranch.OnDutyDeliverymen}}<span class="ml-1 font-9 c-70 vert-middle">Delivermen</span></td>
+            </tr>
+            <tr>
+              <td colspan="6" class="c-0b bold">Closest Branches</td>
+            </tr>
+            <tr *ngFor="let item of model.Branches;let i=index">
+              
+              <td>
+                <div class="info-box-circle bg-darkblue m-auto">
+                  <div class="c-white d-inline-block amp-5 bold m-auto font-14px">{{i+1}}</div>
+                </div>
+            </td>
+
+              <td>
+                <a class="c-darkblue bold" routerLink="/dispatch"
+                  [queryParams]="{branchID:item.ID}">{{item.Name}}</a>
+              </td>
+              <td>{{item.Distance}}<span class="ml-1 font-9 c-70 vert-middle">M</span></td>
+              <td>{{item.PenddingOrders}}<span class="ml-1 font-9 c-70 vert-middle">Order(s)</span></td>
+              <td>{{item.OnShiftDeliverymen - item.OnDutyDeliverymen}}<span class="ml-1 font-9 c-70 vert-middle">Delivermen</span></td>
+              <td>{{item.OnDutyDeliverymen}}<span class="ml-1 font-9 c-70 vert-middle">Delivermen</span></td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+      <!-- <p class="amp-5 bold c-70 font-15px mb-1" id="branches">Last Branch</p>
+      <div class="row mx-n1 mb-1">
+        <div class="col-6 col-sm-4 col-md-3 mb-1 px-1">
+          <i class="fas fa-store mr-1"></i>
+          <p class="amp-5 font-14px c-darkblue bold d-inline-block mb-0">{{lastBranch.Name}}</p>
+        </div>
+        <div class="col-lg-9 px-1">
+          <div class="row mx-n1">
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-green-light my-auto">
+                  <i class="fas fa-street-view c-green d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">Distance</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.Distance}} <span
+                      class="font-9 c-70 vert-middle">M</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-blue-light my-auto">
+                  <i class="fas fa-clock c-blue d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">Pending Orders</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.PenddingOrders}} <span
+                      class="font-9 c-70 vert-middle">Order(s)</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-green-light my-auto">
+                  <i class="fas fa-motorcycle c-green d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">Available</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.OnShiftDeliverymen - lastBranch.OnDutyDeliverymen}}
+                    <span class="font-9 c-70 vert-middle">Delivermen</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+              <div class="d-flex">
+                <div class="info-box bg-red-light my-auto">
+                  <i class="fas fa-motorcycle c-red d-inline-block m-auto font-15px"></i>
+                </div>
+                <div class="ml-1 d-inline-block">
+                  <p class="font-9 amp-5 mb-0 c-70 bold">On Duty</p>
+                  <p class="mb-0 font-14px amp-5 mt-n1">{{lastBranch.OnDutyDeliverymen}} <span
+                      class="font-9 c-70 vert-middle">Delivermen</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="mt-2">
+      <p class="amp-5 bold c-0b font-15px mb-1">Closest Branches</p>
+      <ng-container *ngIf="model">
+        <ng-container *ngFor="let item of model.Branches;let i=index">
+          <div class="row mx-n1 mb-1">
+            <div class="col-6 col-sm-4 col-md-3 mb-1 px-1">
+              <div class="d-inline-block mr-1">
+                <div class="info-box-circle bg-darkblue my-auto">
+                  <div class="c-white d-inline-block amp-5 bold m-auto font-14px">{{i+1}}</div>
+                </div>
+              </div>
+              <p class="amp-5 font-14px d-inline-block mb-0">
+                <a class="c-darkblue bold" routerLink="/dispatch"
+                  [queryParams]="{branchID:item.ID}">{{item.Name}}</a>
+              </p>
+            </div>
+            <div class="col-lg-9 px-1">
+              <div class="row mx-n1">
+                <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+                  <div class="d-flex">
+                    <div class="info-box bg-green-light my-auto">
+                      <i class="fas fa-street-view c-green d-inline-block m-auto font-15px"></i>
+                    </div>
+                    <div class="ml-1 d-inline-block">
+                      <p class="font-9 amp-5 mb-0 c-70 bold">Distance</p>
+                      <p class="mb-0 font-14px amp-5 mt-n1">{{item.Distance}} <span
+                          class="font-9 c-70 vert-middle">M</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+                  <div class="d-flex">
+                    <div class="info-box bg-blue-light my-auto">
+                      <i class="fas fa-clock c-blue d-inline-block m-auto font-15px"></i>
+                    </div>
+                    <div class="ml-1 d-inline-block">
+                      <p class="font-9 amp-5 mb-0 c-70 bold">Pending Orders</p>
+                      <p class="mb-0 font-14px amp-5 mt-n1">{{item.PenddingOrders}} <span
+                          class="font-9 c-70 vert-middle">Order(s)</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+                  <div class="d-flex">
+                    <div class="info-box bg-green-light my-auto">
+                      <i class="fas fa-motorcycle c-green d-inline-block m-auto font-15px"></i>
+                    </div>
+                    <div class="ml-1 d-inline-block">
+                      <p class="font-9 amp-5 mb-0 c-70 bold">Available</p>
+                      <p class="mb-0 font-14px amp-5 mt-n1">{{item.OnShiftDeliverymen - item.OnDutyDeliverymen}} <span
+                          class="font-9 c-70 vert-middle">Delivermen</span></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 px-1 mb-1">
+                  <div class="d-flex">
+                    <div class="info-box bg-red-light my-auto">
+                      <i class="fas fa-motorcycle c-red d-inline-block m-auto font-15px"></i>
+                    </div>
+                    <div class="ml-1 d-inline-block">
+                      <p class="font-9 amp-5 mb-0 c-70 bold">On Duty</p>
+                      <p class="mb-0 font-14px amp-5 mt-n1">{{item.OnDutyDeliverymen}} <span
+                          class="font-9 c-70 vert-middle">Delivermen</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-1">
+        </ng-container>
+      </ng-container> -->
+    </div>
+    <div class="col-sm-4 px-1">
+      <div class="map height-xs-300" *ngIf="showMap">
+        <agm-map [latitude]="model.Latitude" [longitude]="model.Longitude" (mapClick)="onMapClick($event)"
+          [zoom]="zoom">
+          <agm-marker [latitude]="model.Latitude" [longitude]="model.Longitude" [iconUrl]="
+              {
+                  url: '/assets/img/marker/customer.svg',
+                  scaledSize: {
+                      width: 45,
+                      height: 45
+                  }
+              }">
+          </agm-marker>
+          <ng-container *ngFor="let item of model.Branches;let i=index">
+            <agm-marker [latitude]="item.Latitude" [longitude]="item.Longitude" [iconUrl]="
+              {
+                  url: '/assets/img/marker/branch-marker'+(i+1)+'.svg',
+                  scaledSize: {
+                      width: 40,
+                      height: 40
+                  }
+              }">
+            </agm-marker>
+          </ng-container>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+  <!-- <hr class="mt-2"> -->
+</div>

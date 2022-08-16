@@ -1,0 +1,150 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card">
+      <!-- <div class="card-header">
+        <div class="d-flex align-items-center ">
+          <i class="uil uil-arrow-left me-2 font-16 pointer li-h1" routerLink="/roles"></i>
+          <p class="card-title me-3">Pages</p>
+          <button type="button" class="btn btn-without-icon bg-green ms-auto" routerLink='/system-config/page/create'><i
+              class="uil uil-plus font-18 li-h1 me-1"></i>Create Parent Page</button>
+        </div>
+      </div>
+      <hr class="m-0"> -->
+      <div class="card-content p-0">
+        <!-- <button class='rb-btn rb-btn-danger rb-btn-sm mb-2 ' (click)="addChildPage()">
+          <span class="rb-btn-text">Add Multi Child</span>
+        </button> -->
+        <!-- <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body advanced-search">
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4">
+              <div class="col mb-2">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.id' | translate}}</label>
+                  <input formControlName="ID" type="text" class="form-control" placeholder="{{'search.enter-id'|translate}}">
+                </fieldset>
+              </div>
+              <div class="col mb-2">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.name' | translate}} ({{'shared.english' | translate}})</label>
+                  <input formControlName="NameEnglish" type="text" class="form-control"
+                  placeholder="{{'search.enter-name-en'|translate}}">
+                </fieldset>
+              </div>
+              <div class="col mb-2">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.name' | translate}} ({{'shared.arabic' | translate}})</label>
+                  <input formControlName="NameArabic" type="text" class="form-control" placeholder="{{'search.enter-name-ar'|translate}}">
+                </fieldset>
+              </div>
+              <div class="col mb-2">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.from-date' | translate}}</label>
+                  <input bsDatepicker formControlName="FromDate" type="text" class="form-control">
+                </fieldset>
+              </div>
+              <div class="col mb-2">
+                <fieldset class="form-group">
+                  <label for="basicInput">{{'shared.to-date' | translate}}</label>
+                  <input bsDatepicker formControlName="ToDate" type="text" class="form-control">
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="d-flex align-items-center py-2 px-3">
+          <p class="font-16 c-00f">{{'store.stores-list' | translate}} 
+            ({{page.options.totalItems}})</p>
+          <button class="btn btn-with-icon ms-auto" type="button" (click)="onSearchClicked()"
+            [disabled]="page.searchForm.invalid || page.isSearching"><i class="uil uil-search font-20 li-h1 me-2"></i>
+            {{'system.apply-search' | translate}}
+          </button>
+        </div> -->
+        <div class="scolled">
+          <table class="table vendor-table">
+            <thead>
+              <tr class="th-header">
+                <th>#</th>
+                <th> {{'system-config.add-child'|translate}}</th>
+                <th *ngFor="let colum of page.columns ;let i=index;">{{colum.Title | translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching && page.isPageLoaded">
+                <td colspan="11">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="6">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <tr *ngFor="let item of items | paginate : page.options;let i=index;"
+                [class.bg-blue-d7]="!item.ParentPageID">
+                <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                <td> <button class='rb-btn rb-btn-success rb-btn-sm ' routerLink='/system-config/page/home/create'
+                    [queryParams]="{parentID: item.ID}">
+                    <span class="rb-btn-text">{{'system-config.create-child'|translate}}</span>
+                  </button></td>
+                <!-- <button type="button" class="btn btn-without-icon bg-green ms-auto"
+                  routerLink='/system-config/page/create' [queryParams]="{parentID: item.ID}"><i class="uil uil-plus font-14 li-h1 me-1"></i>
+                  {{'shared.create'|translate}}</button> -->
+                <td class="pointer">{{item.ID}}</td>
+                <td>{{item.Name}}</td>
+                <td>{{item.ParentPageID}}</td>
+                <td>{{item.DisplayOrder}}</td>
+                <!-- <td>{{item.ShowInMenu}}</td> -->
+                <td>{{item.IsActive}}</td>
+                <td>{{item.Url}}</td>
+                <td>
+                  <div class="pointer dropdown text-end">
+                    <img class="rect-20 pointer" src="/assets/icon/ellipsis_h-666.svg" id="dropdownMenuID"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuID">
+                      <li role="button">
+                        <a class="dropdown-item"
+                          routerLink="/system-config/page/home/edit/{{item.ID}}">{{'shared.edit'|translate}}</a>
+                      </li>
+                      <li role="button">
+                        <a class="dropdown-item" (click)="remove(item)">{{'shared.delete'|translate}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+              <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'store.delete-store'|translate}}</p>
+      <p class="modal-confirm-content mb-2">{{'shared.delete-confirmation.message'|translate}} </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="remove()">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

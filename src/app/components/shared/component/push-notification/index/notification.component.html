@@ -1,0 +1,181 @@
+<ng-template #pushNotificationTemplate>
+  <div class="modal-body p-0 notification">
+    <div class="modal-content ">
+      <div class="modal-header bg-g25">
+        <h5 class="modal-title">
+          <i class="uil uil-megaphone me-2"></i>{{'broadcast.push-notifications'|translate}}
+        </h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body rb-p-12 pt-0 pb-0">
+        <div class="row">
+          <div class="col-12 col-md-4 p-0 agent-list-container pt-3 d-md-block" [ngClass]="{'d-none': nextFlag}">
+            <div class="scroll-container">
+              <span class="font-14 bold rb-ps-12 ">{{'broadcast.push.select-agents'|translate}} </span>
+              <div class="top-header mt-14 rb-ps-12">
+                <div class="rb-dropdown-status online" *ngIf="!toggelSearch">
+                  <a class="rb-dropdown-header " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="/assets/image/activecircle.svg">
+                    <span class="text font-12"> {{getSearchByValue()|translate}} </span>
+                    <i class="uil uil-angle-down"></i>
+                  </a>
+                  <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                    <li *ngFor="let item of filter.SearchByList" (click)="filter.SearchValue =  item.ID">
+                      <a class="dropdown-item ">{{item.Name|translate}}</a>
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="toggelSearch" class="w-100">
+                  <fieldset class="form-group">
+                    <input class="form-control  w-162" type="text"
+                      placeholder="{{'broadcast.push.search-by-agent'|translate}}" [(ngModel)]="searchAgentNameValue">
+                  </fieldset>
+                </div>
+                <div class="search-icon pointer" (click)="toggelSearch = !toggelSearch">
+                  <img src="/assets/rb-icon/search.svg" alt="" srcset="">
+                </div>
+              </div>
+              <div class="accordion mt-2 remain-h scroll-y hide-scroll" id="accordionExample">
+                <ng-container *ngFor="let branch of storeList;let i=index;">
+                  <div class="accordion-item no-border" *ngIf="getAgentList(branch.ID).length>0">
+                    <div class="accordion-header d-flex align-items-center" id="heading{{i}}">
+                      <input class="form-check-input m-0" type="checkbox" value="branch.ID" id="flexCheckDefault"
+                        [(ngModel)]="branch.Selected" (ngModelChange)="onStoreClick(branch)">
+                      <span class='ms-2'>{{branch.Name}}</span>
+                      <div class=" rb-counter rb-counter-sm counter-g900  ms-auto">
+                        <p class="counter-text">{{getAgentList(branch.ID).length}}</p>
+                      </div>
+                      <button class="accordion-button ms-2" type="button" data-bs-toggle="collapse"
+                        attr.data-bs-target="#collapse{{i+1}}" aria-expanded="true"
+                        attr.aria-controls="collapse{{i+1}}">
+                      </button>
+                    </div>
+                    <div id="collapse{{i+1}}" class="accordion-collapse collapse show"
+                      attr.aria-labelledby="heading{{i}}" data-bs-parent="#accordionExample">
+                      <div class="accordion-body ">
+                        <div class="delivery-box  text-truncate" *ngFor="let item of  getAgentList(branch.ID)">
+                          <div class="form-check  ps-0 pe-2">
+                            <input class="form-check-input reset-float rect-14 d-inline-block"
+                              [(ngModel)]="item.Selected" type="checkbox" (ngModelChange)="onAgentChange(branch)">
+                          </div>
+                          <div class="d-flex align-items-center" (click)="agentSelect(item)">
+                            <div class="rb-avatar rb-avatar-md">
+                              <div class="avatar-img">
+                                <img [src]="item.Image"
+                                  onerror="this.onerror=null; this.src='assets/image/deliveryman_character.png'">
+                                <div class="rb-active-point" [style.background-color]="item.StatusColor"></div>
+                              </div>
+                            </div>
+                            <div class="rb-ms-12">
+                              <p class="c-g900 font-12 bold text-truncate ">{{item.Name | maxLengthDot:24}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <div class="select-all-container">
+                <div class="form-check ">
+                  <input class="form-check-input reset-float rect-14 " type="checkbox" value="" [checked]="selectAll"
+                    (change)="selectAllAgent()">
+                  <label class="form-check-label font-10 pointer ms-2" (click)="selectAllAgent()">
+                    {{'broadcast.push.select-all-agents'|translate}}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-8 rb-ps-12 pt-3 d-md-block " [ngClass]="{'d-none': !nextFlag}">
+            <ng-container *ngIf="nextFlag">
+              <div class="d-md-none d-flex align-items-center justify-content-between mb-3">
+                <p class="font-14 c-g900"> {{'broadcast.agents-slected'|translate}}</p>
+                <p class="font-14 c-b500">{{getSelectedAgents().length}} {{'broadcast.selected'|translate}}</p>
+              </div>
+              <div class="d-flex align-items-center remain-w scroll-x hide-scroll rb-mb-12">
+                <ng-container *ngFor="let item of storeList">
+                  <div class="" *ngIf="filterSelectedListAgent(item.ID).length != 0">
+                    <p class="rb-p-xs bold d-inline-flex mb-2 text-nowrap mt-n1"
+                      [class.c-g900]="getAgentList(item.ID).length == 0"
+                      [class.c-b500]="filterSelectedListAgent(item.ID).length > 0" title="{{item.Name}}">
+                      {{item.Name|maxLengthDot:26}}
+                      <span class="rb-counter rb-counter-sm bg-b25 ms-1">{{filterSelectedListAgent(item.ID).length}}</span>
+                    </p>
+                    <div class="d-flex text-center">
+                      <div class="rb-avatar rb-avatar-lg mx-2" *ngFor="let agent of filterSelectedListAgent(item.ID)">
+                        <div class="avatar-img">
+                          <img [src]="agent.Image"
+                            onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+                          <div class="rb-active-point" [style.background-color]="agent.StatusColor"></div>
+                        </div>
+                        <p class="rb-p-xxs bold c-g900 rb-mt-6 avatar-name" [title]="agent.Name">{{agent.Name}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+              <hr class="mx-n12 b-1 b-f0 m-0">
+            </ng-container>
+            <div class="scroll-container" [class.mt-3]="nextFlag" [ngStyle]="nextFlag?{'height':'unset'}:{'height':'100%'}">
+              <span class="meduim rb-h5 c-900">{{'broadcast.push.details'|translate}} </span>
+              <p class="meduim rb-p-xs c-g500">{{'broadcast.add-push-notification'|translate}}</p>
+              <form class="row scroll-y hide-scroll mt-2 mt-md-4" [formGroup]="page.form" [class.remain-h]="!nextFlag">
+                <div class="col-md-6 col-12">
+                  <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched(page.form,'Title')">
+                    <label [class.text-danger]="isControlNotValidAndDirty(page.form,'Title')">
+                      <span class="text text-danger">*</span> {{'broadcast.notification-headline'|translate}} </label>
+                    <input type="text" class="form-control " placeholder="{{'search.enter-headline'|translate}}..."
+                      formControlName="Title">
+                    <div *ngIf="isControlNotValidAndDirty(page.form,'Title')" class="text text-danger">
+                      <p class="mb-0 font-12" *ngIf="isControlHasError(page.form,'Title','required')">
+                        {{'shared.validation.required'|translate}}</p>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="col-12 mt-3 mt-md-4">
+                  <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched(page.form,'Body')">
+                    <label [class.text-danger]="isControlNotValidAndDirty(page.form,'Body')">
+                      <span class="text text-danger">*</span>{{'broadcast.notification-describ'|translate}} </label>
+                    <textarea placeholder="{{'search.enter-descib'|translate}}..." rows="10"
+                      class="form-control rb-textarea" spellcheck="false" style="min-height: 124px;"
+                      formControlName="Body"></textarea>
+                    <div *ngIf="isControlNotValidAndDirty(page.form,'Body')" class="text text-danger">
+                      <p class="mb-0 font-12" *ngIf="isControlHasError(page.form,'Body','required')">
+                        {{'shared.validation.required'|translate}}</p>
+                    </div>
+                  </fieldset>
+                </div>
+              </form>
+              <div class="modal-footer align-items-center justify-content-between ms-n12  d-md-flex d-none">
+                <span class="rb-p-s c-b500">{{getSelectedAgents().length}} {{'broadcast.push.agents-slected'|translate}}</span>
+                <div class=" d-flex align-items-center justify-content-between">
+                  <button class="rb-btn rb-btn-invisible  rb-btn-md me-2" (click)="modalRef.hide()">
+                    <span class="rb-btn-text  c-b500">{{'shared.cancel'|translate}}</span>
+                  </button>
+                  <button class="rb-btn rb-btn-primary rb-btn-md" (click)="save()" [disabled]="disabledSubmit()">
+                    <span class="rb-btn-text">{{'broadcast.push.push-notification'|translate}}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer align-items-center d-md-none d-flex">
+      <button class="rb-btn rb-btn-invisible  rb-btn-md me-2" (click)="modalRef.hide()">
+        <span class="rb-btn-text  c-b500">{{'shared.cancel'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-primary rb-btn-md ms-auto" (click)="next()" 
+        [disabled]="getSelectedAgents().length == 0" *ngIf="!nextFlag">
+        <span class="rb-btn-text" >{{'shared.next'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-primary rb-btn-md ms-auto" (click)="save()" 
+        [disabled]="disabledSubmit()" *ngIf="nextFlag">
+        <span class="rb-btn-text" >{{'broadcast.push.push-notification'|translate}}</span>
+      </button>
+    </div>
+  </div>
+</ng-template>

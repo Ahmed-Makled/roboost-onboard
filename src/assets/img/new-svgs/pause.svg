@@ -1,0 +1,14 @@
+<svg id="Pause_BTN" data-name="Pause BTN" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_157931" data-name="Rectangle 157931" width="16" height="16" fill="#0005f1" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_157947" data-name="Rectangle 157947" width="16" height="16" rx="4" fill="rgba(0,5,241,0)"/>
+  <g id="pause_circle_solid">
+    <rect id="Rectangle_157930" data-name="Rectangle 157930" width="16" height="16" fill="#0005f1" opacity="0"/>
+    <g id="Group_93449" data-name="Group 93449" clip-path="url(#clip-path)">
+      <path id="Path_25652" data-name="Path 25652" d="M8.667,2a6.667,6.667,0,1,0,6.667,6.667A6.667,6.667,0,0,0,8.667,2ZM8,11.333a.667.667,0,1,1-1.333,0V6A.667.667,0,0,1,8,6Zm2.667,0a.667.667,0,1,1-1.333,0V6a.667.667,0,1,1,1.333,0Z" transform="translate(-0.667 -0.667)" fill="#0005f1"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,79 @@
+<div class="order-card" [class.bg-lb25]="item.IsAction" 
+  [class.selected]="item.isSelected && withSelect" [class.pause]="item.IsPaused"
+  (click)="showActionTamplate($event,true)">
+  <div class="d-flex align-items-center mb-1">
+    <i class="uil uil-store c-b500 font-14 me-1"></i>
+    <p class="c-b500 font-11 bold text-truncate" [title]="item.BranchName">{{item.BranchName}}</p>
+    <div class="ms-auto d-flex" *ngIf="allowFastAction">
+      <div
+        *ngIf="hasFeature(featureEnum.Task_RemoveFromTrip) && isOnTrip() && !isOrderDelivered() && !isCantDelivered() && !isSchedualed()"
+        (click)="showActionTamplate($event,false,action.REMOVE_FROM_TRIP)" class="ms-2">
+        <div class="c-b300 raduis-4 fast-action pointer ">
+          <img src="/assets/rb-icon/remove-from-trip.png" class="rect-16"
+            title="{{'system.remove-from-trip'|translate}}">
+        </div>
+      </div>
+      <div
+        *ngIf="hasFeature(featureEnum.Task_ChangeTrip) && isOnTrip()  && !isOrderDelivered() && !isCantDelivered() && !isSchedualed()"
+        (click)="showActionTamplate($event,false,action.CHANGE_TRIP)" class="ms-2">
+        <div class=" c-b300 raduis-4 fast-action pointer ">
+          <img src="/assets/rb-icon/exchange_alt.png" class="rect-16" title="{{'system.change-trip'|translate}}">
+        </div>
+      </div>
+      <div *ngIf="hasFeature(featureEnum.Task_PauseOrder) && !isOnTrip() && !isSchedualed() && !item.IsPaused"
+        (click)="showActionTamplate($event,false,action.PAUSE_ORDER)" class="ms-2">
+        <div class="c-b300 raduis-4 fast-action pointer ">
+          <img src="/assets/rb-icon/pause.png" class="rect-16" title="{{'system.pause'|translate}}">
+        </div>
+      </div>
+      <div *ngIf="hasFeature(featureEnum.Task_UnPauseOrder) && !isOnTrip() && !isSchedualed() && item.IsPaused"
+        (click)="showActionTamplate($event,false,action.UNPAUSE_ORDER)" class="ms-2">
+        <div class="c-b300 raduis-4 fast-action pointer ">
+          <img src="/assets/rb-icon/play.svg" class="rect-16" title="{{'system.play'|translate}}">
+        </div>
+      </div>
+      <div *ngIf="hasFeature(featureEnum.Task_AddToTrip) && !isOnTrip() && !isSchedualed() "
+        (click)="showActionTamplate($event,false,action.ADDED_TO_TRIP)" class="ms-2">
+        <div class=" c-b300 raduis-4 fast-action pointer ">
+          <img src="/assets/rb-icon/special-trip.png" class="rect-16" title="{{'system.add-to-trip'|translate}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center mb-1">
+    <div class="px-1 radius-2 d-flex" [style.background-color]="getTaskStatus().background">
+      <p class="font-11 " [style.color]="getTaskStatus().color">{{getTaskStatus().title|translate}}</p>
+      <!-- <p *ngIf="isOnTrip()" class="c-pu500 font-11 ms-1">{{item.SpentTime | timer}}</p> -->
+    </div>
+    <p class="c-g700 font-11 ms-1">{{item.CreatedDate}}</p>
+    <p class="font-14 bold ms-auto" [class]="isLate()?'c-r500':'c-gr500'">{{item.SpentTime | timer:"mm:ss"}}</p>
+    <!-- <p class="font-10 c-g900 ms-auto text-nowrap">{{item.Distance}} {{'shared.km'|translate}}</p> -->
+  </div>
+  <div class="d-flex align-items-center mb-1">
+    <p class="c-g900 font-14 text-truncate me-2" [title]="item.OrderNumber">#{{item.OrderNumber}}</p>
+    <img src="/assets/rb-icon/fire.svg" class="rect-16 me-1" *ngIf="item.IsTopPriority"
+      title="{{'dispatch.top-priority'|translate}}">
+    <img src="/assets/rb-icon/exclamation_circle_solid_red.svg" class="rect-16 me-1" *ngIf="isCantDelivered()"
+      title="{{'system.cant-deliver'|translate}}">
+    <img src="/assets/rb-icon/invoice_solid.svg" class="rect-10 ms-auto me-1" >
+    <p class="font-12 c-g900 text-nowrap bold">{{item.Amount | price}}</p>
+  </div>
+  <div class="d-flex align-items-center mb-1">
+    <img src="/assets/rb-icon/user_circle.svg" class="rect-16 me-1" >
+    <p class="font-11 c-lb500 text-truncate me-2 bold" [title]="item.Name">{{item.Name}}</p>
+    <img src="/assets/rb-icon/map_marker_slash.svg"*ngIf="item.Distance==0" class="rect-16 ms-auto" >
+    <p class="font-10 c-g900 ms-auto text-nowrap" *ngIf="item.Distance>0">{{item.Distance}} {{'shared.km'|translate}}</p>
+  </div>
+  <div class="d-flex align-items-center mt-2">
+    <p class="rb-p-xxs c-g900 bold" [class]="isOnTrip()?'text-truncate me-2':'max-lines-2 me-2'"  [title]="item.Address">{{item.Address}}</p>
+    <div class="d-flex align-content-center ms-auto">
+      <ng-container class="" *ngFor="let skill of item.Services; let i = index">
+        <img [src]="skill.Image" [title]="skill.Name" [class.m-inline]="i==0" class="rect-16 ms-1"
+          onerror="this.onerror=null; this.src='./assets/image/skill.png'">
+      </ng-container>
+    </div>
+  </div>
+  <div class="note-p mt-1" *ngIf="item.Note">
+    <p class="font-10 text-truncate">{{item.Note}}</p>
+  </div>
+</div>

@@ -1,0 +1,154 @@
+
+.log-modal,
+.modal-300 {
+  box-shadow: 0px 25px 50px #15171A40;
+  border-radius: 8px;
+}
+
+.m-top {
+  margin-top: 65px;
+}
+
+.map {
+  height: 560px;
+  width: 640px;
+  /* box-shadow: 0px 25px 50px #15171A40; */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.map agm-map {
+  position: relative;
+
+}
+
+.c-b500 {
+  color: #0005F1 !important;
+}
+
+.trip-orders {
+  max-height: 560px;
+  /* overflow-y: scroll; */
+}
+
+.map-width {
+  width: 628px;
+}
+
+.map-close {
+  bottom: 16px;
+  right: 0;
+  position: absolute;
+}
+
+
+
+
+
+
+
+
+.filter-img-green {
+  filter: invert(36%) sepia(73%) saturate(1434%) hue-rotate(94deg) brightness(78%) contrast(101%)
+}
+
+.filter-img-blue {
+  filter: invert(38%) sepia(97%) saturate(1107%) hue-rotate(174deg) brightness(90%) contrast(105%)
+}
+
+.trip-log .rb-badge .action-name {
+  padding: 0px 1px !important;
+}
+
+.change-icon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #CDD1D5;
+  background-color: white;
+  transform: rotate(90deg);
+  padding: 3px;
+  right: 10px;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: center;
+  /* top: 58px; */
+}
+
+.box-shadow {
+  box-shadow: 0px 1px 4px #15171A26;
+
+}
+
+.clear-search {
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.clear-search:hover {
+  background-color: #CDD1D5;
+}
+
+.order-info {
+  width: 200px;
+  max-width: 200px;
+  overflow-x: hidden;
+}
+
+.order-info .order-address {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+
+.single-store-search {
+  position: absolute;
+  top: 48px;
+  left: calc(50% - 16px);
+  z-index: 1000;
+  width: 50%;
+}
+
+.single-store-search .rb-btn-secondary, .single-search-cnt {
+  box-shadow: 0px 1px 2px #15171A26;
+  border: 1px solid #CDD1D5;
+  border-radius: 0px 0px 6px 6px;
+}
+
+.single-search-cnt {
+  background-color: #ffffff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.left-25 {
+  left: 25% !important;
+}
+
+.page-create-trip .card-content.order-list {
+  padding-inline:8px !important ;
+  box-shadow: 0px 0px 28px #00001A4D;
+  border: 1px solid #0005F1;
+  border-radius: 8px;
+  flex: 1 1 auto;
+}
+
+
+/* .cdk-drop-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 10px;
+  padding-bottom: 10px;
+} */
+
+
+

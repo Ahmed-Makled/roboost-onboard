@@ -1,0 +1,113 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card h-100">
+      <div class="card-content p-0">
+        <p class="font-12 c-80 w-318 pb-3 ms-3">
+          {{'broadcast.add-push-notification'|translate}}
+        </p>
+        <div class="scolled my-3">
+          <table class="table vendor-table">
+            <thead>
+              <tr class="th-header">
+                <th> </th>
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching && page.isPageLoaded">
+                <td colspan="100%">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <tr *ngFor="let item of items | paginate : page.options;let i=index;" class="pointer">
+                <td>
+                  <div class="rect-12  circle " [ngClass]="item.IsActive?'bg-gr500':'bg-g500'"></div>
+                </td>
+                <td class="w-318 bold text-wrap" routerLink="/broadcast/home/details/{{item.Code}}">
+                  {{item.Title}}</td>
+                <td class="g-900 font-16">{{item.CreatedDate | date:'dd-MM-yyyy'}} <span class="mx-1">·</span>
+                  {{item.CreatedDate | date:'hh:mm aa'}}</td>
+                <td>{{item.Sent}}
+                  <span class="c-g500 ms-1">{{'system.deliveryman'| translate}}</span>
+                </td>
+                <td>{{item.Recieved}}
+                  <span class="c-g500 ms-1">{{'system.deliveryman'| translate}}</span>
+                  <span class="bg-b50 rb-counter rb-counter-md c-b500 ms-2">{{item.RecievedPercentage}}%</span>
+                </td>
+                <td>{{item.Viewed}}
+                  <span class="c-g500 ms-1">{{'system.deliveryman'| translate}}</span>
+                  <span class="bg-b50 rb-counter rb-counter-md c-b500 ms-2">{{item.ViewedPercentage}}%</span>
+                </td>
+                <td>
+                  <div class="rb-dropdown ">
+                    <a class="rb-dropdown-header " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <span class="text"> {{item.IsActive?('system.active'|translate) :'system.inactive'|translate}} </span>
+                      <i class="uil uil-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                      <li (click)="updateActive(item.Code)">
+                        <a class="dropdown-item">{{'system.active'|translate}}</a>
+                      </li>
+                      <li (click)="updateActive(item.Code)">
+                        <a class="dropdown-item">{{'system.inactive'|translate}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+                <td>
+                  <i class="uil uil-trash-alt icon-btn " (click)="showDeleteConfirmation(item ,$event)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+              <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-notification *ngIf="showPushNotificationFlag" [showPushNotificationFlag]="showPushNotificationFlag">
+</app-notification>
+
+<ng-template #deleteTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'broadcast.delete-notfication'|translate}}</p>
+      <p class="modal-confirm-content mb-2">{{'shared.delete-confirmation.message'|translate}} </p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="remove()">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

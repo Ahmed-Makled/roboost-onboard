@@ -1,0 +1,42 @@
+<div class="card mt-3">
+  <div class="card-header">
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-1 mb-md-0">
+        <div class="d-flex align-items-center">
+          <i class="uil uil-folder font-24 li-h1 me-2"></i>
+          <h3 class="card-title">{{'dashboard.trip-perfomance'|translate}}</h3>
+          <anotation class="ms-2" [ID]="'trip-popover'" title="{{'dashboard.trip-perfomance'|translate}}"
+            [content]="'AI evaluation of a delivery agent\'s performance, measured from the time a trip is started till it ends while taking into account traffic congestion, the number of orders, and other factors.'">
+          </anotation>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex align-items-center">
+          <div class="list-unstyled ms-auto me-2">
+            <i class="uil uil-sync font-16 li-h1 ms-3 pointer  c-gray70" (click)="GetData();GetDataByHour()"></i>
+          </div>
+          <div class="selection-tabs align-self-start ">
+            <button class="" [class.active]="!isDayMode"class="btn"
+            (click)="getChartHour()">{{'system.by-hour'|translate}}</button>
+            <button class="" [class.active]="isDayMode"class="btn"
+            (click)="getChartDay()">{{'system.by-day'|translate}}</button>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="m-0">
+  <div class="card-content">
+    <div class="row">
+      <div [ngClass]="(!isDayMode)?'col-md-12 col-sm-12':'col-md-8 col-sm-12'" >
+        <div id="container"></div>
+      </div>
+      <div class="col-md-4 col-sm-4" *ngIf="isDayMode">
+        <div id="pieCharts"></div>
+        <!-- <trips-rate-piechart  [refresh]="refresh" [branchID]="branchID" [numberOfDays]="numberOfDays"></trips-rate-piechart> -->
+      </div>
+    </div>
+  </div>
+</div>
+

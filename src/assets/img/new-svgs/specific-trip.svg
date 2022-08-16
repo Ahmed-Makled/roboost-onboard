@@ -1,0 +1,14 @@
+<svg id="Add_to_Specific_Trip_BTN" data-name="Add to Specific Trip BTN" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_157933" data-name="Rectangle 157933" width="16" height="16" fill="#0005f1" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_157946" data-name="Rectangle 157946" width="16" height="16" rx="4" fill="rgba(0,5,241,0)"/>
+  <g id="book_medical_solid">
+    <rect id="Rectangle_157932" data-name="Rectangle 157932" width="16" height="16" fill="#0005f1" opacity="0"/>
+    <g id="Group_93450" data-name="Group 93450" clip-path="url(#clip-path)">
+      <path id="Path_25653" data-name="Path 25653" d="M14.667,4.667A.669.669,0,0,0,14,5.333V12a2,2,0,0,1-2,2H5.333a.667.667,0,1,0,0,1.333H12A3.335,3.335,0,0,0,15.333,12V5.333A.669.669,0,0,0,14.667,4.667ZM10.667,2H4A2,2,0,0,0,2,4v6.667a2,2,0,0,0,2,2h6.667a2,2,0,0,0,2-2V4A2,2,0,0,0,10.667,2ZM9.333,8H8V9.333a.667.667,0,1,1-1.333,0V8H5.333a.667.667,0,1,1,0-1.333H6.667V5.333A.667.667,0,1,1,8,5.333V6.667H9.333A.667.667,0,1,1,9.333,8Z" transform="translate(-0.667 -0.667)" fill="#0005f1"/>
+    </g>
+  </g>
+</svg>

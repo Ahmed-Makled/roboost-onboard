@@ -1,0 +1,79 @@
+<app-forbidden *ngIf="!hasFeature(featureEnum.User_Add)"></app-forbidden>
+<ng-container *ngIf="hasFeature(featureEnum.User_Add)">
+  <div class="tab ">
+    <div class="tab-header">
+      <div class="tab-title">
+        <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+            routerLink="/user/home"></i> {{'user.title'|translate}} / {{'shared.create'|translate}}
+        </div>
+      </div>
+      <div class="tab-action">
+        <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/user/home">
+          <span class="rb-btn-text">{{'shared.cancel'|translate}}</span>
+        </button>
+        <button class="rb-btn rb-btn-success rb-btn-sm" [disabled]="disabledSubmit()" (click)="save()">
+          <span class="rb-btn-text">{{'shared.create'|translate}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- page -->
+  <div class="page wrapper-view h-unset" *ngIf="page.isPageLoaded">
+    <!-- loading -->
+    <div class=" div-loading" *ngIf="!page.isPageLoaded">
+      <div class="page-content  d-flex align-items-center justify-content-center">
+        <div class="card w-100">
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+            <p class="loading">{{'shared.loading' | translate}} ...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- page content -->
+    <div class="page-content p-0">
+      <div class="card">
+        <div class="card-content p-0">
+          <form [formGroup]="page.form">
+            <div class="row ">
+              <div class="col-md-4 ">
+                <ng-control [form]="page.form" control="Name" label=" {{'shared.name' | translate}}" placeholder="{{'search.enter-name' | translate}}"></ng-control>
+              </div>
+              <div class="col-md-4">
+                <ng-control [form]="page.form" control="UserName" label=" {{'shared.username' | translate}}" placeholder="{{'search.enter-user-name' | translate}}"></ng-control>
+              </div>
+              <div class="col-md-4" *ngIf="!page.isEdit">
+                <ng-control [form]="page.form" control="Password" label=" {{'shared.password' | translate}}" 
+                            placeholder="{{'shared.enter' | translate}} {{'shared.password' | translate}}"></ng-control>
+              </div>
+              <div class="col-md-4">
+                <ng-control [form]="page.form" control="Email" label=" {{'shared.email' | translate}}" 
+                            placeholder="{{'shared.enter' | translate}} {{'shared.email' | translate}}"></ng-control>
+              </div>
+              <div class="col-md-4">
+                <ng-control [form]="page.form" control="Mobile" label=" {{'shared.mobile' | translate}}" 
+                            placeholder="{{'search.enter-mobile' | translate}}"></ng-control>
+              </div>
+              <div class="col-md-4">
+                <ng-control [type]="page.ControlType.SELECT" [form]="page.form" control="RoleID"
+                  label="system.select-role" placeholder="user.enter"
+                  [items]="roles" (change)="onRoleChange()"> </ng-control>
+              </div>
+            </div>
+            <ng-container *ngIf="multiSelectStore() || singleSelectStore()">
+              <p class="c-002 font-16 bold mt-3"> {{'search.select-store'|translate}}</p>
+              <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-2 mt-2">
+                <div class="col mb-2" *ngFor="let item of storeList; let i = index">
+                  <div class="select-store pointer bg-white" (click)="selectStore(item)"
+                    [class.selected]="item.Selected">
+                    <p class="d-flex align-items-center text-nowrap font-13">{{item.Name|maxLengthDot:24}}</p>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

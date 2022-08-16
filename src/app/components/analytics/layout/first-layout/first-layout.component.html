@@ -1,0 +1,84 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<div class="page-content with-side" *ngIf="page.isPageLoaded">
+  <div class="first-tabs d-none d-md-block" *ngIf="showLayout()">
+    <div class="card">
+      <div class="tabs-header">
+        <p>{{getPage().Name}}</p>
+      </div>
+      <div class="scroll-container py-2 d-flex flex-colomn">
+        <div class="scroll-y hide-scroll remain-h " style="max-height:575px;">
+        <div class="accordion " id="accordionExample">
+            <div class="accordion-item no-border" *ngFor="let item of getChildList() ; let i=index">
+              <div class="accordion-header d-flex align-items-center"  [id]="'heading' + i">
+                <button class="accordion-button d-flex align-items-center"type="button" 
+                data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="true"
+                 [attr.aria-controls]="'collapse' + i">
+                  <i class="{{item.Icon}} font-16" *ngIf="!item.IsImage"></i>
+                  <img [src]="item.Icon" *ngIf="item.IsImage">
+                  <p class="rb-p-sm rb-ms-12" [class.bold]="getCurrentChild().ID == item.ID">{{item.Name}}</p>
+                </button> 
+
+                
+              </div>
+              <div  [id]="'collapse' + i"  class="accordion-collapse collapse "
+               [attr.aria-labelledby]="'heading' + i" data-bs-parent="#accordionExample"  [class.show]="getCurrentChild().ID == item.ID">
+                <ul class="d-flex flex-colomn mb-0">
+                  <li class="tab pointer " [class.active]='getLastLayoutCurrentChild().ID == childPage.ID' [ngClass]="last?'mb-2':'rb-mb-6'"
+                    routerLink="{{childPage.Url}}" *ngFor="let childPage of getChildList(item.ID) ; let n=index ; let last= last" [style.order]="childPage.DisplayOrder">
+                    <a class=" d-flex align-items-center"><p>{{childPage.Name}}</p></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dropdown layout-dropdown-menu d-md-none" *ngIf="showLayout()">
+    <div class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+      <i class="{{getCurrentChild().Icon}} left-icon" *ngIf="!getCurrentChild().IsImage"></i>
+      <p> {{getCurrentChild().Name}}</p>
+      <i class="uil uil-angle-down right-icon"></i>
+    </div>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <li *ngFor="let item of getChildList() ; let i=index" [style.order]="item.DisplayOrder"
+        [class.active]="getCurrentChild().ID == item.ID">
+        <div class="accordion" id="accordionExample">
+          <ng-container>
+            <div class="accordion-item no-border radius-unset">
+              <div class="accordion-header d-flex align-items-center" id="heading{{i}}" (click)="$event.stopPropagation()">
+          
+                <button class="accordion-button d-flex align-items-center"
+                  [class.collapsed]="getCurrentChild().ID != item.ID" type="button" data-bs-toggle="collapse"
+                  attr.data-bs-target="#collapse{{i+1}}" [aria-expanded]="getCurrentChild().ID == item.ID?true:false"
+                  attr.aria-controls="collapse{{i+1}}">
+                  <i class="{{item.Icon}} font-16" *ngIf="!item.IsImage"></i>
+                  <img [src]="item.Icon" *ngIf="item.IsImage">
+                  <p class="rb-p-sm rb-ms-12" [class.bold]="getCurrentChild().ID == item.ID">{{item.Name}}</p>
+                </button>
+              </div>
+              <div id="collapse{{i+1}}" class="accordion-collapse collapse"
+                [class.show]="getCurrentChild().ID == item.ID" attr.aria-labelledby="heading{{i}}"
+                data-bs-parent="#accordionExample">
+                <ul>
+                  <li class="tab pointer mb-1 shadow-none" [class.active]='getLastLayoutCurrentChild().ID == childPage.ID'
+                    routerLink="{{childPage.Url}}" *ngFor="let childPage of getChildList(item.ID) ; let n=index"
+                    [style.order]="childPage.DisplayOrder">
+                    <a class=" d-flex align-items-center">
+                      <p>{{childPage.Name}}</p>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="page-side" [class.ps-0]="!showLayout()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.info-box{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  border-radius: 7px;
+  margin-inline-end: 8px
+
+}
+.info-box img{
+  width: 17px;
+  height: 17px;
+  margin: auto;
+}

@@ -1,0 +1,39 @@
+<div class="login" *ngIf="page.isPageLoaded" >
+  <div class="row h-100">
+    <div class="col-lg-4 p-0 box-00f">
+      <div class="login-page mx-auto">
+        <div class="d-flex justify-content-center  mt-4">
+          <img src="/assets/img/login-img.svg" class="provider-logo">
+        </div>
+        <!-- <p class="c-00f font-24 mb-4 ">Sign in</p> -->
+        <div class="invalid-user" *ngIf="invalidUser">
+          <p>{{'shared.validation.invalid-user-password'|translate}}</p>
+          <i class="uil uil-times ms-auto font-18 li-h1 pointer" (click)="invalidUser=false"></i>
+        </div>
+        <form [formGroup]="page.form" class="form-login mb-4 w-100">
+          <fieldset class="form-group">
+            <label for="basicInput">{{'shared.username'|translate}}</label>
+            <input type="text" class="form-control form-control-lg w-100" formControlName="UserName" placeholder="Enter your Username"
+              (keyup)="enterEvent($event)" />
+          </fieldset>
+          <fieldset class="form-group position-relative">
+            <label for="basicInput" class="font-14">{{'shared.password'|translate}}</label>
+            <input [type]="fieldTextType ? 'text' : 'password'"  class="form-control form-control-lg w-100" formControlName="Password"
+              placeholder="Enter your Password" (keyup)="enterEvent($event)" />
+              <!-- <p class="label-disc pointer" (click)="toggleFieldTextType()"><i class="uil font-18 li-h1" [ngClass]="{'uil-eye-slash': !fieldTextType,'uil-eye': fieldTextType}"></i></p> -->
+          </fieldset>
+        </form>
+        <button (click)="login()" class="btn login-btn w-100" [disabled]="disabledSubmit()">
+          {{'shared.sign-in'|translate}}
+        </button>
+
+        <button class="rb-btn rb-btn-invisible absolute mt-auto mb-2 bottom-0" (click)="toggleLang()" >
+          <span class="rb-btn-text">{{lang =='ar'?'English':'العربية'}}</span>
+        </button>
+      </div>
+    </div>
+    <div class="col-md-8 bg-f6 d-lg-block d-none px-0 text-center align-middle gray-Bg " style="height: 100vh;">
+      <div class="lottie" id="lottie"></div>
+    </div>
+  </div>
+</div>

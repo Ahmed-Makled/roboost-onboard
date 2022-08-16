@@ -1,0 +1,28 @@
+<div class="panel-footer" [hidden]="page.isSearching">
+  <div class="row">
+    <div class="col-sm-12 mb-2 mb-lg-0 d-flex align-items-center" [class.col-lg-5]="page.options.totalPages>1">
+      <div class="select-rows">
+        <fieldset class="form-group me-2">
+          <ng-select class="form-control " appendTo="body" [clearable]="false"
+            (change)="onChangePageSize()" [(ngModel)]="page.options.itemsPerPage">
+            <ng-option value="10">10 {{'system.rows'|translate}}</ng-option>
+            <ng-option value="25">25 {{'system.rows'|translate}}</ng-option>
+            <ng-option value="50">50 {{'system.rows'|translate}}</ng-option>
+          </ng-select>
+        </fieldset>
+      </div>
+      <div class="total-items">
+        <p>{{'shared.page'|translate}} {{page.options.currentPage}} {{'shared.of'|translate}}
+          {{page.options.totalPages}} - {{'shared.total-items'|translate}} : {{page.options.totalItems}}</p>
+      </div>
+    </div>
+    <div class="col-lg-7 col-sm-12 d-flex align-items-center" *ngIf="page.options.totalPages>1">
+      <div class="ms-auto">
+        <pagination-controls (pageChange)="getNextPrevData($event)" id='Pagination' maxSize="5"
+          directionLinks="true" autohide="true" previousLabel="{{'shared.previous' | translate}}"
+          nextLabel="{{ 'shared.next' | translate}}">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+  
+<div class="tab-container card h-100 m-3" *ngIf="page.isPageLoaded">
+  <div class="tab ">
+    <div class="tab-header">
+      <div class="tab-title">
+        <img src="/assets/img/side-menu/{{getCurrentPage().Icon}}-active.svg" class="rect-20">
+        <p class="title"> {{getCurrentPage().Name}} </p>
+      </div>
+     
+    </div>
+  </div>
+  <div class="wrapper-view">
+    <router-outlet></router-outlet>
+  </div>
+</div>

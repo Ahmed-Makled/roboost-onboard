@@ -1,0 +1,48 @@
+
+<div class="px-3">
+  <div class="row my-2">
+    <div class="col-12 ps-0">
+      <h5 class=" bold mb-3 c-112" id="priority">{{"system.priority"| translate}}</h5>
+    </div>
+  </div>
+  <table class="table  table-striped ">
+    <thead>
+      <tr class="th-header">
+        <th *ngFor="let colum of page.columns ;let i=index;" class="pointer"> {{colum.Title | translate}}
+          <!-- <div class="" [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''"><i
+                                    class="fa fa-sort sort-icon"
+                                    [ngClass]="isColumnAscending(colum.Name) ? 'sort-icon-ase' : 'sort-icon-des'"></i></div> -->
+        </th>
+          
+
+      </tr>
+    </thead>
+
+    <tbody>
+
+
+      <tr *ngFor="let item of items | paginate : page.options;let i=index;">
+        <td>
+                  {{item.ID}} 
+             </td>
+        <!-- <td>{{item.Name}}</td> -->
+
+        <td>{{item.BranchName}}</td>
+        <td>{{item.DistanceStatusName}}</td>
+
+        <td>
+          {{item.DeliveryTimeStatusName}}
+        </td>
+
+        <td>
+          <input [disabled]="page.isSearching" (change)="ChangePriority(item.ID,$event)" type="number" value="{{item.Priority}}" placeholder="Priority" class="form-control" >
+          
+        </td>
+      </tr>
+
+
+    </tbody>
+  </table>
+
+
+</div>

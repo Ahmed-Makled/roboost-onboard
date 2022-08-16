@@ -1,0 +1,110 @@
+html {
+  direction: rtl;
+}
+
+.side-menu {
+  right: 0 !important;
+}
+.trips-imnformation {
+  left: 0;
+  right: 56px !important;
+}
+
+.table th,
+.table td {
+  text-align: right !important;
+}
+.main-panel.side-opened .side-menu{
+  right: 0px !important;
+}
+.tarcking-container{
+  margin-inline-end:0 !important;
+  margin-inline-start: 35px !important;
+  
+}
+.uil-signout,
+.uil-angle-right,
+.uil-arrow-left{
+  transform: rotateY(180deg) !important;
+}
+.uil-angle-right-b{
+  transform: rotate(180deg) !important;
+}
+
+.order-list-incolapse,.order-list-decolapse{
+  right: unset !important;
+  left: 0 !important;
+}
+.task-filter,.map-label-info{
+  right: 270px !important;
+  left: unset !important;
+}
+/* ng-select.form-control {
+  padding: 0px 6px 0px 0px !important;
+} */
+@media (max-width: 600px) {
+
+  .side-menu {
+    right: -56px !important;
+  }
+  .trips-imnformation {
+    right: 0 !important;
+  }
+  .main-panel {
+    padding-inline-end: 0px;
+  }
+}
+.first-tabs{
+  left:unset;
+  right: 72px;
+}
+
+.first-tabs .tab.active{
+  box-shadow: inset -3px 0px 0px #0005f1 !important
+}
+
+.profile-side ul li.active a {
+  border-right: 2px solid #03A8FF;
+  border-left: unset;
+}
+
+.ch-performance .perf:first-of-type {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
+.ch-performance .perf:last-of-type {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.single-store-search {
+  left: unset;
+  right: calc(50% - 16px);
+}
+.left-25 {
+  right: 25% !important;
+}
+.ngx-pagination .pagination-previous {
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
+
+.ngx-pagination .pagination-next {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+.cdk-drag-preview .order-card {
+  direction: rtl !important;
+
+ 
+}

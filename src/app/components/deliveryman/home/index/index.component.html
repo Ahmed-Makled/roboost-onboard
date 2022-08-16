@@ -1,0 +1,425 @@
+<!-- loading -->
+<div class="div-loading" *ngIf="!page.isPageLoaded || page.isSearching">
+  <div class="page-content  d-flex align-items-center justify-content-center">
+    <div class="card w-100">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+        <p class="loading">{{'shared.loading' | translate}} ...</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" *ngIf="page.isPageLoaded">
+  <div class="page-content">
+    <div class="card h-100">
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2">
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Name" label="{{'shared.name'| translate}}" 
+                            placeholder="{{'search.enter-name' | translate}}" ></ng-control>
+              </div>
+              <div class="col" *ngIf="!isSingleStore()">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="branchID" 
+                            label="{{'system.store'| translate}}" placeholder="{{'search.select-store' | translate}}" 
+                            [items]="branchList" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="Mobile" label="{{'shared.mobile'| translate}}" 
+                            placeholder="{{'search.enter-mobile' | translate}}" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [form]="page.searchForm" control="EnrollID" label="{{'system.enrollid'| translate}}" 
+                            placeholder="{{'search.enter-enrollid' | translate}}" ></ng-control>
+              </div>
+              <ng-container *ngIf="advancedSearch">
+                <div class="col">
+                  <ng-control [form]="page.searchForm" control="AppVersionNumber" label="{{'deliveryman.app-version'| translate}}" 
+                            placeholder="{{'search.enter-app-version' | translate}}" ></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="DeviceType" 
+                            label="{{'deliveryman.device-type'| translate}}" placeholder="{{'search.select-device' | translate}}" 
+                            [items]="deviceTypeList" ></ng-control>
+                </div>
+                <div class="col ">
+                  <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="Status" label="{{'shared.status'| translate}}" 
+                             placeholder="{{'search.select-status' | translate}}"  [items]="statusList" ></ng-control>
+                </div>
+              </ng-container>
+              <div class="col">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                    <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span> <span
+                      class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+              <div class="d-flex align-items-center w-100">
+                <div class="line"></div>
+                <p class="font-14 c-66 px-2 text-nowrap pointer" (click)="advancedSearch = !advancedSearch">
+                  {{"system.advanced-search" |translate}}
+                  <i class="uil uil-angle-down ms-1 font-16 li-h1" *ngIf="!advancedSearch"></i>
+                  <i class="uil uil-angle-up ms-1 font-16 li-h1" *ngIf="advancedSearch"></i>
+                </p>
+                <div class="line"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="delivery-men mt-3" *ngIf="items.length !=0 && !page.isSearching">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 px-1">
+            <div *ngFor="let item of items | paginate : page.options;let i=index;" class="px-2 mb-3">
+              <div class="card" [style.border]="'1.5px solid '+item.ColorStatus">
+                <div class="px-2">
+                  <div class="d-flex px-1">
+                    <div class="rect-40 circle position-relative">
+                      <a>
+                        <img class="rect-40 circle pointer" [src]="item.Image"
+                          onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+                      </a>
+                      <div [style.background-color]="item.ColorStatus" *ngIf="item.Image" class="active-circle"></div>
+                    </div>
+                    <div class="remain-w ms-2">
+                      <div class="d-flex">
+                          <div class="">
+                            <p class="font-12 bold c-0b pointer">
+                              <a routerLink="/agent/profiles/profile/{{item.ID}}" title="{{item.Name}}">{{item.Name | maxLengthDot:24}}</a>
+                            </p>
+                            <p class="font-11  c-g500 ">{{item.BranchName}}</p>
+                            <div class="mt-1">
+                              <star class="d-flex" [size]="'12'" [startsNumber]="'5'" [rate]="item.Stars" [showNumber]=true
+                                [starsClass]="''" [lableClass]="'font-11'">
+                              </star>
+                            </div>
+                          </div>
+                        <div class="ms-auto">
+                          <div class="dropdown mt-n1">
+                            <img class="rect-24 pointer" src="/assets/icon/ellipsis-h.svg" id="dropdownMenuID"
+                              data-bs-toggle="dropdown" aria-expanded="false">
+                            <ul class="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuID">
+                              <li role="button"
+                                *ngIf="isDMPenalize(item) && hasFeature(featureEnum.Agent_DeliverymanPenalizeRemove)">
+                                <a class="dropdown-item"
+                                  (click)="showRemovePenalizeConfirmation(item)">{{'deliveryman.remove-penalize'|translate}}</a>
+                              </li>
+                              <li role="button" *ngIf="!isDMPenalize(item)">
+                                <a class="dropdown-item" (click)="showForceLogOutConfirmation(item)"
+                                  *ngIf="hasFeature(featureEnum.Agent_LogOutFromAllDevices)">{{'deliveryman.force-log-out'|translate}}</a>
+                              </li>
+                              <li role="button" *ngIf="!isDMPenalize(item) && hasFeature(featureEnum.Agent_AddToQueueAsync)">
+                                <a class="dropdown-item"
+                                  (click)="showAddToQueueConfirmation(item)">{{'deliveryman.add-to-queue'|translate}}</a>
+                              </li>
+                              <li role="button" *ngIf="hasFeature(featureEnum.Agent_DeliverymanBranchUpdate)">
+                                <a class="dropdown-item" (click)="showChangeStoreTemplate(item)">{{'agent.change-store'|translate}}</a>
+                              </li>
+                              <li role="button">
+                                <a class="dropdown-item"
+                                  routerLink="/agent/profiles/profile/{{item.ID}}">{{'deliveryman.profile.title'|translate}}</a>
+                              </li>
+                              <!-- <li role="button">
+                                <a class="dropdown-item"
+                                  routerLink="/agent/edit/{{item.ID}}">{{'shared.edit'|translate}}</a>
+                              </li> -->
+                              <li role="button"
+                                *ngIf="item.StatusName!='Archive' && hasFeature(featureEnum.Agent_Archive)">
+                                <a class="dropdown-item"
+                                  (click)="showArchiveConfirmation(item)">{{'deliveryman.archive'|translate}}</a>
+                              </li>
+                              <li role="button"
+                                *ngIf="item.StatusName=='Archive' && hasFeature(featureEnum.Agent_Archive)">
+                                <a class="dropdown-item"
+                                  (click)="showUnArchiveConfirmation(item)">{{'deliveryman.unarchive'|translate}}</a>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="queue" *ngIf="item.QueueNo>0">
+                            <p class="font-16">{{item.QueueNo}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-2 mt-2">
+                  <div class="p-1">
+                    <div class="row gx-1">
+                      <div class="col-6">
+                        <p class="font-11 c-70">
+                          {{'shared.status'|translate}} <span
+                            [style.color]="item.ColorStatus">{{item.StatusName}}</span>
+                        </p>
+                      </div>
+                      <div class="col-6 text-end">
+                        <p class="font-11 c-70"> {{'deliveryman.is-loggedIn'|translate}}:
+                          <span *ngIf="item.IsLoggedIn" class="c-green">{{'shared.yes'|translate}}</span>
+                          <span *ngIf="!item.IsLoggedIn" class="c-red">{{'shared.no'|translate}}</span>
+                        </p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="px-2">
+                  <div class="bg-light p-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{'system.enrollid'|translate}}</p>
+                      </div>
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{item.EnrollID}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="px-2">
+                  <div class="bg-light p-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-11 c-70">Ranking</p>
+                      </div>
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{item.Ranking}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="px-2">
+                  <div class="p-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{'shared.mobile'|translate}}:</p>
+                      </div>
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{item.Mobile}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-light px-2">
+                  <div class="p-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{'deliveryman.app-version'|translate}}:</p>
+                      </div>
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{item.AppVersionNumber}}</p>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class=" px-2">
+                  <div class="p-1">
+                    <div class="row">
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{'deliveryman.device-type'|translate}}
+                        </p>
+                      </div>
+                      <div class="col-6">
+                        <p class="font-11 c-70">{{item.DeviceTypeName}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-2">
+                  <div class="p-1">
+                    <div class="d-flex align-items-center">
+                      <p class="font-11 c-70 pointer">{{item.lastActivity | date:'longDate'}}</p>
+                      <div class="ms-auto pointer">
+                        <a (click)="navigateToLog(item.ID)" class="d-flex align-items-center">
+                          <p class="rb-p-xs c-blue">{{'deliveryman.view-all'|translate}}</p>
+                          <i class="uil uil-angle-right font-16 c-blue"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="px-2" *ngIf="(isDMOfDuty(item.StatusID)&&hasFeature(featureEnum.Agent_StartShift))||
+                  (isDMAvailable(item.StatusID) && hasFeature(featureEnum.Agent_EndShift)) || isDMOnDuty(item.StatusID) || onBreak(item.StatusID) ||
+                  (!onBreak(item.StatusID) && !isDMPenalize(item) && hasFeature(featureEnum.Agent_DeliverymanBreakStart))||
+                  (onBreak(item.StatusID) && hasFeature(featureEnum.Agent_DeliverymanBreakClose))|| 
+                  (isDMPenalize(item) && hasFeature(featureEnum.Agent_DeliverymanPenalizeRemove))">
+                  <div class="px-1">
+                    <div class="row mt-2">
+                      <div class="col-7" *ngIf="isDMOfDuty(item.StatusID)">
+                        <button [disabled]="page.isSaving" (click)="startShift(item.ID)" class="btn card-btn bg-green"
+                          *ngIf="hasFeature(featureEnum.Agent_StartShift)">
+                          {{'deliveryman.start-shift'|translate}}
+                        </button>
+                      </div>
+                      <div class="col-7" *ngIf="isDMAvailable(item.StatusID) && hasFeature(featureEnum.Agent_EndShift)">
+                        <button [disabled]="page.isSaving" (click)="endShift(item.ID)" class="btn card-btn bg-red">
+                          {{'deliveryman.end-shift'|translate}}
+                        </button>
+                      </div>
+                      <div class="col-7" *ngIf="isDMOnDuty(item.StatusID)">
+                        <button disabled class="btn card-btn bg-gray">{{'deliveryman.on-shift'|translate}}</button>
+                      </div>
+                      <div class="col-5 text-end" *ngIf="onBreak(item.StatusID)">
+                        <button disabled class="btn card-btn bg-gray break">{{'deliveryman.on-break'|translate}}</button>
+                      </div>
+                      <div class="col-5 text-end"
+                        *ngIf="!onBreak(item.StatusID) && !isDMPenalize(item) && hasFeature(featureEnum.Agent_DeliverymanBreakStart)">
+                        <button (click)="startBreak(item)" [class.opacity-05]="!isDMAvailable(item.StatusID)"
+                          [disabled]="!isDMAvailable(item.StatusID)||page.isSaving"
+                          class="btn card-btn bg-yellow break">{{'deliveryman.break'|translate}} </button>
+                      </div>
+                      <div class="col-7"
+                        *ngIf="onBreak(item.StatusID) && hasFeature(featureEnum.Agent_DeliverymanBreakClose)">
+                        <button (click)="endBreak(item.ID)" class="btn card-btn bg-yellow">
+                          <p class="font-12">{{'deliveryman.end-break'|translate}}</p>
+                          <p class="font-12 mt-n1">{{item.BreakSpentTime|timer:'mm:ss'}}</p>
+                        </button>
+                      </div>
+                      <div class="col-12"
+                        *ngIf="isDMPenalize(item) && hasFeature(featureEnum.Agent_DeliverymanPenalizeRemove)">
+                        <button (click)="showRemovePenalizeConfirmation(item)" class="btn card-btn bg-00f">
+                          {{'deliveryman.remove-penalize'|translate}}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h-100 d-flex align-items-center justify-content-center" *ngIf="items.length == 0 && !page.isSearching">
+          <p class="rb-p-s c-b900">{{'agent.no-agent'|translate}}</p>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #archiveTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.archive-deliveryman'|translate}}</p>
+      <p class="modal-confirm-content mb-2">
+        {{'deliveryman.archive-confirmation'|translate}} <strong *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="archive();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #unarchiveTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.unarchive'|translate}}</p>
+      <p class="modal-confirm-content mb-2">
+        {{'deliveryman.unarchive-confirmation'|translate}} <strong *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="unArchive();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #addToQueueTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.add-to-queue'|translate}}</p>
+      <p class="modal-confirm-content mb-2">
+        {{'deliveryman.add-to-queue-confirmation.message'|translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="addToQueue();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #removePenalizeTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.remove-penalize'|translate}}</p>
+      <p class="modal-confirm-content mb-2">
+        {{'deliveryman.remove-penalize-confirmation.message'|translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="removePenalize();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #forceLogOutTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">{{'deliveryman.force-log-out'|translate}}</p>
+      <p class="modal-confirm-content mb-2">
+        {{'deliveryman.force-log-out-confirmation.message'|translate}} <strong
+          *ngIf="selectedItem">{{selectedItem.ID}}</strong></p>
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="logOut();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #changeStoreTemplate>
+  <div class="modal-body p-0 ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title ">{{'agent.change-store'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
+      <div class="modal-body">
+        <div class="row ">
+          <p class="c-002 font-16 bold">{{'search.select-store'|translate}}</p>
+          <div class="list-300">
+            <div class="row row-cols-2 row-cols-md-4 g-2 m-0">
+              <div class="col" *ngFor="let item of branchList; let i = index">
+                <div class="select-store pointer bg-white" (click)="changeStoreModel.StoreID = item.ID"
+                  [class.selected]="changeStoreModel.StoreID == item.ID" title="{{item.Name}}">
+                  <p class="text-truncate font-13 ">{{item.Name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+        <button type="button" class="rb-btn rb-btn-primary rb-btn-md" (click)="changeStore();modalRef.hide()"
+          [disabled]="page.isSaving">{{'shared.update'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

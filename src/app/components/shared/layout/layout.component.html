@@ -1,0 +1,79 @@
+
+
+<div class="main-panel" [class.side-opened]="closeSideMenu || enterSideMenu" [class.p-0]="!page.isPageLoaded">
+  <loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+  <ng-container *ngIf="page.isPageLoaded">
+    <div class="trips-imnformation  navbar-light fixed-top no-print">
+      <div class="container-fluid d-flex align-items-center px-0">
+        <div class="d-flex align-items-center px-3 py-1 w-100">
+          <div>
+            <img src="assets/icon/align-justify.svg" class="rect-24 pointer d-sm-none"
+              (click)="closeOrOpenSideMenu(!closeSideMenu)">
+          </div>
+          <div class="d-flex align-items-center ms-auto me-2">
+            <!-- <div class="bg-b500 p-2 c-white radius-8 pointer " (click)="showPushNotification()">
+              <img src="assets/rb-icon/megaphone_plus.svg" class="rect-14" alt="">
+            </div> -->
+
+            <div class="rb-dropdown me-2">
+              <a class="rb-dropdown-header" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span class="text"> {{getSelectedTourStep().Name}} </span>
+                <i class="uil uil-angle-down"></i>
+              </a>
+              <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                <li *ngFor="let item of tourList.SearchByList"  (click)="tourList.SearchValue = item.ID; startTour() "  >
+                  <a class="dropdown-item">{{item.Name}}</a>
+                </li>
+              </ul>
+            </div>
+
+            <button *ngIf="hasPage(pageEnum.Broadcast)" class="rb-btn rb-btn-primary rb-btn-md btn-notification"
+              (click)="showPushNotification()">
+              <img src="assets/rb-icon/megaphone_plus.svg" class="rect-14" title="{{'broadcast.push-notifications'|translate}}" alt="">
+            </button>
+          </div>
+          <div class="d-flex align-items-center mx-1  ">
+            <div class="dropdown pointer ">
+              <div id="dropdownMenuID" class="d-flex" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="uil uil-globe font-20 li-h1"></i>
+                <span class="selected-language mx-1  d-none d-md-block">{{language.Name}}</span>
+                <i class="uil uil-angle-down"></i>
+              </div>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuID">
+                <li role="button pointer" *ngFor="let item of languageList ;let i = index ">
+                  <a class="dropdown-item" (click)="changeLanguage(i)">{{item.Name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="d-flex align-items-center p-2 mx-1 user-nav">
+            <div class="d-flex align-items-center ">
+              <img src="assets/img/profile-picturer.png" class="rect-24 circle me-2">
+              <div class="user-info" *ngIf=" page.isPageLoaded">
+                <p class="font-14 c-33 text-capitalize">{{user.Name|maxLengthDot:18}}</p>
+                <!-- <p class="font-11 c-008 text-capitalize">{{user.RoleName |maxLengthDot:18}}</p> -->
+              </div>
+              <div class="user-info" *ngIf=" !page.isPageLoaded">
+                <ngx-skeleton-loader
+                  [theme]="{ width: '72px','border-radius': '8',height: '8px','margin-bottom': '6px' ,display:'flex'}">
+                </ngx-skeleton-loader>
+                <!-- <ngx-skeleton-loader
+                  [theme]="{ width: '72px','border-radius': '8',height: '8px','margin-bottom': '6px' ,display:'flex'}">
+                </ngx-skeleton-loader> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <side-menu (closeOrOpenSideMenu)="closeOrOpenSideMenu($event)" (enterLeaveSideMenu)="enterLeaveSideMenu($event)">
+    </side-menu>
+    <div class="main-page" (click)="closeOrOpenSideMenu(false)">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+</div>
+<app-notification *ngIf="showPushNotificationFlag" [showPushNotificationFlag]="showPushNotificationFlag">
+</app-notification>

@@ -1,0 +1,12 @@
+<span class="amp-5 me-1 c-darkblue font-14 d-inline-block mt-1">{{min}}</span>
+<div class="slider-container">
+    <div class="range-slider d-inline-block ">
+      <!-- [class.c-red]="getPercent()<=25" [class.c-yellow]="getPercent()>25&&getPercent()<50" 
+      [class.c-green]="getPercent()>=75" [class.c-blue]="getPercent()>=50&&getPercent()<75"
+      [class.b-red]="getPercent()<=25" [class.b-yellow]="getPercent()>25&&getPercent()<50" 
+      [class.b-green]="getPercent()>=75" [class.b-blue]="getPercent()>=50&&getPercent()<75" -->
+      <span id="rs-bullet" class="rs-label amp-5" [style.left]="(value-min)/(max-min)*(width-12)+'px'" >{{value}}</span>
+      <input id="rs-range-line" class="rs-range" type="range" (change)="changedValue()" [(ngModel)]="value" [value]="value" [min]="min" [max]="max">
+    </div>
+</div>
+<span class="amp-5 ms-1 c-darkblue font-14 d-inline-block mt-1">{{max}}</span>

@@ -1,0 +1,201 @@
+<div class="performance col-12 bt-F0 pt-3 pr-0">
+  <h5 class="amp-5 bold mb-3 c-112" id="Performance">{{'deliveryman.profile.performance'|translate}}</h5>
+  <div class="row mb-2">
+    <div class="col-sm-3">
+      <p class="amp-5 bold c-darkblue font-13px">{{'deliveryman.profile.performanc.trip-performance'|translate}}</p>
+    </div>
+    <!-- <div class="col-sm-9 text-end">
+      <button class="btn amp-5 px-2 font-12 me-1 " [ngClass]="{'active': tripNnumOfDays===0 }"
+        (click)="changeTripNumOfDays('0')">Today</button>
+      <button class="btn amp-5 px-2 font-12 me-1" [ngClass]="{'active': tripNnumOfDays===7 }"
+        (click)="changeTripNumOfDays('7')">Last 7 Days</button>
+      <button class="btn amp-5 px-2 font-12px" [ngClass]="{'active': tripNnumOfDays===30 }"
+        (click)="changeTripNumOfDays('30')">Last 30 Days</button>
+    </div> -->
+  </div>
+  <div class="p-2 bg-112 height-45px mb-2 b-radius8">
+    <p class="amp-5 bold c-white pull-left">{{'deliveryman.profile.performanc.total-trip'|translate}}:</p>
+    <p class="amp-5 bold font-20 c-white pull-right">{{totalDMTrips}}</p>
+  </div>
+  <div class="row mx-n1 mb-2">
+    <div class="col-lg-3 col-md-6 mb-1 px-1" *ngFor="let item of tripsPerfomanceData">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class=" pull-left amp-5 font-11 mb-0" [style.color]="item.Color">{{item.RateName}} </p>
+          <p class="font-20 pull-right amp-3 mb-0">{{item.Count}}</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar " [ngStyle]="{'background-color':item.Color }" role="progressbar"
+            [style.width.%]="item.DMPercentage" attr.aria-valuenow="{{item.DMPercentage}}" aria-valuemin="0"
+            aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-blue pull-left amp-5 font-11 mb-0">Good Trips</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-blue" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-yellow pull-left amp-5 font-11 mb-0">Late Trips</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-yellow" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-red pull-left amp-5 font-11 mb-0">Too Late Trips</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-red" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="row mx-n1 mb-2">
+    <div class="col-12 px-1">
+      <div id="tripContainers"></div>
+    </div>
+  </div>
+  <div class="row mx-n1 my-2">
+    <div class="col-12 px-1">
+      <p class="amp-5 font-13px c-70 mb-0 mt-1 ">{{'deliveryman.profile.performanc.trips-from-branch'|translate}} </p>
+    </div>
+    <div class="col-sm-6 col-md-4 w-lg-20 mb-1 px-1" *ngIf="totalTripPercentage ">
+      <circle-progress class="amp-5" [percent]="totalTripPercentage" [subtitle]="'Total Trips'"
+        [outerStrokeColor]="'#005D8E'">
+      </circle-progress>
+    </div>
+    <div class="col-sm-6 col-md-4 w-lg-20 mb-1 px-1" *ngFor="let item of tripsPerfomanceData">
+      <circle-progress class="amp-5" [percent]="item.BranchPercentage" [subtitle]="item.RateName"
+        [outerStrokeColor]="item.Color">
+      </circle-progress>
+    </div>
+    <div class="font-11 amp-5 c-70 ">
+      {{'deliveryman.profile.performanc.total-branch-trips'|translate}} : {{totalBranchTrips}} ({{'system.trip'|translate}})
+    </div>
+    <!-- <div class="col-sm-6 col-md-4 w-lg-20 mb-1 px-1">
+      <circle-progress class="amp-5" [percent]="'90'"  [subtitle] = "'Good Trips'"
+        [outerStrokeColor]="'#03a8ff'" >
+      </circle-progress>
+    </div>
+    <div class="col-sm-6 col-md-4 w-lg-20 mb-1 px-1">
+      <circle-progress class="amp-5" [percent]="'10'"  [subtitle] = "'Late Trips'"
+        [outerStrokeColor]="'#ffc400'" >
+      </circle-progress>
+    </div>
+    <div class="col-sm-6 col-md-4 w-lg-20 mb-1 px-1">
+      <circle-progress class="amp-5" [percent]="'90'"  [subtitle] = "'Too Late Trips'"
+        [outerStrokeColor]="'#cc324c'" >
+      </circle-progress>
+    </div> -->
+  </div>
+
+
+  <hr>
+  <div class="row mb-2">
+    <div class="col-sm-3">
+      <p class="amp-5 bold c-darkblue font-13px">{{'system.orders-performance'|translate}}</p>
+    </div>
+    <!-- <div class="col-sm-9 text-end">
+      <button class="btn amp-5 px-2 font-12 me-1 " [ngClass]="{'active': orderNnumOfDays===0 }"
+        (click)="changeOrderNumOfDays('0')">Today</button>
+      <button class="btn amp-5 px-2 font-12 me-1" [ngClass]="{'active': orderNnumOfDays===7 }"
+        (click)="changeOrderNumOfDays('7')">Last 7 Days</button>
+      <button class="btn amp-5 px-2 font-12px" [ngClass]="{'active': orderNnumOfDays===30 }"
+        (click)="changeOrderNumOfDays('30')">Last 30 Days</button>
+    </div> -->
+  </div>
+  <div class="p-2 bg-112 height-45px mb-2 b-radius8">
+    <p class="amp-5 bold c-white pull-left">{{'order.total'|translate}}:</p>
+    <p class="amp-5 bold font-20 c-white pull-right">{{totalDMOrders}}</p>
+  </div>
+  <div class="row mx-n1 mb-2">
+    <!-- <div class="col-lg-3 col-md-6 mb-1 px-1" *ngFor="let item of ordersPerfomanceData">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-green pull-left amp-5 font-11 mb-0">{{item.RateName}} Orders</p>
+          <p class="font-20 pull-right amp-3 mb-0">{{item.Count}}</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar" role="progressbar"[ngStyle]="{'background-color':item.Color }" role="progressbar" [style.width.%]="item.DMPercentage"  aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-blue pull-left amp-5 font-11 mb-0">Good Orders</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-blue" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-yellow pull-left amp-5 font-11 mb-0">Late Orders</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-yellow" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-1 px-1">
+      <div class="rate-box px-2 py-1">
+        <div class="height-27">
+          <p class="c-red pull-left amp-5 font-11 mb-0">Too Late Orders</p>
+          <p class="font-20 pull-right amp-3 mb-0">112</p>
+        </div>
+        <div class="progress my-1">
+          <div class="progress-bar bg-red" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <div class="row mx-n1 mb-2">
+    <div class="col-lg-9 col-md-6  ">
+      <div id="orderContainers"></div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12  px-1 w-lg-22 mb-2 px-1 d-grid" *ngIf="totalOrderPercentage">
+
+      <circle-progress class="amp-5 d-block mt-auto" [percent]="totalOrderPercentage" [subtitle]="'Total Orders'"
+        [outerStrokeColor]="'#005D8E'">
+      </circle-progress>
+      <div class="font-11 amp-5 c-darkblue text-center mt-1 mb-auto">{{'order.total'|translate}}: <br> 
+        <span class="bold">{{totalDMOrders}}/ {{totalBranchOrders}}</span>({{'system.task'|translate}})</div>
+    </div>
+    <!-- <div class="row mx-n1 mb-2 "> -->
+
+    <!-- <div class="col-12 ">
+      <div class="row">
+        <div class="col-12 ">
+          <div class="mr-4 mb-2 font-14 amp-5 c-112 pull-right">Total Orders</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 ">
+          <div class="mr-4 mb-2 font-14 amp-5 c-112 pull-right"> {{totalDMOrders}}/ {{totalBranchOrders}}(Orders)
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+  </div>

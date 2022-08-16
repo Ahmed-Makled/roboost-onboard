@@ -1,0 +1,213 @@
+<div class=" card pt-0">
+
+  <div class="card-content px-3">
+    <div class="row mt-1">
+      <div class="col-12">
+        <div class="d-flex align-items-end">
+          <div class="bg-ffe-yellow rect-45 circle d-flex justify-content-center align-items-center">
+            <img src="/assets/img/man.svg" class=" rect-30 ">
+          </div>
+          <div class="ms-2 ">
+            <p class="font-10 c-gray70 bold ">{{'system.customer-name'|translate}}</p>
+            <p class="bold font-20 c-darkblue" id="profile">{{mainInfo.Name}}</p>
+          </div>
+          <div class="ms-2 d-felx align-items-center">
+            <span class="rate-status c-orange bg-orange-light font-10 "
+              *ngIf="mainInfo.IsNewCustomer">{{'customer.new-customer'|translate}}</span>
+
+            <span class="rate-status c-blue-i bg-blue-light font-10"
+              *ngIf="mainInfo.CompanyRank">{{'customer.top'|translate}}
+              {{mainInfo.CompanyRank}}</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row my-4">
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'system.customer-mobile'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{mainInfo.Phone}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6  col-md-2 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-mobile-android-alt"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'system.customer-serial-number'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{mainInfo.SerialNumber}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-user-location"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'shared.address'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{mainInfo.Address}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row my-4">
+      <div class="col-6 col-sm-4 col-md-3 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-green-light my-auto">
+            <i class="fas fa-mobile-alt c-green d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-11px amp-5 mb-0 c-70 bold">Mobile Number</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{mainInfo.Phone}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-green-light my-auto">
+            <i class="fas fa-mobile-alt c-green d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-11px amp-5 mb-0 c-70 bold">Serial Number</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{mainInfo.SerialNumber}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-6 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-orange-light my-auto">
+            <i class="fas fa-map-marker-alt c-orange d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-11px amp-5 mb-0 c-70 bold">Address</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{mainInfo.Address}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div> -->
+    <hr>
+    <p class="bold c-gray70 font-13" id="behavior">{{'customer.behavior'|translate}}</p>
+    <div class="row my-4">
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details ">
+          <i class="uil uil-tachometer-fast"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'system.performance'|translate}}</p>
+            <p class="font-13 c-green" *ngIf="modelKPI.ServiceScore<=5 && modelKPI.ServiceScore>=4.5">
+              {{'system.excellent'|translate}}</p>
+            <p class="font-13 c-blue" *ngIf="modelKPI.ServiceScore<4.5 && modelKPI.ServiceScore>=3.5">
+              {{'system.good'|translate}}</p>
+            <p class="font-13 c-yellow" *ngIf="modelKPI.ServiceScore<3.5 && modelKPI.ServiceScore>=2.5">
+              {{'system.late'|translate}}</p>
+            <p class="font-13 c-red mt-n1" *ngIf="modelKPI.ServiceScore<2.5">{{'system.too-late'|translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-clock"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'store.performance.avg-delivery-time'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{modelKPI.AverageDeliverDuration}} {{'shared.min'|translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-apps"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'system.total-tasks'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{modelKPI.TotalNumberOfOrders}} {{'system.task'|translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-invoice"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'customer.highest-ticket'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{modelKPI.HighestTicket}} {{'system.currency'|translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2 mb-2 mb-md-0">
+        <div class="icon-details">
+          <i class="uil uil-invoice"></i>
+          <div class="icon-detail">
+            <p class="font-12 c-66 m-0">{{'customer.average-ticket'|translate}}</p>
+            <p class="font-14 c-00f m-0">{{modelKPI.AvgTicket}} {{'system.currency'|translate}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row m-">
+      <div class="col-6 w-sm-20 px-1 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-red-light my-auto">
+            <i class="fas fa-tachometer-alt c-red d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-11px amp-5 mb-0 c-70 bold">Performance</p>
+            <p class="mb-0 font-13px amp-5 c-green mt-n1"
+              *ngIf="modelKPI.ServiceScore<=5 && modelKPI.ServiceScore>=4.5">Exellent</p>
+            <p class="mb-0 font-13px amp-5 c-blue mt-n1"
+              *ngIf="modelKPI.ServiceScore<4.5 && modelKPI.ServiceScore>=3.5">Good</p>
+            <p class="mb-0 font-13px amp-5 c-yellow mt-n1"
+              *ngIf="modelKPI.ServiceScore<3.5 && modelKPI.ServiceScore>=2.5">Late</p>
+            <p class="mb-0 font-13px amp-5 c-red mt-n1" *ngIf="modelKPI.ServiceScore<2.5">Too Late</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 w-sm-20 px-1 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-blue-light my-auto">
+            <i class="fas fa-clock c-blue d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-10px amp-5 mb-0 c-70 bold">Average Deliver Time</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{modelKPI.AverageDeliverDuration}} mins</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 w-sm-20 px-1 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-blue-light my-auto">
+            <i class="fas fa-clock c-blue d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-10px amp-5 mb-0 c-70 bold">Total Orders</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{modelKPI.TotalNumberOfOrders}} Order(s)</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 w-sm-20 px-1 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-green-light my-auto">
+            <i class="fas fa-money-bill-wave c-green d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-10px amp-5 mb-0 c-70 bold">Highest Ticket</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{modelKPI.HighestTicket}} EGP</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 w-sm-20 px-1 mb-1">
+        <div class="d-flex">
+          <div class="info-box bg-green-light my-auto">
+            <i class="fas fa-money-bill-wave c-green d-inline-block m-auto font-17px"></i>
+          </div>
+          <div class="ml-2 d-inline-block">
+            <p class="font-10px amp-5 mb-0 c-70 bold">Average Ticket</p>
+            <p class="mb-0 font-14px amp-5 mt-n1">{{modelKPI.AvgTicket}} EGP</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <hr>
+    <order-performance></order-performance>
+
+  </div>
+</div>

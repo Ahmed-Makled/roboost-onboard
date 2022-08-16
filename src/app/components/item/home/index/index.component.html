@@ -1,0 +1,171 @@
+<div class="page">
+    <div class="div-loading" *ngIf="!page.isPageLoaded">
+        <div class="page-content  d-flex align-items-center justify-content-center">
+            <div class="card w-100">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+                    <p class="loading">{{'shared.loading' | translate}} ...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content" *ngIf="page.isPageLoaded">
+        <div class="card">
+            <div class="card-content p-0">
+                <form class="form" [formGroup]="page.searchForm">
+                    <div class="form-body">
+                        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+                            <div class="col" *ngIf="!isSingleStore()">
+                                <ng-control [type]="controlType.SELECT" [form]="page.searchForm" control="BranchID"
+                                    label="system.stores" [items]="branchList" placeholder="search.select-store">
+                                </ng-control>
+                            </div>
+                            <div class="col">
+                                <ng-control [form]="page.searchForm" control="ID" label="shared.id"
+                                    placeholder="search.enter-id"></ng-control>
+                            </div>
+                            <div class="col">
+                                <ng-control [form]="page.searchForm" control="Name" label="shared.name"
+                                    placeholder="search.enter-name"></ng-control>
+                            </div>
+                            <div class="col">
+                                <fieldset class="form-group">
+                                    <label for="basicInput" class="label-sm">{{'item.is-service' | translate}}</label>
+                                    <ng-select class="form-control " bindLabel="Name" appendTo="body"
+                                        formControlName="IsService" placeholder="{{'item.is-service' | translate}}">
+                                        <ng-option value="">{{'shared.select-all'|translate}}</ng-option>
+                                        <ng-option value="true">{{'shared.yes'|translate}}</ng-option>
+                                        <ng-option value="false">{{'shared.no'|translate}}</ng-option>
+                                    </ng-select>
+                                </fieldset>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex align-items-end h-100 ">
+                                    <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                                        [disabled]="page.searchForm.invalid || page.isSearching">
+                                        <i class="uil uil-search"></i>
+                                        <span class="rb-btn-text d-md-inline-block d-none">
+                                            {{'system.apply-search'|translate}}</span> <span
+                                            class="rb-btn-text d-md-none d-inline-block">
+                                            {{'system.apply'|translate}}</span>
+                                    </button>
+                                    <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                                        [disabled]="page.searchForm.invalid || page.isSearching">
+                                        <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="scolled my-3">
+                    <table class="table ">
+                        <thead>
+                            <tr class="th-header">
+                                <th>#</th>
+                                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                                    <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)"
+                                        *ngIf="!colum.IsHidden">
+                                        {{colum.Title | translate}}
+                                        <div *ngIf="colum.Sortable" class="d-inline-block"
+                                            [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                                            <i class="uil uil-sort sort-icon"
+                                                [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                                        </div>
+                                    </th>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr [hidden]="!page.isSearching">
+                                <td colspan="100%">
+                                    <img src="/assets/img/gif-loading.gif" class="d-block"
+                                        style="width:300px;margin: 0 auto;">
+                                </td>
+                            </tr>
+                            <tr [hidden]="page.isSearching || items.length>0">
+                                <td colspan="100%">
+                                    <span>{{'shared.no-data-found'|translate}}</span>
+                                </td>
+                            </tr>
+                            <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                                <tr [class.bg-blue-d7]="item.IsFastOrder" [class.by-darkblue]="item.IsFastOrder">
+                                    <td class="hidden-xs">{{page.options.itemsPerPage*(page.options.currentPage-1)+
+                                        i+1}}
+                                    </td>
+                                    <td>{{item.ID}}</td>
+                                    <td>{{item.Name}}</td>
+                                    <td>{{item.Price}}</td>
+                                    <td>
+                                        <fieldset class="form-group">
+                                            <input type="number" class="form-control form-control-sm"
+                                                [(ngModel)]="item.ServingTime"
+                                                [disabled]="!hasFeature(featureEnum.Item_Put)">
+                                        </fieldset>
+                                    </td>
+                                    <td>
+                                        <fieldset class="form-group">
+                                            <input type="number" class="form-control  form-control-sm"
+                                                [(ngModel)]="item.PreparationTime"
+                                                [disabled]="!hasFeature(featureEnum.Item_Put)">
+                                        </fieldset>
+                                    </td>
+                                    <td *ngIf="hasFeature(featureEnum.Item_SetAsServiceItem)">
+                                        <div class="form-check form-switch " (click)="changeIsService(item)">
+                                            <input class="form-check-input " type="checkbox"
+                                                [checked]="item.IsService" [disabled] ="!item.IsService">
+                                            <span [class.top-off]="!item.IsService"></span>
+                                        </div>
+                                    </td>
+                                    <td *ngIf="hasFeature(featureEnum.Item_UpdatePriority)">
+                                        <div class="form-check form-switch " (click)="changeIsTopPriority(item)">
+                                            <input class="form-check-input " type="checkbox"
+                                                [(checked)]="item.IsTopPriority">
+                                            <span [class.top-off]="!item.IsTopPriority"></span>
+                                        </div>
+                                    </td>
+                                    <td>{{item.OrdersItemCount}}</td>
+                                    <td>{{item.TotalAmount}}</td>
+                                    <td *ngIf="hasFeature(featureEnum.Item_Put)">
+                                        <i class="uil uil-edit-alt c-008 font-20 li-h1 pointer"
+                                            (click)="Update(item)"></i>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()"
+                    (pageChange)="getNextPrevData($event)">
+                </ng-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #serviceIconTemplate>
+    <div class="modal-body p-0">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-18 c-002">{{'item.select-servie'| translate}}</h5>
+                <button type="button" class="btn-close" (click)="modalRef.hide()"></button>
+            </div>
+            <div class="row mx-0 mb-2 py-1">
+                <ng-container *ngFor="let item of serviceIconList ; let i = index">
+                    <div class="col-md-4 col-6 mb-1 px-1">
+                        <div class="service-box pointer p-2" [class.choosed]="item == selectedIcon"
+                            (click)="selectService(item)">
+                            <img [src]="item.Icon" class="me-2" [title]="item.Name" [alt]="item.Name" onerror="this.onerror=null; this.src='./assets/image/skill.png'" >
+                            <span class="font-12" >{{item.Name|maxLengthDot:30}}</span>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn cancel-btn me-auto"
+                    (click)="modalRef.hide()">{{'shared.cancel'|translate}}</button>
+                <button type="button" class="btn btn-without-icon bg-e5 ms-2"
+                    (click)="setAsServiceItem(selectedItem.ID);modalRef.hide();">{{'shared.save'|translate}}</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

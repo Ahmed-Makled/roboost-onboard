@@ -1,0 +1,49 @@
+<div class="d-flex align-items-center">
+  <p class=" bold c-gray70 font-17" id="order-performance">{{'system.orders-performance'|translate}}</p>
+  <div class="selection-tabs align-self-start  ms-auto">
+    <button class="" [class.active]="!isDayMode" class="btn"
+      (click)="getChartMonth()">{{'system.by-month'|translate}}</button>
+    <button class="" [class.active]="isDayMode" class="btn"
+      (click)="getChartDay()">{{'system.by-day'|translate}}</button>
+  </div>
+
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-8">
+    <div id="avg-container"></div>
+  </div>
+  <div class="col-sm-4">
+    <div id="pieCharts"></div>
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col-sm-12">
+    <div class="px-0 mb-1">
+      <div class="row">
+        <div class="col-md-5 col-sm-6 pr-0">
+          <p class="amp-5 bold c-70 font-17px mb-1" id="order-performance">Order Performance</p>
+        </div>
+        <div class="col-md-7 col-sm-6  px-0 text-right">
+          <button class="btn amp-5 px-2 font-12px mr-1 dashborad-days" [class.active]="!isDayMode"
+            (click)="getChartMonth()">By Month</button>
+          <button class="btn amp-5 px-2 font-12px mr-1 dashborad-days" [class.active]="isDayMode"
+            (click)="getChartDay()">By Day</button>
+          <ul class="list-unstyled mb-0 me-2 d-inline-block">
+            <li class="d-inline ml-3 "> <a (click)="getData();GetData()"><img class=""
+                  src="/assets/app-assets/img/ico/refresh.svg" style="width: 17px;height: 17px;"></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-8">
+        <div id="avg-container"></div>
+      </div>
+      <div class="col-sm-4">
+        <div id="pieCharts"></div>
+      </div>
+    </div>
+  </div>
+</div> -->

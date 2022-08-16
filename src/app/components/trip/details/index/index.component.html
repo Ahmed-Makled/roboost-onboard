@@ -1,0 +1,340 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<ng-container *ngIf="page.isPageLoaded">
+  <div class="tab">
+    <div class="tab-header">
+      <div class="tab-title">
+        <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left pointer"
+          (click)="_sharedService.back()"></i> {{'trip.trip-details.title'|translate}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page wrapper-view">
+    <div class="page-content">
+      <div class="card p-0">
+        <div class="row g-3">
+          <div class="col-md-8">
+            <div class="row g-3">
+              <div class="col-lg-8">
+                <div class="d-flex align-items-center mb-2">
+                  <p class="font-24 c-darkblue me-2 d-flex align-items-center bold"><span
+                      class="font-14 c-gray70 me-1">{{'trip.trip-details.trip-no'|translate}}.</span>#{{item.Number}}
+                  </p>
+                  <span class="me-2 rate-status"
+                    [style.background-color]="item.StatusColor">{{item.RateStatusName}}</span>
+                  <span class="font-16" [style.color]="item.StatusColor">{{this.item.SpentTime|timer}}</span>
+                </div>
+                <p class="font-14 c-gray70">
+                  <i class="uil uil-calendar-alt me-1"></i>{{item.CreatedDate | date:'short'}}
+                </p>
+              </div>
+              <div class="col-lg-4">
+                <div class="d-flex justify-content-lg-end">
+                  <img class="rect-44 radius-8" [src]="item.DeliverymanImage"
+                    onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+                  <div class="ms-2">
+                    <p class="font-14 c-g900 mb-1"> {{item.DeliverymanName}}</p>
+                    <p class="font-14 c-g900 rb-mb-2">{{item.DeliverymanMobile}}</p>
+                    <div class="d-flex align-items-center">
+                      <img src="/assets/icon/star.svg" class="me-1 rect-12">
+                      <p class="font-12 c-gray70">{{item.DeliverymanStars}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row row-cols-lg-3 row-cols-sm-2 row-cols-1 g-2 mt-3">
+              <div class="col">
+                <div class="icon-details ">
+                  <i class="uil uil-map"></i>
+                  <div class="icon-detail">
+                    <p class="font-12 c-66 m-0">{{'trip.trip-details.trip-distance'|translate}}</p>
+                    <p class="font-14 c-00f m-0">{{item.PlannedDistance}} {{'shared.km'|translate}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="icon-details">
+                  <i class="uil uil-clock"></i>
+                  <div class="icon-detail">
+                    <p class="font-12 c-66 m-0">{{'trip.trip-details.ex-deliver-time'|translate}}</p>
+                    <p class="font-14 c-00f m-0">{{item.ExpectedDeliveredTime}} {{'shared.min'|translate}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="icon-details">
+                  <i class="uil uil-apps"></i>
+                  <div class="icon-detail">
+                    <p class="font-12 c-66 m-0">{{'trip.trip-details.no-of-tasks'|translate}}</p>
+                    <p class="font-14 c-00f m-0">{{ordersCount}} {{'system.orders'|translate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="my-3">
+            <div class="trip-tracking">
+              <h6 class=" bold c-darkblue">{{'trip.trip-details.trip-tracking.title'|translate}}</h6>
+              <div *ngIf="item.Status==13" class="tarcking-container">
+                <div class="track-line">
+                  <div class="line bg-blue" [style.width]="item.StartPosition+'%'"></div>
+                  <div class="line bg-gray" [style.width]="centerLine +'%'" [class.d-none]="item.Orders.length == 0">
+                  </div>
+                </div>
+                <div class="track-icons">
+                  <div class="trip-icon" [style.left]="item.CretedPosition + '%'">
+                    <i class="uil uil-plus-circle c-008"></i>
+                    <p class="time top-n31 ">{{item.CreatedDate | date:'shortTime'}}</p>
+                    <div class="icon-hover d-none d-md-block">
+                      <p class="font-normal  c-green">{{'trip.trip-details.trip-tracking.created-date'|translate}}</p>
+                      <p class="font-xs ">
+                        <span class="f-right">{{item.CreatedDate | date:'shortTime'}}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="trip-icon" [style.left]="item.StartPosition + '%'">
+                    <i class="uil uil-play b-green c-green"></i>
+                    <p class="time ">{{item.StartTime | date:'shortTime'}}</p>
+                    <div class="icon-hover d-none d-md-block">
+                      <p class="font-normal m-0 c-green">{{'trip.trip-details.trip-tracking.start-time'|translate}}</p>
+                      <p class="font-xs m-0">
+                        <span class="f-right">{{item.StartTime | date:'shortTime'}}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <ng-container *ngIf="item.Orders.length!=0">
+                    <div class="order-track" *ngFor="let order of item.Orders ;let i =index">
+                      <div class="trip-icon" *ngIf="order.Rate == 3" [style.left]="order.OrderPosition + '%'">
+                        <i class="uil uil-info-circle b-green c-green"></i>
+                      </div>
+                      <div class="trip-icon" [style.left]="order.OrderPosition + '%'">
+                        <i class="uil uil-map-marker-alt " [style.border]="'1px solid '+ order.StatusColor"
+                          [style.color]="order.StatusColor"></i>
+                        <p class="time ">{{order.DeliveryTime | date:'shortTime'}}</p>
+                        <div class="icon-hover d-none d-md-block">
+                          <p class="font-normal m-0">
+                            {{'trip.trip-details.trip-tracking.delivery-order'|translate}}{{i+1}}
+                          </p>
+                          <p class="font-xs m-0">
+                            <span [style.color]="order.StatusColor">{{order.RateName}}</span>
+                            <span class="ms-2">{{order.DeliveryTime | date:'shortTime'}}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <div class="trip-icon" [style.left]="item.CompletedPosition + '%'">
+                    <i class="uil uil-check b-gray c-gray" *ngIf="!isTripComplete()"></i>
+                    <i class="uil uil-check " *ngIf="isTripComplete()" [style.color]="item.StatusColor"
+                      [style.border]="'1px solid '+item.StatusColor"></i>
+                    <p class="time top-n31 " *ngIf="item.CloseTime!=null">{{item.CloseTime | date:'shortTime'}}</p>
+                    <div class="icon-hover d-none d-md-block">
+                      <p class="font-normal m-0 c-green ">{{'trip.trip-details.trip-tracking.close-time'|translate}}</p>
+                      <p class="font-xs m-0">
+                        <span class="f-right" *ngIf="item.CloseTime!=null">{{item.CloseTime | date:'shortTime'}}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="item.Status!=13  " class="d-flex align-items-center mt-3">
+                <div class="spinner-grow spinner-grow-sm c-yellow me-2" role="status">
+                </div>
+                <p class=" font-12">
+                  {{'trip.trip-details.not-compelete-trip'|translate}}
+                </p>
+              </div>
+            </div>
+            <div class="status my-4">
+              <ul class="list-unstyled d-flex flex-wrap">
+                <li class="d-flex align-items-center me-4">
+                  <div class="point-circle bg-green"></div> <span
+                    class="c-green font-11">{{'system.excellent'|translate}}</span>
+                </li>
+                <li class="d-flex align-items-center me-4">
+                  <div class="point-circle bg-blue"></div> <span
+                    class="c-blue font-11">{{'system.good'|translate}}</span>
+                </li>
+                <li class="d-flex align-items-center me-4">
+                  <div class="point-circle bg-yellow"></div> <span
+                    class="c-yellow font-11">{{'system.late'|translate}}</span>
+                </li>
+                <li class="d-flex align-items-center me-4">
+                  <div class="point-circle bg-red"></div> <span
+                    class="c-red font-11">{{'system.too-late'|translate}}</span>
+                </li>
+                <li class="d-flex align-items-center me-4">
+                  <div class="point-circle bg-dark-gray"></div> <span
+                    class="c-dark-gray font-11">{{'system.not-started'|translate}}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- <div class="trip-tracking ">
+              <h6 class="font-14 bold mt-3 ">{{'order.order-detail.order-tracking.title' | translate}}</h6>
+              <div class="track-container mb-100">
+                <div class="track-line" [style.width]="100 - getStartLine()+'%'"></div>
+                <div class="rb-order-tracking "    [ngStyle]="{ 'left.px': isLTR ? -24 : unset, 'right.px': !isLTR ? -24 : unset }">
+           
+                  <div class="icon icon-create " [style.background]="'#009D4B'"   >
+                    <img src="/assets/icon/tracking/create_dashboard.svg" class="w-100" alt="">
+                    <div class="order-tooltip ">
+                      <p class="order-tooltip-title ">Create Trip </p>
+                      <p class="order-tooltip-time"> {{getDeliverTime() | date:'shortTime'}}</p>
+                    </div>
+                    <div class="icon-container  mt-2">
+                      <p class="font-10  c-66 time text-nowrap "> {{getDeliverTime() | date:'shortTime'}} </p>
+                    </div>
+                  </div>
+                </div>
+           
+                <ng-container *ngFor="let order of item.TripTrackingLogs;let i = index">
+                  <div class="rb-order-tracking " [ngClass]="{'order-top': 0 === i % 2}"
+                    [ngStyle]="{ 'left.%': isLTR ? order.Position : unset, 'right.%': !isLTR ? order.Position : unset }"
+                    *ngIf="order.Position>=0">
+                    <div class="point" [class]="order.Color">
+                      <div class="icon-container ">
+                        <div class="icon">
+                          <img [src]="order.Icon" class="w-100" alt="">
+                          <div class="order-tooltip ">
+                            <p class="order-tooltip-title ">{{order.ActionName}}</p>
+                            <p class="order-tooltip-time"> {{order.CreatedDate | date:'shortTime'}}</p>
+                          </div>
+                        </div>
+                        <p class="font-10 text-nowrap mt-1 c-66 "> {{order.CreatedDate | date:'shortTime'}} </p>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="rb-order-tracking"
+                  [ngStyle]="{ 'left.%': isLTR ? 100 : unset, 'right.%': !isLTR ? 100 : unset }">
+                  <div class=" icon " [ngStyle]="{'background-color':isTripComplete()? '#1A9CFF' : '#cccfd1' }">
+                    <img src="/assets/icon/tracking/check.svg" class="w-100" alt="">
+                    <div class="icon-container  mt-2">
+                      <p class="font-10 mt-1 c-66  text-nowrap">
+                        {{getDeliverTime() | date:'shortTime'}} </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div> -->
+                 
+
+
+
+
+
+
+
+
+
+            <div class="mb-3 mt-5">
+              <p class="bold c-darkblue mb-3">{{'system.orders'|translate}}</p>
+              <div class="table-responsive scolled">
+                <table class="table table-striped">
+                  <thead>
+                    <tr class="th-header">
+                      <th class="py-1">#</th>
+                      <th> {{'shared.number'|translate}} </th>
+                      <th>{{'system.customer-name'|translate}}</th>
+                      <th>{{'system.duration'|translate}}</th>
+                      <th>{{'system.performance'|translate}}</th>
+                      <th>{{'system.cost'|translate}}</th>
+                      <th>{{'trip.trip-details.pos-time'|translate}}</th>
+                      <th>{{'trip.trip-details.delivered-time'|translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="item.Orders">
+                    <tr *ngFor="let item of item.Orders | paginate : page.options;let i=index;">
+                      <td class="hidden-xs">
+                        {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                      <td><a routerLink="/task/details/{{item.Code}}" routerLinkActive="active">{{item.OrderNumber}}</a>
+                      </td>
+                      <td>{{item.CustomerName}}</td>
+                      <td>{{item.OrderDeliveryTime}}</td>
+                      <td><span class="performance" [style.background-color]="item.StatusColor">{{item.RateName}}</span>
+                      </td>
+                      <td>{{item.Amount}} {{'system.currency'|translate}}</td>
+                      <td>{{item.Date | date:'shortTime'}}</td>
+                      <td>{{item.DeliveryTime | date:'shortTime'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="map">
+              <agm-map [latitude]="item.BranchLatitude" [longitude]="item.BranchLongitude"
+                (mapClick)="onMapClick($event)" [zoom]="zoom">
+                <agm-marker [latitude]="item.BranchLatitude" [longitude]="item.BranchLongitude" [iconUrl]="
+                          {
+                              url: '/assets/img/marker/branch-marker.svg',
+                              scaledSize: {
+                                  width: 45,
+                                  height: 45
+                              }
+                          }">
+                </agm-marker>
+                <ng-container *ngIf="item.Orders">
+                  <agm-marker *ngFor="let order of item.Orders; let i = index" [latitude]="order.Latitude"
+                    [longitude]="order.Longitude" (markerClick)="clickedMarker(infowindow)" [iconUrl]="
+                        {
+                            url: '/assets/img/marker/map-marker'+(i+1)+'.svg',
+                            scaledSize: {
+                                width: 35,
+                                height: 35
+                            }
+                        }">
+                    <!-- <agm-info-window #infowindow>
+                    </agm-info-window> -->
+                  </agm-marker>
+                </ng-container>
+                <!-- <agm-polyline [visible]="true" [strokeWeight]="3" [strokeColor]="'#03a8ff'"
+                  *ngIf="item.TrackingLocations.length>0">
+                  <agm-polyline-point *ngFor="let point of item.TrackingLocations; let i = index"
+                    [latitude]="point.Latitude" [longitude]="point.Longitude">
+                  </agm-polyline-point>
+                </agm-polyline> -->
+              </agm-map>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <p class="c-darkblue bold my-3">{{'trip.trip-details.trip-log'|translate}}</p>
+          <div class="scolled">
+            <table class="table">
+              <thead>
+                <tr class="th-header">
+                  <th class="py-1">#</th>
+                  <th>{{'shared.status'|translate}}</th>
+                  <th>{{'system.deliveryman'|translate}}</th>
+                  <th>{{'trip.trip-details.action'|translate}}</th>
+                  <th>{{'shared.username'|translate}}</th>
+                  <th>{{'order.order-number'|translate}}</th>
+                  <th>{{'shared.date'|translate}}</th>
+                  <th>{{'shared.note'|translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of item.TripLogs | paginate : page.options;let i=index;">
+                  <td class="hidden-xs">
+                    {{page.options.itemsPerPage*(page.options.currentPage-1)+ i+1}}</td>
+                  <td>{{item.StatusName}}</td>
+                  <td><a routerLink="/agent/profiles/profile/{{item.DeliverymanID}}">{{item.DeliverymanName}}</a></td>
+                  <td>{{item.ActionName}}</td>
+                  <td>{{item.UserName}}</td>
+                  <td><a routerLink='/task/details/{{item.OrderCode}}'>{{item.OrderNumber}}</a></td>
+                  <td> {{item.CreatedDate| date:'dd-MM-yyyy hh:mm a'}}</td>
+                  <td>{{item.Note}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

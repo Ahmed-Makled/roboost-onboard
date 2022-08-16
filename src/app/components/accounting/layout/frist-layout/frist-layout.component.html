@@ -1,0 +1,38 @@
+<loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<div class="page-content with-side" *ngIf="page.isPageLoaded">
+  <div class="first-tabs d-none d-md-block" *ngIf="showLayout()">
+    <div class="card">
+      <div class="tabs-header">
+        <p>{{getPage().Name}}</p>
+      </div>
+      <div class="py-2 d-flex flex-colomn">
+        <div class="tab pointer" *ngFor="let item of getChildList() ; let i=index" (click)="onChildClick(item)"
+          [style.order]="item.DisplayOrder" [class.active]="getCurrentChild().ID == item.ID">
+          <i class="{{item.Icon}}" *ngIf="!item.IsImage"></i>
+          <img [src]="item.Icon" *ngIf="item.IsImage">
+          <p>{{item.Name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dropdown layout-dropdown-menu d-md-none" *ngIf="showLayout()">
+    <div class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="{{getCurrentChild().Icon}} left-icon" *ngIf="!getCurrentChild().IsImage"></i>
+      <p> {{getCurrentChild().Name}}</p>
+      <i class="uil uil-angle-down right-icon"></i>
+    </div>
+    <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+      <li *ngFor="let item of getChildList() ; let i=index" [style.order]="item.DisplayOrder"
+        [class.active]="getCurrentChild().ID == item.ID">
+        <a class="dropdown-item d-flex" (click)="onChildClick(item)">
+          <i class="{{item.Icon}} left-icon" *ngIf="!item.IsImage"></i>
+          <p>{{item.Name}}</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="page-side" [class.ps-0]="!showLayout()">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div class="tab no-print" id="header">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16">
+        <i class="uil uil-arrow-left  pointer" routerLink="/store/home"></i> {{'system.stores'|translate}} / {{'system.qr-code'|translate}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" *ngIf="page.isPageLoaded">
+  <div class="page-content p-0">
+    <div class="card">
+      <div class="row print-only">
+        <div class="col-12 ">
+          <div class="d-flex align-items-center justify-content-between ">
+            <p class="font-30"> {{this.item.BranchName}} </p>
+            <p class="font-30 ">{{this.item.Date}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content d-flex align-items-center">
+        <ngx-qrcode id="print-qr-code" [elementType]="item.ElementType" [value]="item.Code" class="qr-img"
+          errorCorrectionLevel="L">
+        </ngx-qrcode>
+        <div class="row print-only g-3">
+          <div class="col-12">
+            <p class=" font-18 ">Scan QR to complete your trip</p>
+          </div>
+          <div class="col-12">
+            <div class="d-flex align-item-center">
+              <img class="me-2 " style="width: 40px;height: 40px;"
+              src="https://api.tayar.app/uploads/icons/logo-favicon-32.png">
+            <p class=" c-r600 font-30 ">Powered By TAYAR</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-inline-block no-print">
+          <p class="c-70 amp-5 font-10px mb-0"> {{"system.qr-code"| translate}}</p>
+
+    
+          <p class="c-11 amp-3 font-13px mt-n3px mb-0 "> Sunday 26/10/2020</p>
+          <button class="btn btn-primary bg-blue b-blue amp-5 font-10px mb-0 " (click)="printPage()">
+            <i class="fas fa-print mr-1"></i>{{"shared.print"| translate}}</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

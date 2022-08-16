@@ -1,0 +1,12 @@
+<svg id="times_square_monochrome" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_146313" data-name="Rectangle 146313" width="40" height="40" fill="#e50047" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_146311" data-name="Rectangle 146311" width="40" height="40" fill="#e50047" opacity="0"/>
+  <g id="Group_75618" data-name="Group 75618" clip-path="url(#clip-path)">
+    <rect id="Rectangle_146312" data-name="Rectangle 146312" width="33.333" height="33.333" rx="16.667" transform="translate(3.333 3.333)" fill="#e50047" opacity="0.3"/>
+    <path id="Path_19663" data-name="Path 19663" d="M20.869,18.5a1.667,1.667,0,0,1,0,2.35h0a1.667,1.667,0,0,1-2.35,0l-3.85-3.833-3.817,3.833h0a1.667,1.667,0,0,1-2.35,0h0a1.667,1.667,0,0,1,0-2.35l3.817-3.833L8.486,10.853a1.673,1.673,0,0,1,2.367-2.367l3.817,3.833,3.817-3.833h0a1.667,1.667,0,0,1,2.35,0h0a1.667,1.667,0,0,1,0,2.35l-3.817,3.833,3.833,3.817Z" transform="translate(5.331 5.331)" fill="#e50047"/>
+  </g>
+</svg>

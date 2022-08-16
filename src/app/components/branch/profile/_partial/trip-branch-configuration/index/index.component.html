@@ -1,0 +1,178 @@
+<div class="px-3">
+  <div class="performance row my-2">
+    <div class="col-6 text-start">
+      <p class="font-14 amp-5 bold mb-3 c-70" id="trip">{{"store.profile.trip-config.title" | translate}}</p>
+    </div>
+    <div class="col-6 text-end ">
+      <button class="btn amp-5 px-2 py-1 font-12 bg-darkblue c-white" (click)="save()" [disabled]="disabledSubmit()">
+        <i class="uil uil-edit"></i>
+
+        {{"shared.edit" |translate}}</button>
+    </div>
+  </div>
+  <form *ngIf="page.isPageLoaded" class="form" [formGroup]="page.form">
+    <div class="form-body">
+      <div class="row mx-n1">
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MaxDistanceBetweenOrders')">
+            <label>{{"store.profile.trip-config.max-dist-order"| translate}} *</label>
+            <input formControlName="MaxDistanceBetweenOrders" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MaxDistanceBetweenOrders')" class="text text-danger">
+              <p *ngIf="isControlHasError('MaxDistanceBetweenOrders','required')">
+                {{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('MaxDistanceBetweenOrders','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MaxOrders')">
+            <label>{{"store.profile.trip-config.max-order"| translate}} *</label>
+            <input formControlName="MaxOrders" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MaxOrders')" class="text text-danger">
+              <p *ngIf="isControlHasError('MaxOrders','required')">{{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('MaxOrders','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MaxOrdersWithoutLocation')">
+            <label>{{"store.profile.trip-config.max-order-non-location"|translate}} </label>
+            <input formControlName="MaxOrdersWithoutLocation" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MaxOrdersWithoutLocation')" class="text text-danger">
+              <p *ngIf="isControlHasError('MaxOrdersWithoutLocation','required')">
+                {{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('MaxOrdersWithoutLocation','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('MaxServices')">
+            <label>{{"store.profile.trip-config.max-serv"| translate}} </label>
+            <input formControlName="MaxServices" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('MaxServices')" class="text text-danger">
+              <p *ngIf="isControlHasError('MaxServices','required')">{{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('MaxServices','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('AutoStartTrip')">
+            <label>{{"store.profile.trip-config.auto-start-trip"| translate}} *</label>
+            <input formControlName="AutoStartTrip" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('AutoStartTrip')" class="text text-danger">
+              <p *ngIf="isControlHasError('AutoStartTrip','required')">{{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('AutoStartTrip','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('ExcelantTimePercentage')">
+            <label>{{"store.profile.trip-config.excelant-time-per"| translate}} *</label>
+            <input formControlName="ExcelantTimePercentage" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('ExcelantTimePercentage')" class="text text-danger">
+              <p *ngIf="isControlHasError('ExcelantTimePercentage','required')">
+                {{'shared.validation.required'|translate}}</p>
+              <p *ngIf="isControlHasError('ExcelantTimePercentage','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('GoodTimePercentage')">
+            <label>{{"store.profile.trip-config.good-time-per"| translate}} *</label>
+            <input formControlName="GoodTimePercentage" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('GoodTimePercentage')" class="text text-danger">
+              <p *ngIf="isControlHasError('GoodTimePercentage','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('GoodTimePercentage','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('LateTimePercentage')">
+            <label>{{"store.profile.trip-config.late-time-per"| translate}} *</label>
+            <input formControlName="LateTimePercentage" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('LateTimePercentage')" class="text text-danger">
+              <p *ngIf="isControlHasError('LateTimePercentage','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('LateTimePercentage','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('ExcelantTripRevenue')">
+            <label>{{"store.profile.trip-config.exclent-reven"| translate}} *</label>
+            <input formControlName="ExcelantTripRevenue" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('ExcelantTripRevenue')" class="text text-danger">
+              <p *ngIf="isControlHasError('ExcelantTripRevenue','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('ExcelantTripRevenue','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('GoodTripRevenue')">
+            <label>{{"store.profile.trip-config.good-renven"|translate}} *</label>
+            <input formControlName="GoodTripRevenue" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('GoodTripRevenue')" class="text text-danger">
+              <p *ngIf="isControlHasError('GoodTripRevenue','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('GoodTripRevenue','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('LateTripRevenue')">
+            <label>{{"store.profile.trip-config.late-renven"|translate}} *</label>
+            <input formControlName="LateTripRevenue" type="text" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('LateTripRevenue')" class="text text-danger">
+              <p *ngIf="isControlHasError('LateTripRevenue','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('MinWaitingTime','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-4 col-sm-6 px-1 mb-1">
+          <fieldset class="form-group" [class.has-error]="isControlNotValidAndTouched('TooLateTripRevenue')">
+            <label>{{"store.profile.trip-config.too-late-renven"|translate}} *</label>
+            <input formControlName="TooLateTripRevenue" type="number" class="form-control">
+            <div *ngIf="isControlNotValidAndDirty('TooLateTripRevenue')" class="text text-danger">
+              <p *ngIf="isControlHasError('TooLateTripRevenue','required')">{{'shared.validation.required'|translate}}
+              </p>
+              <p *ngIf="isControlHasError('TooLateTripRevenue','pattern')">
+                {{'shared.validation.only-numbers'|translate}}</p>
+
+
+            </div>
+          </fieldset>
+        </div>
+
+
+      </div>
+    </div>
+    <hr class="mt-2">
+  </form>
+</div>

@@ -1,0 +1,73 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16">
+        <!-- <i class="uil uil-arrow-left  pointer" routerLink="/agent/profiles"></i> {{"system.deliveryman"|translate}} / {{'deliveryman.profile.title'|translate}} -->
+        <i class="uil uil-arrow-left  pointer" (click)="back()"></i> {{"system.deliveryman"|translate}} / {{'deliveryman.profile.title'|translate}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view ">
+<div class="delivery-profile card h-100 my-0">
+  <div class="card-content py-0 px-3">
+    <div class="row mx-n3 h-100">
+      <div class="col-md-3 pe-0 profile-side text-center">
+        <div class="scroll-container">
+          <div class="remain-h scroll-y">
+            <img class="img-fluid mt-3" [src]="mainInfo.ProfilePicture" alt="" onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
+            <p class=" bold font-15 c-0b mt-2">{{mainInfo.Name}}</p>
+            <div class="mt-n3px d-flex justify-content-center align-items-center mt-2">
+              <star [size]="'12'" [startsNumber]="'5'" [rate]="mainInfo.Stars" [showNumber]=true
+                [lableClass]="'vert-top font-11'" [starsClass]="'vert-text-top'" ></star>
+            </div>
+            <p class="bold font-13 c-red my-2">{{mainInfo.BranchName}}</p>
+            <ul class="list-unstyled text-start d-none d-sm-block">
+              <li (click)="activeSide(0)" [class.active]="sideActive[0].isActive" class="py-2" (click)="scroll('Rewards')"><a
+                  class="ps-3  font-14 c-blue">{{'deliveryman.profile.rewards'|translate}}</a></li>
+              <li (click)="activeSide(1)" [class.active]="sideActive[1].isActive" class="py-2" (click)="scroll('Wallet')"><a
+                  class="ps-3  font-14">{{'deliveryman.wallet'|translate}}</a></li>
+              <li (click)="activeSide(2)" [class.active]="sideActive[2].isActive" class="py-2"
+                (click)="scroll('Performance')"><a class="ps-3  font-14">{{'deliveryman.profile.performance'|translate}}</a>
+              </li>
+              <hr>
+              <li (click)="activeSide(3)" [class.active]="sideActive[3].isActive" class="py-2"
+                (click)="scroll('PersonalInfo')"><a class="ps-3 font-14">{{'deliveryman.profile.personal-info'|translate}}</a>
+              </li>
+              <li (click)="activeSide(4)" [class.active]="sideActive[4].isActive" class="py-2" (click)="scroll('Services')"><a
+                  class="ps-3  font-14">{{'system.services'|translate}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 profile-content">
+        <div class="scroll-container mx-n2">
+          <div class="remain-h scroll-y px-2">
+            <div class="text-end my-3">
+              <div class="selection-tabs align-self-start ms-auto">
+                <button class="" [class.active]="numOfDays===0" class="btn"
+                  (click)="changeNumOfDays(0)">{{'deliveryman.profile.today'|translate}}</button>
+                <button class="" [class.active]="numOfDays===7" class="btn" (click)="changeNumOfDays(7)">7
+                  {{'deliveryman.profile.days'|translate}}</button>
+                <button class="" [class.active]=" numOfDays === currentDay" class="btn"
+                  (click)="changeNumOfDays(currentDay)">{{'deliveryman.profile.current-month'|translate}}</button>
+                <button class="" [class.active]=" numOfDays===30" class="btn" (click)="changeNumOfDays(30)">30
+                  {{'deliveryman.profile.days'|translate}}</button>
+              </div>
+              <!-- <button class="btn  px-2 font-12 me-1 dashborad-days" [ngClass]="{'active': numOfDays===0 }" (click)="changeNumOfDays(0)">Today</button>
+              <button class="btn  px-2 font-12 me-1 dashborad-days" [ngClass]="{'active': numOfDays===7 }" (click)="changeNumOfDays(7)">7 Days</button>
+              <button class="btn  px-2 font-12 me-1 dashborad-days" [ngClass]="{'active': numOfDays === currentDay }" (click)="changeNumOfDays(currentDay)">Current Month</button>
+              <button class="btn  px-2 font-12 me-1 dashborad-days" [ngClass]="{'active': numOfDays===30 }" (click)="changeNumOfDays(30)">30 Days</button> -->
+            </div>
+            <rewards-wallet [numOfDays]="numOfDays"></rewards-wallet>
+            <shift-performance [numOfDays]="numOfDays"></shift-performance>
+            <performance [numOfDays]="numOfDays"></performance>
+            <personal-info></personal-info>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>

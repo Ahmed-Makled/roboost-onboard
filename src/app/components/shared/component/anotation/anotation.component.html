@@ -1,0 +1,21 @@
+<!-- <img [id]="ID" src="assets/img/ico/info-circle-gray.svg" class="img-16 pointer" 
+    data-toggle="popover" title="{{title}}" (click)="initialize()"> -->
+<img *ngIf="!isSpan" src="/assets/icon/info_circle_solid-bf.svg" class="img-16 pointer" 
+    mwlConfirmationPopover
+    [popoverTitle]="title"
+    [popoverMessage]="content"
+    [appendToBody] = "true"
+    [hideConfirmButton] = "true"
+    [hideCancelButton] = "true"
+    placement="auto">
+<span class="pointer" mwlConfirmationPopover *ngIf="isSpan"
+    [popoverTitle]="title"
+    [popoverMessage]="content"
+    [appendToBody] = "true"
+    [hideConfirmButton] = "true"
+    [hideCancelButton] = "true"
+    placement="auto">
+    {{spanText}}
+</span>
+
+    

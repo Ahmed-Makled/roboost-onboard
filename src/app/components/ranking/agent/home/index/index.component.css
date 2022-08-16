@@ -1,0 +1,9 @@
+
+.checkBox{
+    width: auto !important; 
+    display: inline !important ;  
+    vertical-align:middle !important;
+}
+table .dispatch-btn {
+    height: 25px;
+}

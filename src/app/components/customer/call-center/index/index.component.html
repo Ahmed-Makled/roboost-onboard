@@ -1,0 +1,28 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/customer/home"></i>{{'customer.customers'|translate}} / {{'customer.call-center.tilte'|translate}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view p-0">
+  <div class="page-content pt-0">
+    <div class="card">
+      <div class="card-content px-0 pt-0">
+        <div class="scolled ">
+          <personal-info [phoneSearch]="phoneSearch"></personal-info>
+
+          <branches [phoneSearch]="phoneSearch"></branches>
+          <hr class="my-2rem b-2 b-f0">
+
+          <orders [phoneSearch]="phoneSearch"></orders>
+          <hr class="my-2rem b-2 b-f0">
+          <order-performance [phoneSearch]="phoneSearch"></order-performance>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

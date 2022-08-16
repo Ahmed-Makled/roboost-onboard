@@ -1,0 +1,157 @@
+<div class="page">
+  <div class=" div-loading" *ngIf="!page.isPageLoaded">
+    <div class="page-content  d-flex align-items-center justify-content-center">
+      <div class="card w-100">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+          <p class="loading">{{'shared.loading' | translate}} ...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-content" *ngIf="page.isPageLoaded">
+    <div class="card">
+
+      <div class="card-content p-0">
+        <form class="form" [formGroup]="page.searchForm">
+          <div class="form-body">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-2">
+              <div class="col">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="BranchID" 
+                            label="{{'system.store'| translate}}" placeholder="{{'search.select-store' | translate}}" 
+                            [items]="branchList" (change)="getDeliverymanList($event?.ID)"></ng-control>
+              </div>
+              <div class="col">
+                <ng-control  [type]="page.ControlType.SELECT" [form]="page.searchForm" control="DeliverymanID" 
+                              label="{{'system.deliveryman-name'| translate}}" placeholder="{{'search.select-dm' | translate}}" 
+                              [items]="deliverymanList" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [type]="page.ControlType.INPUT_DATE" [form]="page.searchForm" control="FromDate" 
+                            label="{{'shared.from-date'| translate}}" ></ng-control>
+              </div>
+              <div class="col">
+                <ng-control [type]="page.ControlType.INPUT_DATE" [form]="page.searchForm" control="ToDate" 
+                            label="{{'shared.to-date'| translate}}" ></ng-control>
+              </div>
+              <div class="col">
+                <div class="d-flex align-items-end h-100 ">
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm c-b500' (click)="onSearchClicked()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <i class="uil uil-search"></i>
+                   <span class="rb-btn-text d-md-inline-block d-none" > {{'system.apply-search'|translate}}</span>    <span class="rb-btn-text d-md-none d-inline-block" > {{'system.apply'|translate}}</span>
+                  </button>
+                  <button class='rb-btn rb-btn-secondary rb-btn-sm ms-2 c-r500' (click)="resetForm()"
+                    [disabled]="page.searchForm.invalid || page.isSearching">
+                    <span class="rb-btn-text">{{'system.reset' | translate}}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+        <div class="scolled my-3">
+          <table class="table ">
+            <thead>
+              <tr class="th-header">
+                <ng-container *ngFor="let colum of page.columns ;let i=index;">
+                  <th [class.pointer]="colum.Sortable" (click)="onSortClicked(colum)">
+                    {{colum.Title | translate}}
+                    <div *ngIf="colum.Sortable" class="d-inline-block"
+                      [ngClass]="(isColumnAscending(colum.Name)!=null) ? 'arrow-sort' : ''">
+                      <i class="uil uil-sort sort-icon"
+                        [ngClass]="isColumnAscending(colum) ? 'sort-icon-ase' : 'sort-icon-des'"></i>
+                    </div>
+                  </th>
+                </ng-container>
+                <th>
+                  <a (click)="showDeleteSelectedConfirmation()" *ngIf="showRemoveAll()">
+                    <i class="uil uil-trash-alt font-16 pointer"></i></a>
+                </th>
+                <th>
+                  <div class="form-check   ">
+                    <input class="form-check-input reset-float rect-14 " type="checkbox" value="item.ID"
+                      (change)="selectAll()">
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr [hidden]="!page.isSearching">
+                <td colspan="100%">
+                  <img src="/assets/img/gif-loading.gif" class="d-block" style="width:300px;margin: 0 auto;">
+                </td>
+              </tr>
+              <tr [hidden]="page.isSearching || items.length>0">
+                <td colspan="100%">
+                  <span>{{'shared.no-data-found'|translate}}</span>
+                </td>
+              </tr>
+              <ng-container *ngFor="let item of items | paginate : page.options;let i=index;">
+                <tr>
+                  <td>{{item.ID}}</td>
+                  <td>{{item.BranchName}}</td>
+                  <td>{{item.DeliverymanName}}</td>
+                  <td>{{item.StartDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+                  <td>{{item.CloseDate | date:'dd-MM-yyyy hh:mm a'}}</td>
+                  <td>{{item.Duration}}</td>
+                  <td><a (click)="showDeleteConfirmation(item)">
+                      <i class="uil uil-trash-alt font-16 pointer"></i>
+                    </a></td>
+                  <td>
+                    <div class="form-check   ">
+                      <input class="form-check-input reset-float rect-14 " type="checkbox" value="item.ID"
+                        value="item.ID" [(ngModel)]="item.IsSelected">
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <ng-pagination [page]="page" (pageSizeChange)="onChangePageSize()" (pageChange)="getNextPrevData($event)">
+        </ng-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #confirmDeletePnelaizeTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">
+        {{'shared.delete-confirmation.message'|translate}}
+        <strong *ngIf="selectedItem">{{selectedItem.ID}}</strong>
+      </p>
+
+
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" *ngIf="selectedItem" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="remove();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteSelectedTemplate>
+  <div class="modal-content confirm-modal">
+    <div class="modal-body">
+      <p class="modal-title font-16 bold c-00f">
+        {{'shared.delete-list-confirmation.message'|translate}}
+      </p>
+
+      <div class="d-flex mt-4">
+        <button type="button" class="btn cancel-btn me-auto"
+          (click)="modalRef.hide() ">{{'shared.cancel'|translate}}</button>
+        <button type="button" *ngIf="selectedItem" class="btn btn-without-icon bg-e5 ms-2"
+          (click)="removeSelected();modalRef.hide();">{{'shared.confirm'|translate}}</button>
+
+      </div>
+    </div>
+  </div>
+</ng-template>

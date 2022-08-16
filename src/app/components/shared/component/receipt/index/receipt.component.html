@@ -1,0 +1,154 @@
+<div *ngIf="page.isLoading">
+  <button (click)="printPage()" class="rb-btn rb-btn-primary rb-btn-sm no-print my-2 mx-auto"> <img
+      src="/assets/img/ico/print.svg" class="me-1 m-0 img-16">{{'shared.print'|translate}}</button>
+  <div id="receipt" class="print">
+    <div class="receipt-container" id="receipt-container">
+      <div class="py-3 px-3">
+        <div class="company-info">
+          <div class="logo-div d-flex align-items-center">
+            <img [src]="item.CompanyLogo" class="company-logo">
+            <!-- <img  src="/assets/img/Appetito.jpg" class="company-logo"> -->
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="c-004 font-24 mb-1 bold text-capitalize text-center">{{item.CompanyName}}</p>
+          </div>
+          <p class="company-phone font-24 c-004 mb-0 bold text-center">{{item.CompanyMobile}}</p>
+        </div>
+        <div class="receipt-card">
+          <div class="row align-items-center mb-12">
+            <div class="col-6">
+              <p class="font-12 c-70 mb-0 bold">Order Number</p>
+              <p class="font-22 c-0b mb-0 bold">{{item.OrderNumber}}</p>
+            </div>
+            <div class="col-6">
+              <p class="font-12 c-70 bold mb-1">Date</p>
+              <p class="font-14 c-0b mb-0 bold">{{item.Date| date: 'dd/MM/yyyy'}} at {{item.Date| date:'shortTime'}}
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p class="font-12 c-70 mb-1 bold">Branch</p>
+              <p class="font-14 c-0b mb-0 bold">{{item.BranchName}}</p>
+            </div>
+            <!-- <div class="col-4">
+              <p class="font-12 c-70 mb-1 bold">Branch Number</p>
+              <p class="font-14 c-0b mb-0 bold">{{item.BranchPhone}}</p>
+            </div> -->
+            <div class="col-6">
+              <p class="font-12 c-70 mb-1 bold">Payment mrthod</p>
+              <p class="font-14 c-0b mb-0 bold">{{item. PaymentMethod}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="receipt-card">
+          <div class="d-flex align-items-center mb-1">
+            <img class="rect-16 me-2" src="/assets/img/ico/user.svg">
+            <p class="font-14 c-003 bold">{{item.CustomerName}}</p>
+            <p class="c-3d ms-auto font-14 bold">{{item.CustomerMobile}}</p>
+          </div>
+          <p class="c-003 font-14 mb-0 bold">{{item.CustomerAddress}}</p>
+        </div>
+        <div class="receipt-card">
+          <div class="row mb-12 ">
+            <div class="col-2 pr-0">
+              <p class="font-12 c-54 mb-0">QT</p>
+            </div>
+            <div class="col-5 p-0">
+              <p class="font-12 c-54 mb-0">Item Name</p>
+            </div>
+            <div class="col-5">
+              <div class="row">
+                <div class="col-6 text-center">
+                  <p class="font-12 c-54 mb-0">Price</p>
+                </div>
+                <div class="col-6 text-center">
+                  <p class="font-12 c-54 mb-0">Total</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-12" *ngFor="let item of item.Items">
+            <div class="col-2 pr-0">
+              <p class="me-2 font-14 c-cc bold mb-0">{{item.Quantity}}x</p>
+            </div>
+            <div class="col-5 p-0">
+              <p class="font-14 c-0b mb-0">{{item.Name}}</p>
+            </div>
+            <div class="col-5">
+              <div class="row">
+                <div class="col-6 text-center">
+                  <p class="font-14 c-11 mb-0">{{item.Price}}</p>
+                </div>
+                <div class="col-6 text-center">
+                  <p class="font-14 c-11 bold mb-0">{{item.Total}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="mb-12">
+          <div class="d-flex align-items-center mb-12">
+            <p class="font-14 c-0b bold mb-0">Total Items</p>
+            <p class="font-14 c-0b ms-auto bold mb-0">{{item.TotalItems}}</p>
+          </div>
+          <div class="d-flex align-items-center mb-12" *ngIf="item.SalesVAT!=0">
+            <p class="font-14 c-0b bold mb-0">Total without VAT</p>
+            <p class="font-14 ms-auto bold c-009 mb-0">{{item.SubAmount}} LE</p>
+          </div>
+          <div class="d-flex align-items-center mb-12" *ngIf="item.SalesVAT!=0">
+            <p class="font-14 c-0b bold mb-0">Sales VAT ({{item.SalesVAT}}%)</p>
+            <p class="font-14 c-0b ms-auto bold mb-0">{{item.SalesVATAmount}} LE</p>
+          </div>
+          <div class="d-flex align-items-center mb-12" *ngIf="item.TotalAmount!=0">
+            <p class="font-14 c-0b bold mb-0">Sub-Total</p>
+            <p class="font-14 ms-auto bold c-009 mb-0"> {{item.TotalAmount}} LE</p>
+          </div>
+          <div class="d-flex align-items-center mb-12" *ngIf="item.Discount!=0">
+            <p class="font-14 c-0b bold mb-0">Discount <span class="c-23">({{item.DiscountAmount}}%)</span></p>
+            <p class="font-14 ms-auto bold c-23 mb-0">- {{item.Discount}} LE</p>
+          </div>
+          <div class="d-flex align-items-center mb-12" *ngIf="item.DeliveryFees!=0">
+            <p class="font-14 c-0b bold mb-0">Delivery Fees</p>
+            <p class="font-14 c-0b ms-auto bold mb-0">{{item.DeliveryFees}} LE</p>
+          </div>
+          <hr class="mb-12">
+          <div class="d-flex align-items-center mb-12">
+            <p class="font-14 c-0b bold mb-0">Total (EGP)</p>
+            <p class="font-14 c-0b ms-auto mb-0 bold"> {{item.TotalAfterDiscount}} LE</p>
+          </div>
+        </div>
+        <div class="receipt-card text-center" *ngIf="item.CanShowBalanceDue">
+          <p class="font-14 mb-2">Money to be collected</p>
+          <p class="font-34 bold mb-12"> {{item.BalanceDue}} LE</p>
+        </div>
+        <div class="receipt-card text-center" *ngIf="!item.CanShowBalanceDue">
+          <p class="font-14 mb-2">Total</p>
+          <p class="font-34 bold mb-12">{{item.TotalAfterDiscount}} LE</p>
+        </div>
+
+        <div class="receipt-card rules" *ngIf="item.Footer" [innerHtml]='footer'>
+
+          <!-- <div class="d-flex align-items-start mb-12 ">
+          <div class="elipses "></div>
+          <p class="font-14 mb-0">Best wishes for a speedy recovery.</p>
+        </div>
+        <div class="d-flex align-items-start mb-12">
+          <div class="elipses"></div>
+          <p class="font-14 mb-0">Refrigerator and cosmrtic mrdicines are not returned or exchanged.</p>
+        </div>
+        <div class="d-flex align-items-start ">
+          <div class="elipses"></div>
+          <p class="font-14 mb-0">Refrigerator and cosmrtic mrdicines are not returned or exchanged.</p>
+        </div> -->
+        </div>
+        <div class="receipt-card text-center mb-0">
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="powerd-by me-2 mb-0">POWERED BY</p> <img class="logo" src="/assets/img/roboost-logo.svg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

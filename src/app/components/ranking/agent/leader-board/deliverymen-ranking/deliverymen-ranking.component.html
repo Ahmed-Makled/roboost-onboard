@@ -1,0 +1,132 @@
+<div class="tab no-print">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16">
+        <i class="uil uil-arrow-left  pointer" routerLink="/ranking-board/delivery-agents"></i> 
+        {{'dm-rank.ranking-board'|translate}} / {{'dm-rank.delivery-agents'|translate}} / {{'dm-rank.leader-board'|translate}}
+      </div>
+    </div>
+    <div class="tab-action">
+      <button class="rb-btn rb-btn-danger rb-btn-sm" (click)="printPage()">
+        <i class="uil uil-print"></i>
+        <span class="rb-btn-text">{{'shared.print' |translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="tab print-only">
+  <div class="tab-header ">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16 print-only">
+        TOP {{items.length}} RANKING DELIVERYMEN OF DATE {{searchViewModel.Date}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="leader-board" id="leader-board" *ngIf="!page.isPageLoaded">
+  <div class="card h-100">
+    <div class="card-content p-0">
+      <div class="p-3">
+        <div class="row mb-4">
+          <div class="col-12 col-lg-10 offset-lg-1 text-center">
+            <div class="mb-5">
+              <div class="top-one pt-5">
+                <div class="img-box d-flex mx-auto mb-2 mt-2">
+                  <div class="floating-top d-flex">
+                    <img src="assets/img/new-ico/crown.svg" alt="" class="m-auto">
+                  </div>
+                  <img class="h-100" [src]="items[0].Image">
+                  <div class="floating-bottom d-flex">
+                    <star [size]="'15'" [startsNumber]="'5'" [rate]="items[0].Stars" [showNumber]=true
+                      [lableClass]="'c-b500 font-14'" [starsClass]="''">
+                    </star>
+                  </div>
+                </div>
+                <p class="mb-0  bold font-18 c-b700">{{items[0].Name}}</p>
+                <p class="mb-1  bold font-14 c-b500">{{items[0].BranchName}}</p>
+                <div class="d-flex align-items-center justify-content-center">
+                  <img src="assets/img/new-ico/chevron.svg" class="rect-20 ms-auto">
+                  <div class="mx-2 d-flex align-items-center c-b500">
+                    <p class="font-30  bold  mb-0 ">{{items[0].Total}}</p>
+                    <p class=" bold  ms-1 mb-0">{{'deliveryman.points'|translate}} </p>
+                  </div>
+                  <img src="assets/img/new-ico/chevron.svg" class="rect-20 me-auto">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-lg-10 offset-lg-1">
+            <div class="row">
+              <div class="col-4 text-center mb-2" *ngFor="let item of items_2; let i=index">
+                <div class="top-three">
+                  <div class="bg-white py-3">
+                    <div class="img-box d-flex mx-auto mb-2 mt-3">
+                      <div class="floating-top d-flex">
+                        <div class="bg-white m-auto d-flex">
+                          <p class="m-auto c-b700 font-17 bold ">{{i+2}}</p>
+                        </div>
+                      </div>
+                      <img class="m-auto" [src]="item.Image">
+                      <div class="floating-bottom d-flex">
+                        <star [size]="'15'" [startsNumber]="'5'" [rate]="item.Stars" [showNumber]=true
+                          [lableClass]="'font-14'" [starsClass]="''">
+                        </star>
+                      </div>
+                    </div>
+                    <p class="mb-0  bold font-18 c-b700">{{item.Name}}</p>
+                    <p class="mb-1  bold font-14 c-b500 ">{{item.BranchName}}</p>
+                    <div class="d-flex align-items-center">
+                      <div class="rank-box mx-auto d-flex">
+                        <div class="bg-white m-auto pt-1 px-2 c-b500">
+                          <p class="mb-0  bold  d-inline-block font-30">{{item.Total}}</p>
+                          <p class="mt-n1  mb-0  bold font-13 ">{{'deliveryman.points'|translate}} </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-10 offset-lg-1">
+            <div class="last-top px-3 py-1 mb-2 rb-border bc-g200" *ngFor="let item of items_3; let i=index">
+              <div class="row">
+                <div class="col-6 my-1">
+                  <div class="d-flex align-items-center">
+                    <div class="rb-counter rb-counter-sm counter-g900 ">{{i+5}}</div>
+                    <img class="rect-40 circle mx-2" [src]="item.Image">
+                    <div class="ms-1">
+                      <p class="font-15 c-b700 bold">{{item.Name}}</p>
+                      <p class="font-13 bold c-b500 mt-1">{{item.BranchName}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 my-1 text-right">
+                  <div class="d-flex">
+                    <div class="ms-auto">
+                      <p class="font-14   mb-2  bold  c-b500">{{'dm-rank.rating'|translate}} 
+                        <span class="c-b700">({{getStarsString(item.Stars)}})</span>
+                      </p>
+                      <star [size]="'15'" [startsNumber]="'5'" [rate]="item.Stars" [showNumber]=true
+                        [lableClass]="'font-14'" [starsClass]="''">
+                      </star>
+                    </div>
+                    <div class="ms-4">
+                      <p class="font-14  mb-2  bold c-b500">{{'deliveryman.points'|translate}}</p>
+                      <p class=" bold font-20 c-b700 ">{{item.Total}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

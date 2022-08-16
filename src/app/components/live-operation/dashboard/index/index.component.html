@@ -1,0 +1,71 @@
+<div class="live-dashboard ">
+  <div class="card mt-3 ">
+    <!-- <div class="card-header">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-1 mb-md-0">
+          <div class="d-flex align-items-center">
+            <i class="uil uil-folder font-24 li-h1 me-2"></i>
+            <p class="card-title me-2">{{'dashboard.title'|translate}}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="d-flex align-items-center">
+            <i class="uil uil-folder me-2 font-14 li-h1 ms-auto"></i>
+            <p class="font-13 c-darkblue me-1">{{searchViewModel.FromDate | date:'MMM dd,yyyy' }} - {{searchViewModel.ToDate |
+              date:'MMM dd,yyyy'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="m-0"> -->
+    <div class="card-content">
+      <form class="form" [formGroup]="page.searchForm">
+        <div class="form-body">
+          <div class="row gx-2">
+            <ng-container *ngIf="!isSingleStore()">
+              <div class="col-md-2 col-6 mb-2 mb-md-0">
+                <ng-select class="form-control" [items]="areaList" bindLabel="Name" bindValue="ID" appendTo="body"
+                  placeholder="{{'search.select-area'|translate}}" formControlName="AreaID" (change)="areaChanged($event?.ID)">
+                </ng-select>
+              </div>
+              <div class="col-md-2 col-6 mb-2 mb-md-0">
+                <ng-select class="form-control" [items]="branchList" bindLabel="Name" bindValue="ID" appendTo="body"
+                  placeholder="{{'search.select-store'|translate}}" formControlName="BranchID" (change)="onSearchClicked()">
+                </ng-select>
+              </div>
+            </ng-container>
+            <div class="d-flex" [class]="isSingleStore()?'col-12':'col-md-8'">
+              <div class="date-selection ms-auto">
+                <fieldset class="form-group me-1">
+                  <label for="basicInput" class="font-12 bold me-1">{{'shared.from'|translate}}</label>
+                  <input bsDatepicker type="text" class="form-control min-height" formControlName="FromDate"
+                    placeholder="{{'search.select-date'|translate}}">
+                </fieldset>
+                <fieldset class="form-group">
+                  <label for="basicInput" class="font-12 bold me-1">{{'shared.to'|translate}}</label>
+                  <input bsDatepicker type="text" class="form-control min-height" formControlName="ToDate"
+                    placeholder="{{'search.select-date'|translate}}">
+                </fieldset>
+              </div>
+              <button class="btn btn-with-icon ms-2" type="button" (click)="onSearchClicked()">
+                <i class="uil uil-search font-20 li-h1 me-2"></i>
+                <span class="rb-btn-text d-md-inline-block d-none"> {{'system.apply-search'|translate}}</span>    
+                <span class="rb-btn-text d-md-none d-inline-block"> {{'system.apply'|translate}}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+
+  <kpis [searchViewModel]="searchViewModel"></kpis>
+  <trips-line-chart [searchViewModel]="searchViewModel"></trips-line-chart>
+  <orders-line-chart [searchViewModel]="searchViewModel"></orders-line-chart>
+  <delivery-time-line-chart [searchViewModel]="searchViewModel">
+  </delivery-time-line-chart>
+  <delivery-time-chart-by-branch [searchViewModel]="searchViewModel">
+  </delivery-time-chart-by-branch>
+  <top-deliverymen [searchViewModel]="searchViewModel"></top-deliverymen>
+</div>

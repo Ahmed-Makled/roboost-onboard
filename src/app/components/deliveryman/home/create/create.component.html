@@ -1,0 +1,84 @@
+<div class="tab ">
+  <div class="tab-header">
+    <div class="tab-title">
+      <div class="title d-flex align-content-center font-16"> <i class="uil uil-arrow-left  pointer"
+          routerLink="/agent/profiles/"></i> {{'deliveryman.title'|translate}} / {{'deliveryman.title'|translate}}  /{{page.isEdit?('deliveryman.title-edit'|
+          translate):('deliveryman.title-create'| translate)}}
+      </div>
+    </div>
+    <div class="tab-action" *ngIf="page.isPageLoaded">
+      <button class="rb-btn rb-btn-secondary rb-btn-sm me-2" routerLink="/agent/profiles">
+        <span class="rb-btn-text">{{'shared.cancel'|translate}}</span>
+      </button>
+      <button class="rb-btn rb-btn-success rb-btn-sm" (click)="save()" [disabled]="disabledSubmit()">
+        <span class="rb-btn-text">{{(page.isEdit?'shared.edit':'shared.create')|translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+<div class=" div-loading" *ngIf="!page.isPageLoaded">
+  <div class="page-content  d-flex align-items-center justify-content-center">
+    <div class="card w-100">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img src="/assets/img/loading.gif" class="d-block mb-3" style="width: 32px;">
+        <p class="loading">{{'shared.loading' | translate}} ...</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page wrapper-view height-unset" *ngIf="page.isPageLoaded">
+  <div class="page-content">
+        <div class="card  ">
+          <div class="card-content p-0"  >
+            <form [formGroup]="page.form">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3  g-2">
+                <div class="col">
+                  <ng-control [form]="page.form" control="Name" label="{{'shared.name' | translate}}" 
+                              placeholder="{{'search.enter-name' | translate}}"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [form]="page.form" control="Mobile" label="{{'shared.mobile' | translate}}" 
+                              placeholder="{{'search.enter-mobile' | translate}}"></ng-control>
+                </div>
+                <div class="col" *ngIf="!isSingleStore()">
+                  <ng-control  [type]="page.ControlType.SELECT" [form]="page.form" control="BranchID" 
+                              label="{{'system.store' | translate}}" placeholder="{{'search.select-store' | translate}}"
+                              [items]="branchList"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control [form]="page.form" control="UserName" label="{{'shared.username' | translate}}" 
+                              placeholder="{{'shared.enter' | translate}}  {{'shared.username' | translate}}"></ng-control>
+                </div>
+                <div class="col" *ngIf="!page.isEdit">
+                  <ng-control [form]="page.form" control="Password" label="{{'shared.password' | translate}}" 
+                              placeholder="{{'shared.enter' | translate}} {{'shared.password'|translate}}"></ng-control>
+                </div>
+                <div class="col">
+                  <ng-control  [form]="page.form" control="NationalID" label="{{'shared.national-id' | translate}}" 
+                               placeholder="{{'shared.enter' | translate}} {{'shared.national-id'|translate}} "></ng-control>
+                </div>
+
+            <div class="col">
+              <ng-control [form]="page.form" control="EnrollID" label="{{'system.enrollid' | translate}}"
+                placeholder="{{'shared.enter' | translate}} {{'system.enrollid'|translate}} "></ng-control>
+            </div>
+          </div>
+
+          <ng-container >
+            <p class="font-12 c-g900 my-2"> Choose Skills</p>
+          <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-2 ">
+            <div class="col mb-2" *ngFor="let item of serviceList; let i = index">
+              <div class="select-store pointer bg-white align-items-center" (click)="item.Selected = !item.Selected"
+                [class.selected]="item.Selected">
+                  <img  [src]="item.Icon"
+                    onerror="this.onerror=null; this.src='./assets/image/skill.png'" class="rect-36 me-2 circle ">
+                <p class="text-nowrap font-12">{{item.Name|maxLengthDot:24}}</p>
+              </div>
+            </div>
+          </div> 
+        </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

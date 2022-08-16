@@ -1,0 +1,109 @@
+<div class="rewards col-12 bt-F0 pt-3">
+  <h5 class=" bold c-112" id="Rewards">{{'deliveryman.profile.reward.title'|translate}}</h5>
+  <div class="row mb-2">
+    <div class="col-sm-6 col-md-5  mb-1">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="pull-left">
+          <p class=" bold font-12 mb-0">{{'deliveryman.profile.reward.ranking'|translate}} <span class="c-red">({{'system.store'|translate}})</span></p>
+          <p class=" font-12 mb-0">{{currentMonth}} {{currentYear}}</p>
+        </div>
+        <div class="pull-right mt-1 c-white font-15  bold rank w-auto">
+          {{deliverymanReward?.Ranking}}/{{deliverymanReward?.BranchDeliverymenCount}}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-5 offset-md-2 mb-1">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="pull-left">
+          <p class=" bold font-12 mb-0">{{'deliveryman.profile.reward.ranking'|translate}} <span class="c-red">({{'system.company'|translate}})</span></p>
+          <p class=" font-12 mb-0">{{currentMonth}} {{currentYear}}</p>
+        </div>
+        <div class="pull-right mt-1 c-white font-15  bold rank w-auto">
+          {{deliverymanReward.CompanyRanking}}/{{deliverymanReward.CompanyDeliverymenCount}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="Wallet col-12 bt-F0 py-3">
+  <h5 class=" bold mb-3 c-112 " id="Wallet">{{'deliveryman.profile.reward.wallet'|translate}}</h5>
+  <div class="row ">
+    <div class="col-md-4 col-6 mb-md-0 mb-1">
+      <p class="font-12 bold c-112 mb-1">{{'deliveryman.profile.reward.total-balance'|translate}}</p>
+      <p class="font-25 c-112">{{deliverymanWallet.TotalAmount}} {{'system.currency'|translate}}</p>
+    </div>
+    <div class="col-md-4 col-6  mb-md-0 mb-1">
+      <p class="font-12 bold c-112 mb-1">{{'deliveryman.profile.reward.bonus'|translate}}</p>
+      <p class="font-25 c-green">{{deliverymanWallet.TotalBonusAmount}} {{'system.currency'|translate}}</p>
+    </div>
+    <div class="col-md-4 col-6 mb-md-0 mb-1">
+      <p class=" font-12 bold c-112 mb-1">{{'deliveryman.profile.reward.deduction'|translate}}</p>
+      <p class=" font-25 c-red">{{deliverymanWallet.TotalDetuctionAmount}} {{'system.currency'|translate}}</p>
+    </div>
+  </div>
+</div>
+<!-- <div class="Wallet col-12 bt-F0 pt-3">
+  <h5 class=" bold mb-3 c-112 " id="Wallet">Wallet</h5>
+  <div class="row ">
+    <div class="col-md-4 col-sm-6 col-6">
+      <p class=" font-12 bold c-112 mb-1">Total Balance</p>
+      <p class=" font-25 c-112">{{deliverymanWallet.TotalAmount}} EGP</p>
+    </div>
+    <div class="col-md-4 col-sm-6 col-6">
+      <p class=" font-12 bold c-112 mb-1">Bonus</p>
+      <p class=" font-25 c-green">{{deliverymanWallet.TotalBonusAmount}} EGP</p>
+    </div>
+    <div class="col-md-4 col-sm-6 col-6">
+      <p class=" font-12 bold c-112 mb-1">Deduction</p>
+      <p class=" font-25 c-red">{{deliverymanWallet.TotalDetuctionAmount}} EGP</p>
+    </div>
+  </div>
+</div> -->
+<hr class="m-0">
+<div class="Wallet col-12 bt-F0 py-3">
+  <h5 class="bold mb-3 c-112" id="Numbers">{{'deliveryman.profile.reward.statistic'|translate}}</h5>
+  <div class="row m-n1">
+    <div class="col-6 col-md-3 mb-md-0 mb-1">
+      <div class="icon-details ">
+        <i class="uil uil-ban"></i>
+        <div class="icon-detail">
+          <p class="font-12 c-66 m-0">{{'deliveryman.profile.reward.ignore'|translate}}</p>
+          <p class="font-14 c-00f m-0">{{deliverymanstatistic.IgnoredRequest}} <span
+              class="font-12 c-70">{{'deliveryman.profile.reward.trips'|translate}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 mb-md-0 mb-1">
+      <div class="icon-details ">
+        <i class="uil uil-sad-dizzy"></i>
+        <div class="icon-detail">
+          <p class="font-12 c-66 m-0">{{'deliveryman.profile.reward.penalize'|translate}}</p>
+          <p class="font-14 c-00f m-0">{{deliverymanstatistic.PenalizedCount}} </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6  col-md-3 mb-md-0 mb-1">
+      <div class="icon-details">
+        <i class="uil uil-clock"></i>
+        <div class="icon-detail">
+          <p class="font-12 c-66 m-0">{{'deliveryman.profile.reward.avg-on-duty'|translate}}</p>
+          <p class="font-14 c-00f m-0">{{deliverymanstatistic.DeliverymanAVGOnDuty}}
+            {{'deliveryman.profile.reward.hour'|translate}}
+            ({{deliverymanstatistic.DeliverymanOnDutyPrecentage}} %)</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6  col-md-3 mb-md-0 mb-1">
+      <div class="icon-details">
+        <i class="uil uil-clock"></i>
+        <div class="icon-detail">
+          <p class="font-12 c-66 m-0">{{'deliveryman.profile.reward.branch-avg-on-duty'|translate}}</p>
+          <p class="font-14 c-00f m-0">{{deliverymanstatistic.BranchAVGOnDuty}}
+            {{'deliveryman.profile.reward.hour'|translate}} ({{deliverymanstatistic.BranchOnDutyPrecentage}} %)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

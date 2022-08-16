@@ -1,0 +1,37 @@
+<div class="tab-container card h-100 m-3">
+  <div class="tab " [class.sub]="showTabLinks()" *ngIf="showTabLinks()">
+    <div class="tab-header">
+      <div class="tab-title">
+        <i class="{{getCurrentPage().Icon}}" *ngIf="!getCurrentPage().IsImage"></i>
+        <p class="title">{{'system-config.title'|translate}} / {{getCurrentPage()?.Name}} </p>
+      </div>
+      <div class="tab-action" *ngIf="canShowActionCreate()">
+        <button class="rb-btn rb-btn-primary rb-btn-sm" [routerLink]="['/system-config/page/home/create']">
+          <i class="uil uil-plus"></i>
+          <span class="rb-btn-text">{{'shared.create'| translate}}</span>
+        </button>
+      </div>
+      <div class="tab-action" *ngIf="canShowSaveButton()">
+        <button class="rb-btn rb-btn-primary rb-btn-sm me-2" (click)="fireChildEvent()" [disabled]="page.isSaving">
+          <span class="rb-btn-text">{{'shared.save'|translate}}</span>
+        </button>
+      </div>
+    </div>
+    <ul class="tab-links" *ngIf="showTabLinks()">
+      <ng-container *ngFor="let item of getTabList()">
+        <li class="tab-item active d-flex align-items-center" (click)="onTabClick(item)"
+          [style.order]="item.DisplayOrder" [class.active]="getCurrentTab() == item.ID">
+          <i class="{{item.Icon}}" *ngIf="!item.IsImage"></i>
+          <img [src]="item.Icon" *ngIf="item.IsImage">
+          <span>{{item.Name}}</span>
+           <div class="rb-counter rb-counter-sm"  *ngIf="getCurrentTab() == item.ID && tabTotalItems !=null">
+              <p class="counter-text">{{tabTotalItems}}</p>
+            </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="wrapper-view">
+    <router-outlet></router-outlet>
+  </div>
+</div>

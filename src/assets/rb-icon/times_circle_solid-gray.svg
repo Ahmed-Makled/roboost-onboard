@@ -1,0 +1,11 @@
+<svg id="times_circle_solid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_153464" data-name="Rectangle 153464" width="16" height="16" fill="#9BA2AB" opacity="0"/>
+    </clipPath>
+  </defs>
+  <rect id="Rectangle_153463" data-name="Rectangle 153463" width="16" height="16" fill="#9BA2AB" opacity="0"/>
+  <g id="Group_83761" data-name="Group 83761" clip-path="url(#clip-path)">
+    <path id="Path_22878" data-name="Path 22878" d="M13.5,4.072l-.16-.16a6.667,6.667,0,0,0-9.593,9.26l.167.167A6.667,6.667,0,1,0,13.5,4.072Zm-2.4,6.08a.667.667,0,0,1,0,.947h0a.667.667,0,0,1-.94,0L8.625,9.565,7.1,11.1h0a.667.667,0,0,1-.94,0h0a.667.667,0,0,1,0-.94L7.685,8.625,6.152,7.1A.669.669,0,1,1,7.1,6.152L8.625,7.685l1.527-1.533h0A.672.672,0,1,1,11.1,7.1L9.565,8.625Z" transform="translate(-0.625 -0.625)" fill="#9BA2AB"/>
+  </g>
+</svg>

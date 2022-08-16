@@ -1,0 +1,26 @@
+
+.checkBox{
+    width: auto !important; 
+    display: inline !important ;  
+    vertical-align:middle !important;
+}
+table .dispatch-btn {
+    height: 25px;
+}
+
+#map{
+    border: 2px solid #005D8E;
+    border-radius: 8px;
+    height: calc(120vh - 233px);
+}
+@media(max-width:780px){
+    #map{
+        height: calc(120vh - 266px);
+    }
+}
+.gm-style .gm-style-iw-c{
+    padding-right: 12px !important;
+}
+.div-loading{
+  top:calc(60% - 60px);
+}

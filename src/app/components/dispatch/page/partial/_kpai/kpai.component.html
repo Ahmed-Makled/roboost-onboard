@@ -1,0 +1,87 @@
+<div class="d-flex mb-1">
+    <div class="me-1" [class.rb-skeleton]="isKpisSearching || orderKpi.AvgDeliveryTime == null">
+        <div class="rb-kpai c-b900 rb-border bc-b500">
+            <div class="rb-counter rb-counter-md bg-b500 c-white">
+                <p class="counter-text">{{orderKpi.AvgDeliveryTime}}</p>
+            </div>
+            <span class="kpai-text">{{'kpis.avg-delivery-time'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="isKpisSearching || orderKpi.TotalOrders == null">
+        <div class="rb-kpai c-b500">
+            <div class="rb-counter rb-counter-md bg-b50 c-b500">
+                <p class="counter-text">{{orderKpi.TotalOrders}}</p>
+            </div>
+            <span class="kpai-text">{{'order.total'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+        <div class="rb-kpai c-g900">
+            <img src="/assets/image/shield_exclamation_solid.svg" class="kpai-icon">
+            <div class="rb-counter rb-counter-md bg-o500 c-white">
+                <p class="counter-text">{{_taskUtils.getUrgentTasksCount(_dispatchService.tasks)}}</p>
+            </div>
+            <span class="kpai-text">{{'dispatch.urgent'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+        <div class="rb-kpai c-g900">
+            <img src="/assets/image/calender_alt_solid.svg" class="kpai-icon">
+            <div class="rb-counter rb-counter-md bg-p500 c-white">
+                <p class="counter-text">{{_taskUtils.getSchedualedOrders().length}}</p>
+            </div>
+            <span class="kpai-text">{{'dispatch.scheduld-tasks'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+        <div class="rb-kpai c-g900">
+            <div class="rb-counter rb-counter-md bg-g100 c-g900">
+                <p class="counter-text">{{_taskUtils.getReadyOrders().length + _taskUtils.getInProgressOrders().length}}</p>
+            </div>
+            <span class="kpai-text">{{'kpis.pending-tasks'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+        <div class="rb-kpai c-g900">
+            <img src="/assets/image/pause_circle_solid.svg" class="kpai-icon">
+            <div class="rb-counter rb-counter-md bg-y500 c-g900">
+                <p class="counter-text">{{_taskUtils.getPausedTasksCount()}}</p>
+            </div>
+            <span class="kpai-text">{{'kpis.paused-orders'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+        <div class="rb-kpai c-g900">
+            <img src="/assets/image/bike.svg" class="kpai-icon">
+            <div class="rb-counter rb-counter-md bg-lb500 c-white">
+                <p class="counter-text">{{_taskUtils.getOnTripOrderList().length}}</p>
+            </div>
+            <span class="kpai-text">{{'kpis.on-way'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="isKpisSearching || orderKpi.DeliveredOrders == null">
+        <div class="rb-kpai c-g900">
+            <div class="rb-counter rb-counter-md bg-gr600 c-white">
+                <p class="counter-text">{{orderKpi.DeliveredOrders}}</p>
+            </div>
+            <span class="kpai-text">{{'dispatch.delivered-tasks'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="isKpisSearching || orderKpi.CanceledOrders == null">
+        <div class="rb-kpai c-g900">
+            <img src="/assets/image/times_circle_solid.svg" class="kpai-icon">
+            <div class="rb-counter rb-counter-md bg-r500 c-white">
+                <p class="counter-text">{{orderKpi.CanceledOrders}}</p>
+            </div>
+            <span class="kpai-text">{{'kpis.cancelled-orders'|translate}}</span>
+        </div>
+    </div>
+    <div class="me-1" [class.rb-skeleton]="isKpisSearching || tripKpi?.ExcellentTrips == null">
+        <div class="rb-kpai c-g900">
+            <div class="rb-counter rb-counter-md bg-gr600 c-white">
+                <p class="counter-text">{{tripKpi?.ExcellentTrips}}%</p>
+            </div>
+            <span class="kpai-text">{{'trip.trip-performance.excellent-trips'|translate}}</span>
+        </div>
+    </div>
+</div>
