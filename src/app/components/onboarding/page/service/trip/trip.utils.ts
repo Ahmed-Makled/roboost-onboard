@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { DispatchAgentViewModel, DispatchTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
 import { TripStatus } from 'src/app/enum/trip-status';
-import { StatusUtilsService } from '../../../../../service/status.service';
+import { OnboardingDispatchService } from '../../onboarding.service';
+import { DispatchAgentViewModel, DispatchTripViewModel } from '../../view-models/dispatch.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { StatusUtilsService } from '../../../../../service/status.service';
 export class TripUtilsService {
 
   constructor(
-    private _dispatchService: DispatchService, 
+    private _dispatchService: OnboardingDispatchService, 
   ) { }
   
   isTripDelivered(id: number) {

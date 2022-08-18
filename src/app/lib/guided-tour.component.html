@@ -1,0 +1,121 @@
+
+<div *ngIf="currentTourStep">
+  <div class="guided-tour-user-input-mask" (click)="backdropClick($event)"></div>
+  <div [class]="'guided-tour-spotlight-overlay'"
+    [style.border-radius.px]="currentTourStep.overlayRadius?currentTourStep.overlayRadius:0"
+     [style.top.px]="overlayTop"
+    [style.left.px]="overlayLeft"
+    [style.height.px]="currentTourStep.highlightHeight?overlayHeight + currentTourStep.highlightHeight:overlayHeight"
+    [style.width.px]="overlayWidth"
+    [ngStyle]="{opacity: currentTourStep.hiddenOverLay?'0':''}"
+    >
+  </div>
+</div>
+
+
+
+<div *ngIf="currentTourStep && !isOrbShowing">
+  <div #tourStep *ngIf="currentTourStep " class="tour-step tour-{{ currentTourStep.orientation }}"
+   [ngClass]="{'page-tour-step': !currentTourStep.selector }"
+    [style.top.px]="(currentTourStep.selector && selectedElementRect ? currentTourStep.topPosition?(topPosition+currentTourStep.topPosition):topPosition  : null)"
+    [style.left.px]="(currentTourStep.selector && selectedElementRect ? leftPosition  : null)"
+    [style.width.px]="(currentTourStep.selector && selectedElementRect ? calculatedTourStepWidth : null)"
+    [style.transform]="(currentTourStep.selector && selectedElementRect ? transform : null)">
+    <div *ngIf="currentTourStep.selector && !currentTourStep.hiddenOverLay " class="tour-arrow"></div>
+
+
+    <div class="tour-block" *ngIf="!currentTourStep.hiddenOverLay">
+
+      
+
+      <div *ngIf="progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
+                      && !guidedTourService.onResizeMessage" class="tour-progress-indicator">
+        <ng-container *ngTemplateOutlet="progress"></ng-container>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-between">
+        <h3 [class]="'tour-title rb-h6 bold '+ currentTourStep.titleClass "
+          *ngIf="(currentTourStep.title && currentTourStep.selector)|| (currentTourStep.title && !currentTourStep.selector)"
+          [innerHTML]=" currentTourStep.title">
+        </h3>
+        <i class="uil uil-multiply rect-24 c-g500 pointer"
+          *ngIf="!guidedTourService.onResizeMessage && !currentTourStep.hiddenBtnPrev &&  !currentTourStep.hiddenSteps"
+          (click)="guidedTourService.skipTour()"></i>
+      </div>
+
+      <div class="tour-content">
+        <p class="rb-p-sm c-g500" [innerHTML]="currentTourStep.content"></p>
+      </div>
+
+      <div class="tour-buttons">
+        <div
+          *ngIf="progressIndicatorLocation === progressIndicatorLocations.BottomOfTourBlock && !guidedTourService.onResizeMessage &&  !currentTourStep.hiddenSteps"
+          class="tour-progress-indicator">
+          <ng-container *ngTemplateOutlet="progress"></ng-container>
+        </div>
+
+        <button
+          *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage && !currentTourStep.hiddenBtnPrev"
+          class="rb-btn rb-btn-secondary rb-btn-md c-b500 ms-auto rb-me-12" (click)="guidedTourService.backStep()">
+          <span class="rb-btn-text">{{ backText }}</span>
+        </button>
+
+        <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage"
+          [class]="'rb-btn rb-btn-primary rb-btn-md ' + currentTourStep?.classBtnNext " [class.ms-auto]='guidedTourService.onFirstStep'
+          (click)="guidedTourService.nextStep()">
+          <span class="rb-btn-text">{{ currentTourStep.textBtnNext?currentTourStep.textBtnNext: nextText }}</span>
+          <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
+            <ng-container *ngTemplateOutlet="progress"></ng-container>
+          </ng-container>
+        </button>
+
+        <button *ngIf="guidedTourService.onLastStep"
+          [class]="'rb-btn rb-btn-primary rb-btn-md' " 
+          [class.ms-auto]='!guidedTourService.onLastStep'
+          (click)="guidedTourService.nextStep()">
+          <span class="rb-btn-text">{{ doneText }}</span>
+
+        </button>
+
+        <button *ngIf="guidedTourService.onResizeMessage" class="rb-btn rb-btn-primary rb-btn-md"
+          (click)="guidedTourService.resetTour()">
+          <span class="rb-btn-text">{{ closeText }}</span>
+        </button>
+
+      </div>
+
+
+
+
+    </div>
+
+
+    <div class="d-flex align-items-center w-127 m-auto" *ngIf="currentTourStep.hiddenOverLay">
+      <div class="rb-btn rb-btn-primary aling-items-center font-10 mb-1 px-2 py-1"  (click)="guidedTourService.nextStep()">
+        <span class="rb-btn-text">Click to open task actions</span>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+</div>
+
+<ng-template #progress>
+  <ng-container *ngTemplateOutlet="progressIndicator || defaultProgressIndicator; 
+              context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
+          "></ng-container>
+</ng-template>
+
+<ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
+  <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">&nbsp;</ng-container>
+  <p class='rb-p-sm c-g300'> {{ currentStepNumber }}&nbsp;of&nbsp;{{ totalSteps }}</p>
+</ng-template>

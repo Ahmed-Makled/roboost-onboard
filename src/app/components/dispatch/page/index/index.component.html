@@ -96,7 +96,7 @@
     <div class="dispatch-container px-sm-3 rb-py-12" [class.page-create-trip]="canShowPageCreateTrip()"
       [class]="isSingleStore()?'single-store pt-1':''" [class.show-tasks]="pageUtils.withShowTaskSection">
       <div id="KpiStep"  class="scroll-x hide-scroll px-3 px-sm-0 m-0" *ngIf="!isSingleStore()">
-        <app-kpai [isKpisSearching]="pageUtils.IsKpisSearching" [orderKpi]="orderKpi" [tripKpi]="tripKpi"></app-kpai>
+        <app-kpai [isKpisSearching]="pageUtils.IsKpisSearching" [IsOrderSearching]="pageUtils.IsOrderSearching" [orderKpi]="orderKpi" [tripKpi]="tripKpi"></app-kpai>
       </div>
       <div class="dispatch-start-section" [class.hide-scroll]="isMobileView()">
         <div class="card mt-2" id="accordionAgentCard">

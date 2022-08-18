@@ -48,6 +48,7 @@ export class DispatchTripViewModel {
   Orders: DispatchOrderViewModel[] = []
   showTripLog: boolean = false;
   showTracking: boolean = false;
+  hiddenOrders: boolean = false;
 }
 
 export class DispatchOrderViewModel {
@@ -103,6 +104,7 @@ export class DispatchOrderViewModel {
   ShowTaskDetails: boolean = false;
   IsAction: boolean = true
   IsStoreSelect: boolean = false
+  IsAgentSelect: boolean = false
   Services: DispatchOrderSkillViewModel[] = [];
   DeliveryVerificationCode: String;
   SalesVATAmount: number;

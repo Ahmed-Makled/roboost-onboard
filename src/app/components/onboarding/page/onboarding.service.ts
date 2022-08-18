@@ -5,18 +5,19 @@ import { ApiService } from 'src/app/service/api.service';
 import { DispatchAgentViewModel, DispatchOrderViewModel, DispatchSelectItemViewModel, DispatchTripViewModel } from './view-models/dispatch.model';
 import { CRUDIndexPage } from 'src/app/model/shared/crud-index.model';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import {  TripKpiViewModel } from './partial/_kpai/view-models/kpi.model';
 import { FilterViewModel } from './view-models/filter.model';
 import { DispatchUtilsViewModel } from './view-models/dispatch.utils';
 import { ServiceItemViewModel } from './view-models/order-create.model';
 import { TripLogViewModel } from './view-models/log.model';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
+import { TripKpiViewModel } from '../../dispatch/page/partial/_kpai/view-models/kpi.model';
+import { DummyDataService } from 'src/app/service/dummy-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class DispatchService {
+export class OnboardingDispatchService {
   
   private deliverymanController='Deliveryman';
   private userController='User';
@@ -41,6 +42,8 @@ export class DispatchService {
   
   constructor(
     private _apiService:ApiService,
+    private DummyDataService :DummyDataService
+
   ) { }
   
   onModalRefChange() {
@@ -58,11 +61,13 @@ export class DispatchService {
           element.ArrivalTimeSecond += 1;
         }
       });
+
       this.tasks.forEach(element => {
         if (element.Status != OrderStatus.DELIVERED && element.Status != OrderStatus.DELIVERED_MANUALLY)
           element.SpentTime += 1
       });
     }, 1000);
+
   }
 
   getRunningAgents(searchViewModel:DispatchSearchViewModel) {

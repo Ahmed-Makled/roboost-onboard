@@ -1,4 +1,3 @@
-
 export interface TourStep {
     /** Selector for element that will be highlighted */
     selector?: string;
@@ -6,7 +5,7 @@ export interface TourStep {
     title?: string;
     titleClass?: string;
     /** Tour step text */
-    content: string;
+    content?: string;
     /** Where the tour step will appear next to the selected element */
     orientation?: Orientation | OrientationConfiguration[];
     /** Action that happens when the step is opened */
@@ -22,9 +21,17 @@ export interface TourStep {
     /** Adds padding around tour highlighting in pixels, this overwrites the default for this step. Is not dependent on useHighlightPadding being true */
     highlightPadding?: number;
     highlightHeight?: number;
+    subSelector?:string;
+    hiddenSteps?: boolean;
+    hiddenBtnPrev?: boolean;
+    textBtnNext?: string;
+    classBtnNext?: string;
     overlayRadius?: number;
-}
+    topPosition?:number;
+    hiddenOverLay?: boolean;
 
+    sub?: string;
+}
 export interface GuidedTour {
     /** Identifier for tour */
     tourId: string;
@@ -51,14 +58,12 @@ export interface GuidedTour {
      */
     preventBackdropFromAdvancing?: boolean;
 }
-
 export interface OrientationConfiguration {
     /** Where the tour step will appear next to the selected element */
     orientationDirection: Orientation;
     /** When this orientation configuration starts in pixels */
     maximumSize?: number;
 }
-
 export class Orientation {
     public static readonly Bottom = 'bottom';
     public static readonly BottomLeft = 'bottom-left';
@@ -66,11 +71,11 @@ export class Orientation {
     public static readonly Center = 'center';
     public static readonly Left = 'left';
     public static readonly Right = 'right';
+    public static readonly RightBottom = 'right-bottom';
     public static readonly Top = 'top';
     public static readonly TopLeft = 'top-left';
     public static readonly TopRight = 'top-right';
 }
-
 export enum ProgressIndicatorLocation {
     InsideNextButton = 'inside-next-button',
     TopOfTourBlock = 'top-of-tour-block',

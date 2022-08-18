@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { SpecialTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-create.model';
-import { DispatchAgentViewModel, DispatchTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
-import { TripStatus } from 'src/app/enum/trip-status';
+import { AgentUtilsService } from 'src/app/service/agent/agent.utils';
+import { DummyDataService } from 'src/app/service/dummy-data.service';
 import { SharedService } from 'src/app/service/shared.service';
-import { callbackify } from 'util';
-import { AgentUtilsService } from '../../../../../service/agent/agent.utils';
+import { OnboardingDispatchService } from '../../onboarding.service';
+import { SpecialTripViewModel } from '../../view-models/dispatch-create.model';
+import { DispatchAgentViewModel, DispatchTripViewModel } from '../../view-models/dispatch.model';
 import { TaskUtilsService } from '../task/task.utils';
 import { TripDataService } from './trip.data';
 import { TripUtilsService } from './trip.utils';
+
 
 @Injectable({
   providedIn: 'root',
@@ -17,25 +17,33 @@ import { TripUtilsService } from './trip.utils';
 export class TripActionService {
 
   constructor(
-    private _dispatchService: DispatchService,
+    private _dispatchService: OnboardingDispatchService,
     public _tripService: TripDataService,
     private _sharedService: SharedService,
     private _taskUtils: TaskUtilsService,
     public _tripUtils: TripUtilsService,
-    private _agentUtils: AgentUtilsService
+    private _agentUtils: AgentUtilsService,
+    private DummyDataService :DummyDataService
+
   ) { }
 
   getRunningTrips(callback) {
-    this._tripService.getRunningTrips(this._dispatchService.searchViewModel).subscribe((res) => {
-      if (res.Success) {
-        this._dispatchService.trips = res.Data
-        this._dispatchService.trips.filter(i => i.DeliverymanID == 0).forEach(element => {
-          element.SpentTime = 0
-        });
-        callback()
-      }
+    // this._tripService.getRunningTrips(this._dispatchService.searchViewModel).subscribe((res) => {
+    //   if (res.Success) {
+    //     this._dispatchService.trips = res.Data
+    //     this._dispatchService.trips.filter(i => i.DeliverymanID == 0).forEach(element => {
+    //       element.SpentTime = 0
+    //     });
+    //     callback()
+    //   }
+      this._dispatchService.trips = this.DummyDataService.DummyTrips
+      console.log(this._dispatchService.trips);
+      this._dispatchService.trips.filter(i => i.DeliverymanID == 0).forEach(element => {
+        element.SpentTime = 0
+      });
+      callback()
       this._dispatchService.pageUtils.IsTripSearching = false
-    })
+ 
   }
 
   createSpecialTrip(model: SpecialTripViewModel) {

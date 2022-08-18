@@ -11,7 +11,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { PricePipe } from 'src/app/pipes/price.pipe';
 import { LocalizationService } from '../../service/localization.service';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { environment } from 'src/environments/environment';
@@ -48,6 +47,7 @@ import { NgControlComponent } from './component/ng-control/ng-control.component'
 import { NgPaginationComponent } from './component/ng-pagination/ng-pagination.component';
 import { ExtendDatePipe } from 'src/app/pipes/date.pipe';
 import { GuidedTourCustomModule } from 'src/app/lib/guided-tour.module';
+import { PricePipe } from 'src/app/pipes/price.pipe';
 
 export function HttpLoaderFactory( http: HttpClient ) {
   return new TranslateHttpLoader( http, 'assets/i18n/', '.json' );

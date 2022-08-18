@@ -6,8 +6,7 @@ import { bound, SharedService } from 'src/app/service/shared.service';
 import { ListService } from 'src/app/service/list.service';
 import { DispatchAgentViewModel, DispatchOrderViewModel, DispatchSelectItemViewModel, DispatchTripViewModel } from '../view-models/dispatch.model';
 import { DispatchSearchViewModel } from '../view-models/dispatch-search.model';
-import { DispatchService } from '../dispatch.service';
-import { FilterViewModel, RecentOldestEnum } from '../view-models/filter.model';
+import { FilterViewModel, GroupingTypeEnum, RecentOldestEnum } from '../view-models/filter.model';
 import { forkJoin, merge, Subscription } from 'rxjs';
 import { SelectItem } from 'src/app/model/shared/select-view-model';
 import { TripStatus } from 'src/app/enum/trip-status';
@@ -17,21 +16,26 @@ import { ServiceItemViewModel } from '../view-models/order-create.model';
 import { FormGroup, Validators } from '@angular/forms';
 import { DeliveryTimeStatus } from 'src/app/enum/delivery-time-status';
 import { DispatchUtilsViewModel } from '../view-models/dispatch.utils';
-import { CdkDrag, CdkDragMove } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragMove, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
-import { ScheduledOrderViewModel, SpecialTripViewModel, UpdateOrderInfoViewModel, } from '../view-models/dispatch-create.model';
-import { OrderKpiViewModel, TripKpiViewModel } from '../partial/_kpai/view-models/kpi.model';
 import { TaskLogViewModel } from '../view-models/log.model';
 import { TripLogViewModel } from '../view-models/log.model';
 import { OrderAction } from 'src/app/enum/order-action.enum';
 import { FeatureEnum } from 'src/app/enum/feature.enum';
 import { DispatchActionEnum } from '../view-models/dispatch-action.enum';
-import { TaskActionService } from 'src/app/components/onboarding/page/service/task/task.action';
-import { TripActionService } from 'src/app/components/onboarding/page/service/trip/trip.action';
-import { DispatchUtilsService } from 'src/app/components/onboarding/page/service/dispatch.utils';
-import { DragDropUtilsService } from 'src/app/components/onboarding/page/service/drag-drop.utils';
-import { GuidedTour, Orientation, GuidedTourModule, GuidedTourService } from 'ngx-guided-tour';
+
+import { GuidedTourTestService } from 'src/app/lib/guided-tour.service';
+import { GuidedTour, Orientation, TourStep } from 'src/app/lib/guided-tour.constants';
+import { FilterTourStepEnum } from 'src/app/components/shared/layout/layout.component';
+import { OnboardingDispatchService } from '../onboarding.service';
+import { TaskActionService } from '../service/task/task.action';
+import { TripActionService } from '../service/trip/trip.action';
+import { DispatchUtilsService } from '../service/dispatch.utils';
+import { DragDropUtilsService } from '../service/drag-drop.utils';
+import { ScheduledOrderViewModel, SpecialTripViewModel, UpdateOrderInfoViewModel } from '../view-models/dispatch-create.model';
+import { OrderKpiViewModel, TripKpiViewModel } from 'src/app/components/dispatch/page/partial/_kpai/view-models/kpi.model';
 import { DummyDataService } from 'src/app/service/dummy-data.service';
+import { GuidedTourData } from '../service/tour.utils';
 
 @Component({
   selector: 'dispatch-index',
@@ -39,55 +43,7 @@ import { DummyDataService } from 'src/app/service/dummy-data.service';
   styleUrls: ['./index.component.css'],
 })
 
-export class IndexComponent implements OnInit, OnDestroy {
-  // DummyTrips = []
-  // DummyAgents = []
-  // DummyStores = []
-  // DummyOrders = []
-
-  // TripDummyObject=  {
-  //   "ID": 1941874, "Number": 2250, "Code": "OfKOPgqmFk", "DeliverymanID": 111, "DeliverymanName": "t-branch-10",
-  //   "DeliverymanImage": "https://api.roboost.app/uploads/deliverymen/deliveryman_character.png", "BranchID": 20,
-  //   "AreaID": 1097, "BranchName": "Test Branch", "Status": 10,
-  //   "StatusName": "Started", "StartTime": "2022-07-31T11:30:38.2903258",
-  //   "CloseTime": null, "CreatedDate": "2022-07-31T11:30:23.4584394", "RateStatus": 0, "RateStatusName": "NOT_RATED",
-  //   "PlannedCompleteTime": "2022-07-31T12:40:23.3113493", "IsPaused": false, "PlannedDuration": 0,
-  //   "ServingTime": 5, "SpentTime": 92770, "ExcelantMaxTime": 315, "GoodMaxTime": 375, "LateMaxTime": 450,
-  //   "Performance": { "ID": 1941874, "Rate": 4, "StatusName": "TOO LATE", "RemainingTime": 0, "Color": "#b5062b" },
-  //   "PlannedCompleteTimeInt": -97075, "IsSpecialTrip": false, "ArrivalTime": "2022-07-31T16:52:58.28",
-  //   "PickupTime": "2022-07-31T16:53:04.557", "ArrivalTimeSecond": 6,
-  //   "Orders": [ ]
-  // }
-
-  // OrderDummyObject= {
-  //   "ID": 3691741, "TripID": 1941874, "CustomerID": 0, "BranchID": 20, "AreaID": 1097,
-  //   "BranchName": "Test Branch", "OrderNumber": "AE5AA554-7", "Code": "7w1HQXoJ6P", "Name": null, "Mobile": null,
-  //   "Address": " محطة شدس براج الزهور 2 16- - الدور شقة ", "ServicesCount": 0,
-  //   "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
-  //   "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
-  //   "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-  //   "Duration": 0, "Priority": null, "Amount": 0, "Status": 2, "StatusName": null,
-  //   "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
-  //   "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-  //   "IsTopPriority": false, "IsPaused": false, "Rate": 0,
-  //   "RateName": null, "Note": null, "OrderDeliveryTime": 30, "IsTransite": false,
-  //   "District": null, "ServicesData": null, "Services": null
-  // }
-
-  // AgentDummyObject = { 
-  //   "ID": 111, "Name": "t-branch-10", "StatusName": "On Duty", "StatusID": 2,
-  //  "StatusColor": "#03A8FF", "Image": "https://api.roboost.app/uploads/deliverymen/deliveryman_character.png",
-  //   "BranchID": 20, "BranchName": "Test Branch", "AreaID": 1097, "Longitude": 31.390185, "Latitude": 30.0539764 
-  // }
-  // StoreDummyObject = { 
-  //   "Name": "Test Branch", "Code": "p3sqRmBHLcN", "ID": 20, "Longitude": 31.340478,
-  //  "Latitude": 30.0796471, "NumberOfAgents": 2, "NumberOfTrips": 1, "NumberOfTasks": 23
-  //  } 
-
-  
-  
-
-
+export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy {
   featureEnum = FeatureEnum
   page: CRUDIndexPage = new CRUDIndexPage();
   pageUtils: DispatchUtilsViewModel = new DispatchUtilsViewModel();
@@ -107,64 +63,59 @@ export class IndexComponent implements OnInit, OnDestroy {
   zoom = 11;
   previous: any;
 
-  
-  public dispatchTour: GuidedTour = {
-    tourId: 'experiment-tour',
-    useOrb: false,
-    steps: [
-        {
-          title: 'Next-up: Task Number',
-          selector: '#searchSteps ',
-            content: 'From here, you can search for any details regarding the tasks, agents, and trips, while grouping and sorting the results as you may like.',
-            orientation: Orientation.Bottom
-        },
-   
-        {
-            title: 'Positioning',
-            selector: '#accordionAgentCard',
-            content: 'Step position can be set so that steps are always in view. This step is on the left.',
-            orientation: Orientation.Top
-        },
-        {
-            title: 'Positioning',
-            selector: '#orderStep',
-            content: 'Step position can be set so that steps are always in view. This step is on the left.',
-            orientation: Orientation.Bottom
-        },
-      
-    ]
-  };
+  currentIndexTour = null
+
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _pageService: DispatchService,
-    private _sharedService: SharedService,
+    private _pageService: OnboardingDispatchService,
+    public _sharedService: SharedService,
     private _listService: ListService,
     private _taskAction: TaskActionService,
     private _tripAction: TripActionService,
     private _dispatchUtils: DispatchUtilsService,
     private _dragDropUtils: DragDropUtilsService,
-    private guidedTourService: GuidedTourService,
-    public DummyDataService :DummyDataService
+    private guidedTourService: GuidedTourTestService,
+    private DummyDataService: DummyDataService
+
+
   ) {
-
-   
- 
-
-    
+    super(_sharedService);
   }
+
   public onTourStart(): void {
-    this.guidedTourService.startTour(this.dispatchTour);
+    this._sharedService.StartTourEvent.subscribe(res => {
+      this.currentIndexTour = res
+      if (res == FilterTourStepEnum.General) this.guidedTourService.startTour(this.dispatchGeneralTour);
+      if (res == FilterTourStepEnum.TripCardInfo) this.guidedTourService.startTour(this.dispatchTripInfoTour);
+      if (res == FilterTourStepEnum.TripActions) this.guidedTourService.startTour(this.dispatchTripActionsTour);
+      if (res == FilterTourStepEnum.TripTaskActions) this.guidedTourService.startTour(this.dispatchTripTaskActionsTour);
+
+    })
   }
-  
+
+  @ViewChild('TourCompleteTemplate', { static: false }) TourCompleteTemplate: any;
+
+  showCompleteTourTemplate() {
+    this.modalRef = this._sharedService.modalService.show(this.TourCompleteTemplate, { class: 'modal-300' });
+
+  }
+
+
+
+
   ngOnDestroy(): void {
     clearInterval(this.pageUtils.SecondInterval)
     this.subs.unsubscribe();
     this.modalRef?.hide();
   }
+  ngAfterViewInit() {
+    const onMove$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.moved)), switchMap(obs => merge(...obs)), tap(this.triggerScroll));
+    this.subs.add(onMove$.subscribe());
+    const onDown$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.ended)), switchMap(obs => merge(...obs)), tap(this.cancelScroll));
+    this.subs.add(onDown$.subscribe());
+  }
 
   ngOnInit() {
-   
-
     this._pageService.page = this.page
     this._pageService.pageUtils = this.pageUtils
     this._pageService.filter = this.filter
@@ -185,13 +136,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   initializePage() {
     this.setTaskTabs()
     forkJoin([
-      this._listService.getAreaList(),
+      // this._listService.getAreaList(),
       this._pageService.getDispatchFilter(),
     ]).subscribe(res => {
-      this.areaList = res[0].Data;
+      // this.areaList = res[0].Data;
       this._pageService.areaList = this.areaList
-      if (res[1].Data) {
-        this._dispatchUtils.getDispatchFilter(res[1].Data)
+      if (res[0].Data) {
+        this._dispatchUtils.getDispatchFilter(res[0].Data)
       }
       this.getStoreList()
       this.getRunningAgent()
@@ -203,18 +154,23 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.page.isPageLoaded = true
     });
     this.mapStoreList()
+    this.onTourStart()
 
   }
 
   getRunningAgent() {
-    this._pageService.getRunningAgents(this.searchViewModel).subscribe((res) => {
-      if (res.Success) {
-        this.agents = res.Data;
-        this._pageService.agents = this.agents
-        this._dispatchUtils.setNumberOfAgents()
-        this.pageUtils.IsAgentSearching = false
-      }
-    })
+    // this._pageService.getRunningAgents(this.searchViewModel).subscribe((res) => {
+    //   if (res.Success) {
+    //     this.agents = this.DummyDataService.DummyAgents;
+    //     this._pageService.agents = this.agents
+    //     this._dispatchUtils.setNumberOfAgents()
+    //     this.pageUtils.IsAgentSearching = false
+    //   }
+    // })
+    this.agents = this.DummyDataService.DummyAgents;
+    this._pageService.agents = this.agents
+    this._dispatchUtils.setNumberOfAgents()
+    this.pageUtils.IsAgentSearching = false
   }
   getRunningTrips() {
     this._tripAction.getRunningTrips(() => {
@@ -244,16 +200,24 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getStoreList() {
-    this._listService.getBranchListWithLocation().subscribe((res) => {
-      this.storeList = res.Data
-      this._pageService.storeList = this.storeList
-      if (!this.isSingleStore())
-        this._activatedRoute.queryParams.subscribe((params) => {
-          if (Object.keys(params).length > 0) {
-            this._dispatchUtils.getFilterAndSorting(params)
-          }
-        })
-    })
+    // this._listService.getBranchListWithLocation().subscribe((res) => {
+    //   this.storeList = res.Data
+    //   this._pageService.storeList = this.storeList
+    //   if (!this.isSingleStore())
+    //     this._activatedRoute.queryParams.subscribe((params) => {
+    //       if (Object.keys(params).length > 0) {
+    //         this._dispatchUtils.getFilterAndSorting(params)
+    //       }
+    //     })
+    // })
+    this.storeList = this.DummyDataService.DummyStores;
+    this._pageService.storeList = this.storeList
+    if (!this.isSingleStore())
+      this._activatedRoute.queryParams.subscribe((params) => {
+        if (Object.keys(params).length > 0) {
+          this._dispatchUtils.getFilterAndSorting(params)
+        }
+      })
   }
   getServiceList() {
     this._listService.getServicesItems().subscribe((res) => {
@@ -269,6 +233,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   isSingleStore() {
     return this._sharedService._storageService.getISSingleStore()
   }
+
+  anyStoreOrAreaSelected(): boolean {
+    return this.filter.FiltterType == GroupingTypeEnum.STORE ? this.storeList.some(i => i.Selected) : this.areaList.some(i => i.Selected)
+  }
+
   //////////////////////////////////
 
   ////////// Agent /////////
@@ -448,7 +417,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   getOrdersStoresCount(items: DispatchOrderViewModel[]) {
     return [...new Set(items.map(i => i.BranchName))].length
   }
-  getOrderUrlONMaps(item: DispatchOrderViewModel): string {
+  getOrderUrlONMaps(item: DispatchOrderViewModel) {
     return this._taskAction._taskUtils.getOrderUrlONMaps(item)
   }
   getTaskLogDeliverd(item): boolean {
@@ -731,7 +700,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   ///---------------- fliter ----------------
   getAgentList(id: number): DispatchAgentViewModel[] {
-    return this.DummyDataService.DummyAgents.filter(i => (id ? i.BranchID == id : true))
+    return this._dispatchUtils.getAgentList(id)
   }
   getTripList(): DispatchTripViewModel[] {
     return this._dispatchUtils.getTripList()
@@ -766,7 +735,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     return this.filter.FiltterValue.split('_').some(i => i == id.toString())
   }
   /////////////////////////////
- canDrop(){return}
+
 
   /////////// Tabs ///////////
   setTaskTabs() {
@@ -790,12 +759,12 @@ export class IndexComponent implements OnInit, OnDestroy {
   getOrderCountForCol(item) {
     return this._dispatchUtils.getOrderCountForCol(item)
   }
-  /////////////////////////////////////////
 
-  // --------------- Drag Drop --------------- //
+  //#region drag and drop
   drop(event: any) {
     this._dragDropUtils.drop(event)
   }
+
   onDrop(item: DispatchOrderViewModel, source, target, afterDropCallback) {
     this._dragDropUtils.onDrop(item, source, target, afterDropCallback)
     if ((item.Status == OrderStatus.New || item.Status == OrderStatus.CREATED || item.Status == OrderStatus.READY) &&
@@ -813,14 +782,24 @@ export class IndexComponent implements OnInit, OnDestroy {
   canDropOrder(event): boolean {
     return true;
   }
-  canDropOrderToTrip(event): boolean {
-    let item: DispatchOrderViewModel = event.data
-    return true;
-  }
   canDropReadyOrder(event): boolean {
     let sourceID: OrderStatus = (event.data as DispatchOrderViewModel).Status
     return sourceID == OrderStatus.CREATED || sourceID == OrderStatus.SCHEDULED
   }
+  canDrop(sourceID: OrderStatus) {
+    return this._dragDropUtils.canDrop(sourceID)
+  }
+  canDropOrderToTrip(event): boolean {
+    let item: DispatchOrderViewModel = event.data
+    return true;
+  }
+  dropListEnterPredicate(drag: CdkDrag, drop: CdkDropList) {
+    return false;
+  };
+  //#endregion drag and drop
+
+
+  //#region scroll
 
   @ViewChild('scrollEl')
   scrollEl: ElementRef<HTMLElement>;
@@ -843,32 +822,27 @@ export class IndexComponent implements OnInit, OnDestroy {
       this.animationFrame = undefined;
     }
   }
-  ngAfterViewInit() {
-    const onMove$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.moved)), switchMap(obs => merge(...obs)), tap(this.triggerScroll));
-    this.subs.add(onMove$.subscribe());
-    const onDown$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.ended)), switchMap(obs => merge(...obs)), tap(this.cancelScroll));
-    this.subs.add(onDown$.subscribe());
-  }
+
   private scroll($event: CdkDragMove) {
-    this._dragDropUtils.scroll($event, this.scrollEl, this.animationFrame)
+    const { y } = $event.pointerPosition;
+    const baseEl = this.scrollEl.nativeElement;
+    const box = baseEl.getBoundingClientRect();
+    const scrollTop = baseEl.scrollTop;
+    const top = box.top + - y;
+    if (top > 0 && scrollTop !== 0) {
+      const newScroll = scrollTop - this.pageUtils.ScrollSpeed * Math.exp(top / 50);
+      baseEl.scrollTop = newScroll;
+      this.animationFrame = requestAnimationFrame(() => this.scroll($event));
+      return;
+    }
+    const bottom = y - box.bottom;
+    if (bottom > 0 && scrollTop < box.bottom) {
+      const newScroll = scrollTop + this.pageUtils.ScrollSpeed * Math.exp(bottom / 50);
+      baseEl.scrollTop = newScroll;
+      this.animationFrame = requestAnimationFrame(() => this.scroll($event));
+    }
   }
-  // --------------------------------/
-
-}
+  //#endregion scroll
 
 
- function createDummyData(object,numRepate:number=5){
-
-return  Array(numRepate).fill(object )
-
-}
-
-function makeid() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 5; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
 }

@@ -14,7 +14,7 @@ export class DispatchUtilsViewModel {
   WithUrgentTransfferedTasks: boolean = false
   WithUrgentScheduledTasks: boolean = false
   SecondInterval:any
-  dragDelayTime:number = 120
+  dragDelayTime:number = 60
   filterSearchInput:string
   TasksTabList:SelectItem[]=[];
   CurrentTasksTab:OrderStatus=OrderStatus.CREATED;
@@ -29,6 +29,8 @@ export class DispatchUtilsViewModel {
   showSingleSearch: boolean = false;
   withShowTaskSection: boolean = false
   currentDropConrainerID:string
+   ScrollSpeed = 10
+
 }
 
 

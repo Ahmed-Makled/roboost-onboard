@@ -15,7 +15,7 @@
             <span class="kpai-text">{{'order.total'|translate}}</span>
         </div>
     </div>
-    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+    <div class="me-1" [class.rb-skeleton]="IsOrderSearching">
         <div class="rb-kpai c-g900">
             <img src="/assets/image/shield_exclamation_solid.svg" class="kpai-icon">
             <div class="rb-counter rb-counter-md bg-o500 c-white">
@@ -24,7 +24,7 @@
             <span class="kpai-text">{{'dispatch.urgent'|translate}}</span>
         </div>
     </div>
-    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+    <div class="me-1" [class.rb-skeleton]="IsOrderSearching">
         <div class="rb-kpai c-g900">
             <img src="/assets/image/calender_alt_solid.svg" class="kpai-icon">
             <div class="rb-counter rb-counter-md bg-p500 c-white">
@@ -33,7 +33,7 @@
             <span class="kpai-text">{{'dispatch.scheduld-tasks'|translate}}</span>
         </div>
     </div>
-    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+    <div class="me-1" [class.rb-skeleton]="IsOrderSearching">
         <div class="rb-kpai c-g900">
             <div class="rb-counter rb-counter-md bg-g100 c-g900">
                 <p class="counter-text">{{_taskUtils.getReadyOrders().length + _taskUtils.getInProgressOrders().length}}</p>
@@ -41,7 +41,7 @@
             <span class="kpai-text">{{'kpis.pending-tasks'|translate}}</span>
         </div>
     </div>
-    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+    <div class="me-1" [class.rb-skeleton]="IsOrderSearching">
         <div class="rb-kpai c-g900">
             <img src="/assets/image/pause_circle_solid.svg" class="kpai-icon">
             <div class="rb-counter rb-counter-md bg-y500 c-g900">
@@ -50,7 +50,7 @@
             <span class="kpai-text">{{'kpis.paused-orders'|translate}}</span>
         </div>
     </div>
-    <div class="me-1" [class.rb-skeleton]="_dispatchService.pageUtils.IsOrderSearching">
+    <div class="me-1" [class.rb-skeleton]="IsOrderSearching">
         <div class="rb-kpai c-g900">
             <img src="/assets/image/bike.svg" class="kpai-icon">
             <div class="rb-counter rb-counter-md bg-lb500 c-white">

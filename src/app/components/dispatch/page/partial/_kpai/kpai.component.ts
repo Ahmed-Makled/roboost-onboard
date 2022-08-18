@@ -13,6 +13,7 @@ export class KpaiComponent implements OnInit  ,OnChanges{
   @Input() orderKpi: OrderKpiViewModel 
   @Input() tripKpi: TripKpiViewModel 
   @Input() isKpisSearching: boolean = true
+  @Input() IsOrderSearching: boolean = true
   kpai:any
 
 

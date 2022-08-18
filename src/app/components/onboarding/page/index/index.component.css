@@ -10,8 +10,8 @@
 }
 
 .map {
-  height: 560px;
-  width: 640px;
+  height: 548px;
+  width: 380px;
   /* box-shadow: 0px 25px 50px #15171A40; */
   border-radius: 8px;
   overflow: hidden;
@@ -22,9 +22,9 @@
 
 }
 
-.c-b500 {
+/* .c-b500 {
   color: #0005F1 !important;
-}
+} */
 
 .trip-orders {
   max-height: 560px;
@@ -141,14 +141,4 @@
   border-radius: 8px;
   flex: 1 1 auto;
 }
-
-
-/* .cdk-drop-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding-right: 10px;
-  padding-bottom: 10px;
-} */
-
-
 

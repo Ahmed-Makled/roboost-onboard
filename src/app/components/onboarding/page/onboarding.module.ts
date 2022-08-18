@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IndexComponent } from './index/index.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
-import { FastTaskComponent } from './partial/fast-task/fast-task.component';
-import {  KpaiOnboardingComponent } from './partial/_kpai/kpai.component';
+import { FastTaskComponent } from '../../dispatch/page/partial/fast-task/fast-task.component';
 
 
 
@@ -14,7 +13,7 @@ export const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [ IndexComponent,FastTaskComponent,KpaiOnboardingComponent],
+  declarations: [ IndexComponent,FastTaskComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),SharedModule

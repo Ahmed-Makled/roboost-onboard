@@ -10,7 +10,7 @@ import { ModuleEnum, UserFeatureViewModel, UserPagesViewModel } from '../../logg
   selector: 'dispatch-index',
   templateUrl: './layout.component.html',
 })
-export class OnboardingLayoutComponent implements OnInit {
+export class DispatchLayoutComponent implements OnInit {
 
   page: CRUDIndexPage = new CRUDIndexPage();
   moduleID: ModuleEnum[] = [ModuleEnum.TRIP, ModuleEnum.TASK, ModuleEnum.AGENT]

@@ -1,3 +1,34 @@
-
+<!-- <loading *ngIf="!page.isPageLoaded" title="{{'system.loading'|translate}}" [inline]="false"
+  desc="{{'system.loading-describ'|translate}}"></loading>
+<div class="tab-container card h-100 m-3" *ngIf="page.isPageLoaded">
+  <div class="tab sub" *ngIf="showTabs()">
+    <div class="tab-header">
+      <div class="tab-title">
+        <img src="/assets/img/side-menu/{{getCurrentPage().Icon}}-active.svg" class="rect-20">
+        <p class="title"> {{getCurrentPage().Name}} </p>
+      </div>
+      <div class="tab-action" *ngIf="canShowReport()">
+        <button class="rb-btn rb-btn-primary rb-btn-sm" [disabled]="page.isSearching" (click)="fireChildEvent()">
+          <i class="uil uil-file-download"></i>
+          <span class="rb-btn-text">{{'system.download-report'|translate}}</span>
+        </button>
+      </div>
+    </div>
+    <ul class="tab-links">
+      <ng-container *ngFor="let item of getTabList()">
+        <li class="tab-item active d-flex align-items-center" (click)="onTabClick(item)"
+          [style.order]="item.DisplayOrder" [class.active]="getCurrentTab() == item.ID">
+          <i class="{{item.Icon}}" *ngIf="!item.IsImage"></i>
+          <img [src]="item.Icon" *ngIf="item.IsImage">
+          <span>{{item.Name}}</span>
+  <div class="rb-counter rb-counter-sm"  *ngIf="getCurrentTab() == item.ID && tabTotalItems !=null">
+              <p class="counter-text">{{tabTotalItems}}</p>
+            </div>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+  <router-outlet></router-outlet>
+</div> -->
 <router-outlet></router-outlet>
 

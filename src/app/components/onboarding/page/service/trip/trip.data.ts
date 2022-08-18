@@ -1,9 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SpecialTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-create.model';
-import { DispatchSearchViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-search.model';
-import { DispatchTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
-import { ApiService } from '../../../../../service/api.service';
+import { ApiService } from 'src/app/service/api.service';
+import { SpecialTripViewModel } from '../../view-models/dispatch-create.model';
+import { DispatchSearchViewModel } from '../../view-models/dispatch-search.model';
+import { DispatchTripViewModel } from '../../view-models/dispatch.model';
+
 
 @Injectable({
   providedIn: 'root',

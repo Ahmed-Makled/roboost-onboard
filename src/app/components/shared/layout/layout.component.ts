@@ -16,7 +16,8 @@ export class TourList{
   SearchByList: SelectItem[] = [
     { ID: FilterTourStepEnum.General, Name: "General", Selected: false },
     { ID: FilterTourStepEnum.TripCardInfo,Name: "Trip Card Info", Selected: false },
-    // { ID: FilterTourStepEnum.Tasks,Name: "Tasks", Selected: false },
+    { ID: FilterTourStepEnum.TripActions,Name: "Trip Actions", Selected: false },
+    { ID: FilterTourStepEnum.TripTaskActions,Name: "Trip Task Action ", Selected: false },
    
   ];
   SearchValue:FilterTourStepEnum = FilterTourStepEnum.General;
@@ -25,6 +26,8 @@ export class TourList{
 export enum FilterTourStepEnum {
   General = 1,
   TripCardInfo =3,
+  TripActions =4,
+  TripTaskActions =5,
  
 }
 @Component({

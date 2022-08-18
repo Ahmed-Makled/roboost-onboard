@@ -44,6 +44,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   getTaskStatus(){
+    // console.log(this.item);
     return this._statusUtilsService.getTaskStatusList().find(i=>i.ID == this.item.Status)
   }
 

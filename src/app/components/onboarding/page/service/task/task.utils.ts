@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { DispatchOrderViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
-import { GroupingTypeEnum } from 'src/app/components/onboarding/page/view-models/filter.model';
 import { DeliveryTimeStatus } from 'src/app/enum/delivery-time-status';
 import { FeatureEnum } from 'src/app/enum/feature.enum';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
-import { DummyDataService } from 'src/app/service/dummy-data.service';
-import { SharedService } from '../../../../../service/shared.service';
+import { SharedService } from 'src/app/service/shared.service';
+import { OnboardingDispatchService } from '../../onboarding.service';
+import { DispatchOrderViewModel } from '../../view-models/dispatch.model';
+import { GroupingTypeEnum } from '../../view-models/filter.model';
+
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,8 @@ import { SharedService } from '../../../../../service/shared.service';
 export class TaskUtilsService {
 
   constructor(
-    private _dispatchService: DispatchService, 
+    private _dispatchService: OnboardingDispatchService, 
     private _sharedService: SharedService, 
-    private DummyDataService: DummyDataService
   ) { }
   //////////////////////
   addToTrip(item:DispatchOrderViewModel,tripID:number){
@@ -32,6 +31,7 @@ export class TaskUtilsService {
       else this.removeFromTrip(element)
     })
   }
+  
   removeFromTrip(item:DispatchOrderViewModel){
     this.setAsReady(item)
     item.IsPaused = true;
@@ -94,7 +94,7 @@ export class TaskUtilsService {
         this._dispatchService.filter.FiltterType == GroupingTypeEnum.AREA ? i.AreaID == groupValue : true))).length
   }
   getTripOrderList(id: number, withUrgent: boolean): DispatchOrderViewModel[] {
-    return this.DummyDataService.DummyOrders.filter(i => i.TripID == id && (withUrgent ? i.DeliveryTimeStatus == DeliveryTimeStatus.TOP_URGENT : true))
+    return this._dispatchService.tasks.filter(i => i.TripID == id && (withUrgent ? i.DeliveryTimeStatus == DeliveryTimeStatus.TOP_URGENT : true))
   }
   getOnTripOrderList(): DispatchOrderViewModel[] {
     return this._dispatchService.tasks.filter(i => i.TripID > 0)
@@ -123,7 +123,7 @@ export class TaskUtilsService {
   getTaskBranch(item: DispatchOrderViewModel) {
     return this._dispatchService.storeList.find(i => i.ID == item.BranchID)
   }
-  getOrderUrlONMaps(item: DispatchOrderViewModel): string {
+  getOrderUrlONMaps(item: DispatchOrderViewModel) {
     // return `https://www.google.com/maps?saddr=${this.getTaskBranch(item).Latitude},${this.getTaskBranch(item).Longitude}&daddr=${this.getOrderLatitude(item)},${this.getOrderLongtude(item)}`;
   return ''
   }

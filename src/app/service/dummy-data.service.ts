@@ -9,6 +9,7 @@ export class DummyDataService {
   DummyAgents = []
   DummyStores = []
   DummyOrders = []
+  // DummyRunningOrders = []
 
   StoreListNames = [
     'Zalando', 'Mansoura Store', 'Smart Store', 'Shopperia Store', 'RedFox Store', 'Magnolia Store',
@@ -17,6 +18,10 @@ export class DummyDataService {
   AgentListNames = [
     'James', 'Robert', 'John', 'Michael', 'David', 'William',
     'Richard', 'Joseph', 'Thomas', 'Charles', 'Daniel'
+  ]
+  AddressListNames = [
+    'Cairo', 'Giza', 'Madīnat as Sādis min Uktūbar', 'Shubrā al Khaymah', 'Al Maḩallah al Kubrá', 'Al Fayyūm',
+    'Az Zaqāzīq', 'Ismailia', 'Damietta', 'Shibīn al Kawm', 'Al Qūşīyah'
   ]
   constructor() {
     this.GenerateData()
@@ -36,11 +41,11 @@ export class DummyDataService {
         "ID": `3691741${i}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
         "BranchName": this.StoreListNames[i],
         "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": null, "Mobile": null,
-        "Address": " محطة شدس براج الزهور 2 16- - الدور شقة ", "ServicesCount": 0,
+        "Address": this.AddressListNames[i], "ServicesCount": 0,
         "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
         "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
         "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-        "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([2, 3, 7]), "StatusName": null,
+        "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([2]), "StatusName": null,
         "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
         "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
         "IsTopPriority": `${i % 2 == 1 ? true : false}`, "IsPaused": `${i % 2 == 0 ? true : false}`, "Rate": 0,
@@ -51,31 +56,31 @@ export class DummyDataService {
 
 
       let orderObj
-      let orders = []
-      // for (let j = 1; j < 5; j++) {
+      let orders =[]
+      for (let j = 1; j < 5; j++) {
         orders.push(orderObjTrip)
         let agentObj = {
-          "ID": `11${i}`, "Name": this.AgentListNames[i], "StatusName": "On Duty", "StatusID": randomArrayShuffle([2, 1,3]),
-          "StatusColor":  randomArrayShuffle(['#03A8FF', '#32cc3e','#e61721']), "Image": "https://api.roboost.app/uploads/deliverymen/deliveryman_character.png",
+          "ID": `11${i}`, "Name": this.AgentListNames[i], "StatusName": "On Duty", "StatusID": randomArrayShuffle([2, 1,3,3, 1,2]),
+          "StatusColor":  randomArrayShuffle(['#03A8FF', '#32cc3e','#e61721']), "Image": "./assets/image/onboard/"+i+'.jpg',
           "BranchID": `${i}`, "BranchName": this.StoreListNames[i], "AreaID": `1097${i}`, "Longitude": 31.390185, "Latitude": 30.0539764
         }
         this.DummyAgents.push(agentObj)
 
-      // }
+      }
       for (let j = 1; j < 30; j++) {
         orderObj = {
           "ID": `3691741${j}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
           "BranchName": this.StoreListNames[i],
-          "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${j}`, "Name": null, "Mobile": null,
-          "Address": " محطة شدس براج الزهور 2 16- - الدور شقة ", "ServicesCount": 0,
+          "OrderNumber": `AE5AA554-7${j}`, "Code": `7w1HQXoJ6P${j}`, "Name": null, "Mobile": null,
+          "Address": this.AddressListNames[i], "ServicesCount": 0,
           "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
           "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
           "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-          "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([1, 9]), "StatusName": null,
+          "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([9,1,9,9,9,1,9,1,1,1,9,1,9]), "StatusName": null,
           "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
           "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-          "IsTopPriority": randomArrayShuffle([true, false]), "IsPaused": randomArrayShuffle([true, false]), "Rate": 0,
-          "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false]),
+          "IsTopPriority": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]), "IsPaused": randomArrayShuffle([true, false]), "Rate": 0,
+          "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]),
           "District": null, "ServicesData": null, "Services": null
         }
         this.DummyOrders.push(orderObj)
@@ -86,7 +91,7 @@ export class DummyDataService {
 
       let tripObj = {
         "ID": `1941874${i}`, "Number": `225${i}`, "Code": `OfKOPgqmFk${i}`, "DeliverymanID": `11${i}`, "DeliverymanName": this.AgentListNames[i],
-        "DeliverymanImage": "https://api.roboost.app/uploads/deliverymen/deliveryman_character.png", "BranchID": `${i}`,
+        "DeliverymanImage":"./assets/image/onboard/"+i+'.jpg', "BranchID": `${i}`,
         "AreaID": `1097${i}`, "BranchName": this.StoreListNames[i], "Status": 10,
         "StatusName": "Started", "StartTime": "2022-07-31T11:30:38.2903258",
         "CloseTime": null, "CreatedDate": "2022-07-31T11:30:23.4584394", "RateStatus": 0, "RateStatusName": "NOT_RATED",
@@ -114,7 +119,7 @@ function randomArrayShuffle(array) {
     array[i] = array[j];
     array[j] = temp;
   }
-    return array 
+    return array[0] 
 
    
 }

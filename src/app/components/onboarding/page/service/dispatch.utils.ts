@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { DispatchAgentViewModel, DispatchOrderViewModel, DispatchSelectItemViewModel, DispatchTripViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
-import { FilterByEnum, GroupingTypeEnum, RecentOldestEnum, SortingTypeEnum } from 'src/app/components/onboarding/page/view-models/filter.model';
 import { DeliveryTimeStatus } from 'src/app/enum/delivery-time-status';
 import { FeatureEnum } from 'src/app/enum/feature.enum';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
 import { SelectItem } from 'src/app/model/shared/select-view-model';
 import { SharedService } from 'src/app/service/shared.service';
+import { OnboardingDispatchService } from '../onboarding.service';
+import { DispatchAgentViewModel, DispatchOrderViewModel, DispatchSelectItemViewModel, DispatchTripViewModel } from '../view-models/dispatch.model';
+import { FilterByEnum, GroupingTypeEnum, RecentOldestEnum, SortingTypeEnum } from '../view-models/filter.model';
 import { TaskUtilsService } from './task/task.utils';
+
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ import { TaskUtilsService } from './task/task.utils';
 export class DispatchUtilsService {
 
   constructor(
-    private _dispatchService: DispatchService, 
+    private _dispatchService: OnboardingDispatchService, 
     private _taskUtils: TaskUtilsService,
     private _sharedService: SharedService) { }
   /// --------------- Search ------------ ///
@@ -52,7 +53,7 @@ export class DispatchUtilsService {
       return items.filter(i => i.District?.toLowerCase().includes(this._dispatchService.pageUtils.filterSearchInput.toLowerCase()))
     else return items
   }
-  getAgentList(id: number): DispatchAgentViewModel[] {
+  getAgents(id: number): DispatchAgentViewModel[] {
     if (this._dispatchService.filter.SearchValue == FilterByEnum.Agent_Name && this._dispatchService.pageUtils.filterSearchInput)
       return this.getAgentsByStore(id).filter(i => i.Name.toLowerCase().includes(this._dispatchService.pageUtils.filterSearchInput.toLowerCase()))
     else return this.getAgentsByStore(id)
@@ -65,6 +66,17 @@ export class DispatchUtilsService {
   }
 
   /// --------------- Filter ------------ ///
+  getAgentList(id:number): DispatchAgentViewModel[] {
+    if (this._dispatchService.areaList.filter(i => i.Selected).length > 0) {
+      let areaSelected = this._dispatchService.areaList.filter(i => i.Selected)
+      return this.getAgents(id).filter(trip => areaSelected.some(filter => ((filter.ID === trip.AreaID))));
+    }
+    else if (this._dispatchService.storeList.filter(i => i.Selected).length > 0) {
+      let selectedStores = this._dispatchService.storeList.filter(i => i.Selected)
+      return this.getAgents(id).filter(trip => selectedStores.some((i) => ((i.ID == trip.BranchID))));
+    }
+    else return this.getAgents(id)
+  }
   getTripList(): DispatchTripViewModel[] {
     if (this._dispatchService.areaList.filter(i => i.Selected).length > 0) {
       let areaSelected = this._dispatchService.areaList.filter(i => i.Selected)

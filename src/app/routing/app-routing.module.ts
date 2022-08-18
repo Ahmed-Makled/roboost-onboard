@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { BroadCastLayoutComponent } from '../components/broadcast/layout/layout.component';
 import { DispatchLayoutComponent } from '../components/dispatch/layout/layout.component';
 import { HeatmapLayoutComponent } from '../components/heatmap/layout/layout.component';
-import { OnboardingLayoutComponent } from '../components/onboarding/layout/layout.component';
 import { ForbiddenComponent } from '../components/shared/component/forbidden/forbidden.component';
 import { LayoutComponent } from '../components/shared/layout/layout.component';
 import { SharedModule } from '../components/shared/shared.module';
@@ -29,7 +28,7 @@ const routes: Routes = [
     path: '', component: LayoutComponent,
     children: [
       {
-        path: '', redirectTo: 'live-operation', pathMatch: 'full'
+        path: '', redirectTo: 'onboarding', pathMatch: 'full'
       },
       {
         path: 'live-operation',
@@ -48,13 +47,15 @@ const routes: Routes = [
       },
       {
         path: 'onboarding',
-        component: OnboardingLayoutComponent,
+        component: DispatchLayoutComponent,
         children: [
           {
             path: '',
-            loadChildren: () => import('../components/onboarding/page/dispatch.module').then((m) => m.OnboardingModule),
+            loadChildren: () => import('../components/onboarding/page/onboarding.module').then((m) => m.OnboardingModule),
           }
         ],
+        // canActivate: [AuthGuardService], data: { pageList: [PageEnum.Dispatch] }
+
       },
       {
         path: 'trip',

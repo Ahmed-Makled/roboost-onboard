@@ -121,6 +121,9 @@ img {
 .w-12 {
   width: 12px;
 }
+.w-127{
+  width: 127px;
+}
 .mx-n1 {
   margin-inline-end: -4px;
   margin-inline-start: -4px;

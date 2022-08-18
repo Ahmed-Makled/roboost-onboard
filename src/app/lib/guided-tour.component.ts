@@ -4,118 +4,17 @@ import { DOCUMENT } from '@angular/common';
 import { Orientation, TourStep, ProgressIndicatorLocation } from './guided-tour.constants';
 import { GuidedTourTestService } from './guided-tour.service';
 import { WindowRefTestService } from "./windowref.service";
+import { retry } from 'rxjs/operators';
 
 @Component({
     selector: 'ngx-guided-tour-custom',
-    template: `
-        <!-- <div *ngIf="currentTourStep && selectedElementRect && isOrbShowing"
-                (mouseenter)="handleOrb()"
-                class="tour-orb tour-{{ currentTourStep.orientation }}"
-                [style.top.px]="orbTopPosition"
-                [style.left.px]="orbLeftPosition"
-                [style.transform]="orbTransform">
-                <div class="tour-orb-ring"></div>
-        </div> -->
-        <div *ngIf="currentTourStep && !isOrbShowing">
-            <div class="guided-tour-user-input-mask" (click)="backdropClick($event)"></div>
-            <div class="guided-tour-spotlight-overlay"
-                
-                [style.border-radius.px]="currentTourStep.overlayRadius?currentTourStep.overlayRadius:0"
-                [style.top.px]="overlayTop"
-                [style.left.px]="overlayLeft"
-                [style.height.px]="currentTourStep.highlightHeight?overlayHeight + currentTourStep.highlightHeight:overlayHeight"
-                [style.width.px]="overlayWidth"
-                >
-            </div>
-        </div>
-        <div *ngIf="currentTourStep && !isOrbShowing">
-            <div #tourStep *ngIf="currentTourStep"
-                class="tour-step tour-{{ currentTourStep.orientation }}"
-                [ngClass]="{
-                    'page-tour-step': !currentTourStep.selector
-                }"
-                [style.top.px]="(currentTourStep.selector && selectedElementRect ? topPosition : null)"
-                [style.left.px]="(currentTourStep.selector && selectedElementRect ? leftPosition  : null)"
-                [style.width.px]="(currentTourStep.selector && selectedElementRect ? calculatedTourStepWidth : null)"
-                [style.transform]="(currentTourStep.selector && selectedElementRect ? transform : null)">
-                <div *ngIf="currentTourStep.selector" class="tour-arrow"></div>
-                <div class="tour-block">
-
-                    <div *ngIf="progressIndicatorLocation === progressIndicatorLocations.TopOfTourBlock
-                        && !guidedTourService.onResizeMessage"
-                       class="tour-progress-indicator">
-                        <ng-container *ngTemplateOutlet="progress"></ng-container>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between">
-                    <h3 [class]="'tour-title rb-h6 bold '+ currentTourStep.titleClass " *ngIf="(currentTourStep.title && currentTourStep.selector)|| (currentTourStep.title && !currentTourStep.selector)" [innerHTML]=" currentTourStep.title"> 
-                    </h3>
-                    <i class="uil uil-multiply rect-24 c-g500 pointer" *ngIf="!guidedTourService.onResizeMessage"
-                            (click)="guidedTourService.skipTour()"></i>
-                    </div>
-                  
-                    <div class="tour-content">
-                    <p class="rb-p-sm c-g500"  [innerHTML]="currentTourStep.content"></p>
-                    </div>
-
-                    <div class="tour-buttons">
-                        <div *ngIf="progressIndicatorLocation === progressIndicatorLocations.BottomOfTourBlock
-                        && !guidedTourService.onResizeMessage"
-                       class="tour-progress-indicator">
-                        <ng-container *ngTemplateOutlet="progress"></ng-container>
-                              </div>
-
-                              <button *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage"
-                            class="rb-btn rb-btn-secondary rb-btn-md c-b500 ms-auto rb-me-12"
-                            (click)="guidedTourService.backStep()">
-                            <span class="rb-btn-text">{{ backText }}</span>
-                        </button>
-
-                        <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage"
-                            class="rb-btn rb-btn-primary rb-btn-md " [class.ms-auto]='guidedTourService.onFirstStep '
-                            (click)="guidedTourService.nextStep()">
-                            <span class="rb-btn-text">{{ nextText }}</span>
-                            <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
-                                <ng-container *ngTemplateOutlet="progress"></ng-container>
-                            </ng-container>
-                        </button>
-                      
-                        <button *ngIf="guidedTourService.onLastStep"
-                            class="rb-btn rb-btn-primary rb-btn-md " [class.ms-auto]='guidedTourService.onFirstStep  '
-                            (click)="guidedTourService.nextStep()">
-                            <span class="rb-btn-text">{{ doneText }}</span>
-
-                        </button>
-
-                        <button *ngIf="guidedTourService.onResizeMessage"
-                            class="rb-btn rb-btn-primary rb-btn-md"
-                            (click)="guidedTourService.resetTour()">
-                            <span class="rb-btn-text">{{ closeText }}</span>
-                        </button>
-                       
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <ng-template #progress>
-            <ng-container *ngTemplateOutlet="progressIndicator || defaultProgressIndicator; 
-                context: { currentStepNumber: guidedTourService.currentTourStepDisplay, totalSteps: guidedTourService.currentTourStepCount }
-            "></ng-container> 
-        </ng-template>
-
-        <ng-template #defaultProgressIndicator let-currentStepNumber="currentStepNumber" let-totalSteps="totalSteps">
-            <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">&nbsp;</ng-container>
-                <p class='rb-p-sm c-g300'> {{ currentStepNumber }}&nbsp;of&nbsp;{{ totalSteps }}</p>
-        </ng-template>
-    `,
-    // styleUrls: ['./guided-tour.component.scss'],
+    templateUrl: './guided-tour.component.html',
     encapsulation: ViewEncapsulation.None
 })
 export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
     @Input() public topOfPageAdjustment?= 0;
-    @Input() public tourStepWidth?= 300;
-    @Input() public minimalTourStepWidth?= 200;
+    @Input() public tourStepWidth?= 400;
+    @Input() public minimalTourStepWidth?= 400;
     @Input() public skipText?= 'Skip';
     @Input() public nextText?= 'Next';
     @Input() public doneText?= 'Done';
@@ -139,6 +38,40 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         @Inject(DOCUMENT) private dom: any
     ) { }
 
+    public ngAfterViewInit(): void {
+        this.guidedTourService.guidedTourCurrentStepStream.subscribe((step: TourStep) => {
+            this.currentTourStep = step;
+         
+            if (step && step.selector) {
+                const selectedElement = this.dom.querySelector(step.selector);
+                if (selectedElement) {
+                    this.scrollToAndSetElement();
+                } else {
+                    this.selectedElementRect = null;
+                }
+            } else {
+                this.selectedElementRect = null;
+            }
+        });
+        
+        // this.guidedTourService.guidedTourOrbShowingStream.subscribe((value: boolean) => {
+        //     this.isOrbShowing = value;
+        // });
+
+        this.resizeSubscription = fromEvent(this.windowRef.nativeWindow, 'resize').subscribe(() => {
+            this.updateStepLocation();
+        });
+
+        this.scrollSubscription = fromEvent(this.windowRef.nativeWindow, 'scroll').subscribe(() => {
+            this.updateStepLocation();
+        });
+    }
+
+    public ngOnDestroy(): void {
+        this.resizeSubscription?.unsubscribe();
+        this.scrollSubscription?.unsubscribe();
+    }
+
     private get maxWidthAdjustmentForTourStep(): number {
         return this.tourStepWidth - this.minimalTourStepWidth;
     }
@@ -160,39 +93,6 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
 
     public get calculatedTourStepWidth() {
         return this.tourStepWidth - this.widthAdjustmentForScreenBound;
-    }
-
-    public ngAfterViewInit(): void {
-        this.guidedTourService.guidedTourCurrentStepStream.subscribe((step: TourStep) => {
-            this.currentTourStep = step;
-            if (step && step.selector) {
-                const selectedElement = this.dom.querySelector(step.selector);
-                if (selectedElement) {
-                    this.scrollToAndSetElement();
-                } else {
-                    this.selectedElementRect = null;
-                }
-            } else {
-                this.selectedElementRect = null;
-            }
-        });
-
-        this.guidedTourService.guidedTourOrbShowingStream.subscribe((value: boolean) => {
-            this.isOrbShowing = value;
-        });
-
-        this.resizeSubscription = fromEvent(this.windowRef.nativeWindow, 'resize').subscribe(() => {
-            this.updateStepLocation();
-        });
-
-        this.scrollSubscription = fromEvent(this.windowRef.nativeWindow, 'scroll').subscribe(() => {
-            this.updateStepLocation();
-        });
-    }
-
-    public ngOnDestroy(): void {
-        this.resizeSubscription?.unsubscribe();
-        this.scrollSubscription?.unsubscribe();
     }
 
     public scrollToAndSetElement(): void {
@@ -241,6 +141,8 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
             }
         });
     }
+
+
 
     // public handleOrb(): void {
     //     this.guidedTourService.activateOrb();
@@ -315,8 +217,18 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
             return this.selectedElementRect.top + this.selectedElementRect.height + paddingAdjustment;
         }
 
-        return this.selectedElementRect.top - this.getHighlightPadding();
+        if( this.currentTourStep.subSelector)
+            return this.subELementRect(this.currentTourStep.subSelector).top  - (this.subELementRect(this.currentTourStep.subSelector).height / 2)  
+        else
+        return this.selectedElementRect.top - this.getHighlightPadding(); 
     }
+
+    public  subELementRect(el) {
+
+        return   this.dom.querySelector(el).getBoundingClientRect() as DOMRect
+    }
+    
+
 
     // public get orbTopPosition(): number {
     //     if (this.isBottom()) {
@@ -355,8 +267,10 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         }
 
         if (this.currentTourStep.orientation === Orientation.Right) {
+            console.log('Right');
             return (this.selectedElementRect.left + this.selectedElementRect.width + paddingAdjustment);
         }
+     
 
         return (this.selectedElementRect.right - (this.selectedElementRect.width / 2) - (this.tourStepWidth / 2));
     }
@@ -370,31 +284,6 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         return this.calculatedLeftPosition + maxAdjustment;
     }
 
-    // public get orbLeftPosition(): number {
-    //     if (
-    //         this.currentTourStep.orientation === Orientation.TopRight
-    //         || this.currentTourStep.orientation === Orientation.BottomRight
-    //     ) {
-    //         return this.selectedElementRect.right;
-    //     }
-
-    //     if (
-    //         this.currentTourStep.orientation === Orientation.TopLeft
-    //         || this.currentTourStep.orientation === Orientation.BottomLeft
-    //     ) {
-    //         return this.selectedElementRect.left;
-    //     }
-
-    //     if (this.currentTourStep.orientation === Orientation.Left) {
-    //         return this.selectedElementRect.left;
-    //     }
-
-    //     if (this.currentTourStep.orientation === Orientation.Right) {
-    //         return (this.selectedElementRect.left + this.selectedElementRect.width);
-    //     }
-
-    //     return (this.selectedElementRect.right - (this.selectedElementRect.width / 2));
-    // }
 
     public get transform(): string {
         if (
@@ -408,60 +297,45 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         return null;
     }
 
-    // public get orbTransform(): string {
-    //     if (
-    //         !this.currentTourStep.orientation
-    //         || this.currentTourStep.orientation === Orientation.Top
-    //         || this.currentTourStep.orientation === Orientation.Bottom
-    //         || this.currentTourStep.orientation === Orientation.TopLeft
-    //         || this.currentTourStep.orientation === Orientation.BottomLeft
-    //     ) {
-    //         return 'translateY(-50%)';
-    //     }
-
-    //     if (
-    //         this.currentTourStep.orientation === Orientation.TopRight
-    //         || this.currentTourStep.orientation === Orientation.BottomRight
-    //     ) {
-    //         return 'translate(-100%, -50%)';
-    //     }
-
-    //     if (
-    //         this.currentTourStep.orientation === Orientation.Right
-    //         || this.currentTourStep.orientation === Orientation.Left
-    //     ) {
-    //         return 'translate(-50%, -50%)';
-    //     }
-
-    //     return null;
-    // }
 
     public get overlayTop(): number {
         if (this.selectedElementRect) {
-            return this.selectedElementRect.top - this.getHighlightPadding();
+            // return this.selectedElementRect. - this.getHighlightPadding();
+
+            if (this.currentTourStep && this.currentTourStep.sub) 
+            return  this.subELementRect(this.currentTourStep.sub).top - (this.getHighlightPadding() * 2) ;
+        else   return this.selectedElementRect.top - (this.getHighlightPadding() * 2) ;
         }
+
+
+        
         return 0;
     }
 
     public get overlayLeft(): number {
         if (this.selectedElementRect) {
-            return this.selectedElementRect.left - this.getHighlightPadding();
+            // return this.selectedElementRect.left - this.getHighlightPadding();
+
+            if (this.currentTourStep && this.currentTourStep.sub) 
+            return  this.subELementRect(this.currentTourStep.sub).left - (this.getHighlightPadding() * 2) ;
+        else   return this.selectedElementRect.left - (this.getHighlightPadding() * 2) ;
         }
         return 0;
     }
 
     public get overlayHeight(): number {
         if (this.selectedElementRect) {
-            return this.selectedElementRect.height + (this.getHighlightPadding() * 2) ;
+         if (this.currentTourStep && this.currentTourStep.sub) 
+            return  this.subELementRect(this.currentTourStep.sub).height + (this.getHighlightPadding() * 2) ;
+        else   return this.selectedElementRect.height + (this.getHighlightPadding() * 2) ;
         }
         return 0;
     }
 
     public get overlayWidth(): number {
-        if (this.selectedElementRect) {
-            return this.selectedElementRect.width + (this.getHighlightPadding() * 2);
-        }
-        return 0;
+        if (this.currentTourStep && this.currentTourStep.sub) 
+        return  this.subELementRect(this.currentTourStep.sub).width + (this.getHighlightPadding() * 2) ;
+    else   return this.selectedElementRect.width + (this.getHighlightPadding() * 2) ;
     }
 
     private getHighlightPadding(): number {
@@ -477,6 +351,7 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         if (
             this.currentTourStep.orientation === Orientation.Left
             || this.currentTourStep.orientation === Orientation.Right
+            || this.currentTourStep.orientation === Orientation.RightBottom
         ) {
             return 0;
         }

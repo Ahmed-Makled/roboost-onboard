@@ -4,7 +4,7 @@
   <div class="d-flex align-items-center mb-1">
     <i class="uil uil-store c-b500 font-14 me-1"></i>
     <p class="c-b500 font-11 bold text-truncate" [title]="item.BranchName">{{item.BranchName}}</p>
-    <div class="ms-auto d-flex" *ngIf="allowFastAction">
+    <div class="ms-auto d-flex" *ngIf="allowFastAction" id="FastActionStep">
       <div
         *ngIf="hasFeature(featureEnum.Task_RemoveFromTrip) && isOnTrip() && !isOrderDelivered() && !isCantDelivered() && !isSchedualed()"
         (click)="showActionTamplate($event,false,action.REMOVE_FROM_TRIP)" class="ms-2">
@@ -46,7 +46,7 @@
       <!-- <p *ngIf="isOnTrip()" class="c-pu500 font-11 ms-1">{{item.SpentTime | timer}}</p> -->
     </div>
     <p class="c-g700 font-11 ms-1">{{item.CreatedDate}}</p>
-    <p class="font-14 bold ms-auto" [class]="isLate()?'c-r500':'c-gr500'">{{item.SpentTime | timer:"mm:ss"}}</p>
+    <p class="font-14 bold ms-auto" [class]="isLate()?'c-r500':'c-gr500'" id="OrderTimerStep">{{item.SpentTime | timer:"mm:ss"}}</p>
     <!-- <p class="font-10 c-g900 ms-auto text-nowrap">{{item.Distance}} {{'shared.km'|translate}}</p> -->
   </div>
   <div class="d-flex align-items-center mb-1">

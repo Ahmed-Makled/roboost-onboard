@@ -1,10 +1,10 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
-import { ScheduledOrderViewModel, UpdateOrderInfoViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-create.model';
-import { DispatchSearchViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-search.model';
-import { OrderCreateViewModel } from 'src/app/components/onboarding/page/view-models/order-create.model';
-import { ApiService } from '../../../../../service/api.service';
+import { ApiService } from 'src/app/service/api.service';
+import { ScheduledOrderViewModel, UpdateOrderInfoViewModel } from '../../view-models/dispatch-create.model';
+import { DispatchSearchViewModel } from '../../view-models/dispatch-search.model';
+import { OrderCreateViewModel } from '../../view-models/order-create.model';
 
 @Injectable({
   providedIn: 'root',

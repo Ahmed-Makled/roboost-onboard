@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { ScheduledOrderViewModel, UpdateOrderInfoViewModel } from 'src/app/components/onboarding/page/view-models/dispatch-create.model';
-import { DispatchOrderViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
-import { TaskLogViewModel } from 'src/app/components/onboarding/page/view-models/log.model';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
 import { SelectItem } from 'src/app/model/shared/select-view-model';
+import { DummyDataService } from 'src/app/service/dummy-data.service';
 import { SharedService } from 'src/app/service/shared.service';
 import { AgentChangeStoreViewModel } from '../../../../deliveryman/home/view-models/deliveryman-create.model';
 import { DeliverymanViewModel } from '../../../../deliveryman/home/view-models/deliveryman.model';
+import { OnboardingDispatchService } from '../../onboarding.service';
+import { ScheduledOrderViewModel, UpdateOrderInfoViewModel } from '../../view-models/dispatch-create.model';
+import { DispatchOrderViewModel } from '../../view-models/dispatch.model';
+import { TaskLogViewModel } from '../../view-models/log.model';
 import { TaskDataService } from './task.data';
 import { TaskUtilsService } from './task.utils';
 
@@ -18,26 +19,38 @@ import { TaskUtilsService } from './task.utils';
 export class TaskActionService {
 
   constructor(
-    private _dispatchService: DispatchService, 
+    private _dispatchService: OnboardingDispatchService, 
     public _taskService: TaskDataService,
     private _sharedService: SharedService,
-    public _taskUtils:TaskUtilsService
+    public _taskUtils:TaskUtilsService,
+    private DummyDataService :DummyDataService
+
   ) { }
 
 
  
   getRunningOrders(callback:Function) {
-    this._taskService.getRunningOrders(this._dispatchService.searchViewModel).subscribe((res) => {
-      if (res.Success) {
-        this._dispatchService.tasks = res.Data
-        this._dispatchService.districtList = [...new Set(this._dispatchService.tasks
-          .map(i => i.District))].map(i => {return { Name: i, Selected: false }})
-        callback()
-        if (!this._dispatchService.pageUtils.IsKpisSearching) {
-        }
-      }
-      this._dispatchService.pageUtils.IsOrderSearching = false
-    })
+    // this._taskService.getRunningOrders(this._dispatchService.searchViewModel).subscribe((res) => {
+    //   if (res.Success) {
+    //     this._dispatchService.tasks = res.Data
+    //     this._dispatchService.districtList = [...new Set(this._dispatchService.tasks
+    //       .map(i => i.District))].map(i => {return { Name: i, Selected: false }})
+    //     callback()
+    //     if (!this._dispatchService.pageUtils.IsKpisSearching) {
+    //     }
+    //   }
+    //   this._dispatchService.pageUtils.IsOrderSearching = false
+    // })
+
+
+    this._dispatchService.tasks = this.DummyDataService.DummyOrders
+    this._dispatchService.districtList = [...new Set(this._dispatchService.tasks
+      .map(i => i.District))].map(i => {return { Name: i, Selected: false }})
+    callback()
+    
+
+    this._dispatchService.pageUtils.IsOrderSearching = false
+
   }
 
   cancelOrder(item: DispatchOrderViewModel, callback?) {

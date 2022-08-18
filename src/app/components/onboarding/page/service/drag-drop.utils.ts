@@ -1,11 +1,12 @@
-import { CdkDrag, CdkDragMove, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ElementRef, Injectable, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { DispatchService } from 'src/app/components/onboarding/page/dispatch.service';
-import { DispatchOrderViewModel } from 'src/app/components/onboarding/page/view-models/dispatch.model';
+import {moveItemInArray } from '@angular/cdk/drag-drop';
+import { ElementRef, Injectable,} from '@angular/core';
 import { FeatureEnum } from 'src/app/enum/feature.enum';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
-import { bound, SharedService } from 'src/app/service/shared.service';
+import { SharedService } from 'src/app/service/shared.service';
+import { OnboardingDispatchService } from '../onboarding.service';
+import { DispatchOrderViewModel } from '../view-models/dispatch.model';
 import { TaskActionService } from './task/task.action';
+
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +15,9 @@ import { TaskActionService } from './task/task.action';
 export class DragDropUtilsService {
 
   featureEnum = FeatureEnum
-  private speed = 10
 
   constructor(
-    private _dispatchService: DispatchService, 
+    private _dispatchService: OnboardingDispatchService, 
     private _taskActionService: TaskActionService, 
     private _sharedService: SharedService
   ) { }
@@ -62,10 +62,10 @@ export class DragDropUtilsService {
     //   if (!this._sharedService.hasFeature(this.featureEnum.Task_ScheduleOrder) || !this.canDrop(OrderStatus.SCHEDULED)) return false;
     //   this._taskActionService.showScheduledOrderTemplate(this._dispatchService.tasks.find(i => i.ID == item.ID))
     // }
-    else if (+target.id == OrderStatus.ADDED_TO_TRIP) {
+    else if (+target.id == OrderStatus.ADDED_TO_TRIP && this.canDrop(OrderStatus.ADDED_TO_TRIP) ) {
       let tripId = +((target.element as ElementRef).nativeElement as Element).getAttribute("tripId")
       let trip = this._dispatchService.trips.find(i => i.ID == tripId)
-      if (!this._sharedService.hasFeature(this.featureEnum.Task_ChangeTrip) && !this.canDrop(OrderStatus.ADDED_TO_TRIP) || (trip.BranchID != item.BranchID && !item.IsTransite)) return false;
+      if (!this._sharedService.hasFeature(this.featureEnum.Task_ChangeTrip) || (trip.BranchID != item.BranchID && !item.IsTransite)) return false;
       if (item.Status == OrderStatus.ADDED_TO_TRIP) {
         this._taskActionService.addToTrip(this._dispatchService.tasks.find(i => i.ID == item.ID), trip.ID, true, (success) => {
           afterDropCallback(success, OrderStatus.ADDED_TO_TRIP)
@@ -83,12 +83,15 @@ export class DragDropUtilsService {
   }
 
   onDragMoved(event) {
+
     if (document.elementFromPoint(event.pointerPosition.x, event.pointerPosition.y)) {
       let element: Element = this.getDropListElement(document.elementFromPoint(event.pointerPosition.x, event.pointerPosition.y))
-      // console.log(element)
       this._dispatchService.pageUtils.currentDropConrainerID = element.id
     }
     else this._dispatchService.pageUtils.currentDropConrainerID = null
+
+
+
   }
   canDrop(sourceID: OrderStatus) {
     return sourceID == +this._dispatchService.pageUtils.currentDropConrainerID
@@ -135,23 +138,4 @@ export class DragDropUtilsService {
   }
 
 
-  scroll($event: CdkDragMove,scrollEl: ElementRef<HTMLElement>,animationFrame) {
-    const { y } = $event.pointerPosition;
-    const baseEl = scrollEl.nativeElement;
-    const box = baseEl.getBoundingClientRect();
-    const scrollTop = baseEl.scrollTop;
-    const top = box.top + - y;
-    if (top > 0 && scrollTop !== 0) {
-      const newScroll = scrollTop - this.speed * Math.exp(top / 50);
-      baseEl.scrollTop = newScroll;
-      animationFrame = requestAnimationFrame(() => this.scroll($event,scrollEl,animationFrame));
-      return;
-    }
-    const bottom = y - box.bottom;
-    if (bottom > 0 && scrollTop < box.bottom) {
-      const newScroll = scrollTop + this.speed * Math.exp(bottom / 50);
-      baseEl.scrollTop = newScroll;
-      animationFrame = requestAnimationFrame(() => this.scroll($event,scrollEl,animationFrame));
-    }
-  }
 }
