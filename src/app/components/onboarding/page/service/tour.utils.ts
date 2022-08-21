@@ -1,17 +1,27 @@
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { TemplateRef } from '@angular/core';
 import { FilterTourStepEnum } from 'src/app/components/shared/layout/layout.component';
+import { OrderStatus } from 'src/app/enum/order-status.enum';
 import { GuidedTour, Orientation } from 'src/app/lib/guided-tour.constants';
+import { DummyDataService } from 'src/app/service/dummy-data.service';
 import { SharedService } from 'src/app/service/shared.service';
 import { DispatchTripViewModel } from '../view-models/dispatch.model';
 
 
 
 export class GuidedTourData {
+
+
   tripActionsTemplate
   modalRef: any;
   currentIndexTour: FilterTourStepEnum;
   selectedTrip: any;
+  selectedOrder: any;
+  public  _pageService: any;
+  actionTamplate: string | TemplateRef<any> | (new (...args: any[]) => Object);
   constructor(
     public _sharedService: SharedService,
+    public DummyDataService: DummyDataService,
 
   ) { }
 
@@ -465,22 +475,69 @@ export class GuidedTourData {
   
           action: () => {
             this.modalRef?.hide()
-  
             document.getElementById('TripInfoStep_orderCard').style.cssText = `
             box-shadow: 0px 15px 25px #0F61FD40;
             border: 2px solid #0F61FD;
             border-radius: 4px;
           `;
-  
           },
           closeAction: () => {
-  
             document.getElementById('TripInfoStep_orderCard').style.cssText = `
             box-shadow: unset;
             border: usnet;
           `;
+          if (this.currentIndexTour == FilterTourStepEnum.TripTaskActions) {
+              console.log('selected Trip', this.getTripListByGrouping(this.getGroupingList()[0])[0].Orders[0]);
+              this.selectedOrder = this.getTripListByGrouping(this.getGroupingList()[0])[0].Orders[0]
+              this._pageService.selectedOrder = this.selectedOrder
+              if (!this.selectedOrder.action) this.showTaskAction()
+              else this.excuteActionOnTask(this.selectedOrder.action, this.selectedOrder.item)
+          }
   
+          }
   
+        },
+        {
+          title: "Task Actions",
+          selector: '#TripTaskActionsStep',
+          content: "As seen, there are 2 new task actions which can be used after a task is dispatched:",
+          orientation: Orientation.Right,
+          action: () => {
+  
+          },
+          closeAction: () => {
+          }
+  
+        },
+        {
+          title: "Change Trip",
+          selector: '#TripTaskActionsStep',
+          content: "The use of the 'Change Trip' gives you the option to change the trip this task is on and assign it to another on-going trip.",
+          orientation: Orientation.Right,
+        topPosition:85,
+
+          action: () => {
+            document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_changeTrip').classList.add("b-2", "bc-b500", "radius-6")
+  
+          },
+          closeAction: () => {
+            document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_changeTrip').classList.remove("b-2", "bc-b500", "radius-6")
+          }
+  
+        },
+        {
+          title: "Remove Task from Trip",
+          selector: '#TripTaskActionsStep',
+          content: "'Remove' allows you to remove a task from the trip and return it to ready tasks ⏪, but in pause status, to re-dispatch it automatically removes the pause",
+          orientation: Orientation.Right,
+        topPosition:85,
+
+          action: () => {
+            document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_remove').classList.add("b-2", "bc-b500", "radius-6")
+  
+          },
+          closeAction: () => {
+            document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_remove').classList.remove("b-2", "bc-b500", "radius-6")
           }
   
         },
@@ -490,7 +547,526 @@ export class GuidedTourData {
       ],
     };
   
+
+      /*************************** dispatch All Tasks Tour Data ***********************/
+  public dispatchAllTaskTour: GuidedTour = {
+    tourId: 'dispatch-All-tasks-tour',
+    useOrb: false,
+    preventBackdropFromAdvancing: true,
+    skipCallback: (stepSkippedOn: number) => {
+      this.modalRef?.hide()
+    },
+    completeCallback: () => {
+      this.modalRef?.hide()
+      this.showCompleteTourTemplate()
+
+    },
+    steps: [
+      {
+        title: "Ready & In-Progress",
+        selector: '#AllTasksStep',
+        content: "<div class='mb-3'>In 'Tasks' you can view two main categories which are ready and in-progress tasks..</div> <div class='mb-3'>First of these categories is ready tasks; which are tasks that have been prepared and are ready to be picked by a delivery agent ✅</div> In-progress section must b activated from the configuration",
+        orientation: Orientation.Bottom,
+        highlightPadding: 5,
+        highlightHeight:40,
+        overlayRadius:6,
+        topPosition:40,
+
+        action: () => {
+          this.onTasksTabClick(1)
+          scrollToView('TripInfoStep_orderCard')
+
+        },
+        closeAction:()=>{
+        }
+      },
+      {
+        title: "Scheduled",
+        selector: '#AllTasksStep_Scheduled',
+        content: "Here, you can find the orders that are arranged for pickup on a later date! 📅",
+        orientation: Orientation.Bottom,
+        highlightPadding: 2,
+        highlightHeight:4,  
+        overlayRadius:6,
+        topPosition:4,  
+        
+
+        action: () => {
+          this.onTasksTabClick(2)
+
+        },
+        closeAction:()=>{
+          this.onTasksTabClick(0)
+
+
+        }
+      },
+      {
+        title: "Fast Task",
+        selector: '#AllTasksStep_FastTaskBtn',
+        content: "For a quick efficient way to set up a task without using integration, you can use 'Fast Task' ⚡ Click on it for more details on how to set up a fast task!",
+        orientation: Orientation.Left,
+        highlightPadding: 2,
+        highlightHeight:4,  
+        highlightWidth:4,  
+
+        overlayRadius:6,
+        topPosition:4,  
+        
+
+        action: () => {
+
+        },
+        closeAction:()=>{
+
+
+        }
+      },
+      {
+        title: "Special Trip",
+        selector: '#AllTasksStep_SpecialTripBtn',
+        content: "The 'Manual Trip' feature allows you to override the auto-dispatch system and pair any agent of your choice with the specific task 👨‍💻",
+        orientation: Orientation.Left,
+        highlightPadding: 2,
+        highlightHeight:4,  
+        highlightWidth:4,  
+          overlayRadius:6,
+        topPosition:4,  
+        
+
+        action: () => {
+
+        },
+        closeAction:()=>{
+
+
+        }
+      },
   
+     
+      
+
+    ],
+  };
+  
+
+      /*************************** dispatch Task Card Info Tour Data ***********************/
+  public dispatchTaskCardInfoTour: GuidedTour = {
+    tourId: 'dispatch-task-info-tour',
+    useOrb: false,
+    preventBackdropFromAdvancing: true,
+    skipCallback: (stepSkippedOn: number) => {
+      this.modalRef?.hide()
+    },
+    completeCallback: () => {
+      this.modalRef?.hide()
+      this.showCompleteTourTemplate()
+
+    },
+    steps: [
+      {
+        title: "Pickup Location",
+        selector: '#TaskCardInfoStep',
+        content: "First up is the name of the pick-up location from which the task was placed.",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,
+   
+        action: () => {
+          scrollToView('TaskCardInfoStep')
+
+          document.getElementById('TaskCardInfoStep').querySelector('#StoreInfo').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#StoreInfo').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Task Status",
+        selector: '#TaskCardInfoStep',
+        content: "First up is the name of the pick-up location from which the task was placed.",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#taskStatus').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#taskStatus').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Task Timer",
+        selector: '#TaskCardInfoStep',
+        content: "From here, you can view how long it has been since the pickup time. ⏱",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#OrderTimerStep').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#OrderTimerStep').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+     
+      {
+        title: "Task Number",
+        selector: '#TaskCardInfoStep',
+        content: "In the case of task integration from the point of sale, you will see a task number similar to this one.",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#TaskNumber').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#TaskNumber').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Total Bill",
+        selector: '#TaskCardInfoStep',
+        content: "This is total bill the task amounts for 🧾",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#TotalBill').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#TotalBill').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Customer Name & Drop-off",
+        selector: '#TaskCardInfoStep',
+        content: "You can also find the customer's name followed by their drop-off address. 📍",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#CustomerName').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+          document.getElementById('TaskCardInfoStep').querySelector('#AddressCustomer').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#CustomerName').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+          document.getElementById('TaskCardInfoStep').querySelector('#AddressCustomer').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Customer Distance",
+        selector: '#TaskCardInfoStep',
+        content: "Next to them, the distance between the pick-up and drop-off locations can be seen 🗺",
+        orientation: Orientation.Right,
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#CustomerDistance').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#CustomerDistance').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+      {
+        title: "Fast Actions",
+        selector: '#TaskCardInfoStep',
+        content: "<div class='mb-3'>The last items on the task card are two fast actions icons.</div>  right, you can find the 'Pause Task' icon, pausing the task's dispatching.<div class='mb-3'> The icon after it is for 'Immediate Dispatching' from which you can add the task to any running trip of your choice.</div> <span class='bold'>Note: </span>the pause action only pauses the automatic dispatching, not the task timer.",
+        orientation: Orientation.Right, 
+        highlightPadding: 2,
+        highlightHeight:5,
+        overlayRadius:6,  
+        action: () => {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#FastActionStep').classList.add("b-2", "bc-b500", "radius-6", "p-1")
+        },
+        closeAction() {
+
+          document.getElementById('TaskCardInfoStep').querySelector('#FastActionStep').classList.remove("b-2", "bc-b500", "radius-6", "p-1")
+
+        },
+      },
+
+      // {
+      //   title: "That's all for the task card",
+      //   titleClass: "c-b500",
+      //   selector: '#TaskCardInfoStep',
+      //   content: "To move on to the task actions, please click on the task card!",
+      //   orientation: Orientation.Right,
+      //   highlightPadding: 2,
+      //   highlightHeight:5,
+      //   overlayRadius: 6,
+      //   hiddenSteps: true,
+      //   textBtnNext: 'Okey',
+      //   classBtnNext: 'rb-btn-success ',
+      //   hiddenBtnPrev: true,
+      //   action: () => {
+      //   },
+      //   closeAction: () => {
+      //   }
+      // },
+     
+     
+     
+      
+
+    ],
+  };
+  
+      /*************************** dispatch Trip Task Actions Tour Data ***********************/
+  public dispatchTaskCardActionsTour: GuidedTour = {
+        tourId: 'dispatch-task-actions-tour',
+        useOrb: false,
+        preventBackdropFromAdvancing: true,
+        skipCallback: (stepSkippedOn: number) => {
+          this.modalRef?.hide()
+        },
+        completeCallback: () => {
+          this.modalRef?.hide()
+          this.showCompleteTourTemplate()
+    
+        },
+        steps: [
+         
+          {
+            selector: '#TaskCardInfoStep',
+            orientation: Orientation.Top,
+            hiddenOverLay: true,
+            highlightPadding:2,
+    
+            action: () => {
+              this.modalRef?.hide()
+              scrollToView('TaskCardInfoStep')
+              document.getElementById('TaskCardInfoStep').style.cssText = `
+              box-shadow: 0px 15px 25px #0F61FD40;
+              border: 2px solid #0F61FD;
+              border-radius: 4px;
+            `;
+            },
+            closeAction: () => {
+              document.getElementById('TaskCardInfoStep').style.cssText = `
+              box-shadow: unset;
+              border: usnet;
+            `;
+            if (this.currentIndexTour == FilterTourStepEnum.TaskCardAction) {
+              // this.onOrderClick(this.DummyDataService.DummyOrders[0])
+              this.selectedOrder = this.DummyDataService.DummyOrders[0]
+              this._pageService.selectedOrder = this.selectedOrder
+              this.selectedOrder.ShowOrderLocation = false
+              this.selectedOrder.ShowTaskLog = false
+              this.selectedOrder.ShowTaskDetails = false
+              this.modalRef = this._sharedService.modalService.show(this.actionTamplate, { class: 'modal-order modal-transparent' });
+              // this.onOrderClick(this.DummyDataService.DummyOrders[0])
+         
+            }
+    
+            }
+    
+          },
+          {
+            title: "Task Actions",
+            selector: '#TripTaskActionsStep',
+            content: "There are task multiple actions for a task before it is dispatched.",
+            orientation: Orientation.Right,
+            action: () => {
+    
+            },
+            closeAction: () => {
+            }
+    
+          },
+          {
+            title: "Pause Task",
+            selector: '#TripTaskActionsStep',
+            content: "On click, this pauses the dispatching of a task while keeping its time running 🏃",
+            orientation: Orientation.Right,
+            topPosition:85,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Pause').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Pause').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Specific Trip",
+            selector: '#TripTaskActionsStep',
+            content: "'Using this you can add a task to any running trip of your choice.",
+            orientation: Orientation.Right,
+          topPosition:85,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Specific').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Specific').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Specific Trip",
+            selector: '#TripTaskActionsStep',
+            content: "'Using this you can add a task to any running trip of your choice.",
+            orientation: Orientation.Right,
+          topPosition:85,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Specific').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Specific').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Top Priority",
+            selector: '#TripTaskActionsStep',
+            content: "'When you click on this, you give the task a higher priority in dispatching.",
+            orientation: Orientation.Right,
+          topPosition:85,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_TopPriority').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_TopPriority').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Manual Delivered",
+            selector: '#TripTaskActionsStep',
+            content: "This specifies that the task is to be delivered manually and removes it from the running tasks.",
+            orientation: Orientation.Right,
+          topPosition:150,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_ManualDeliver').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_ManualDeliver').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Cancel Task",
+            selector: '#TripTaskActionsStep',
+            content: "You can cancel the task using this. This can be quite useful in case a customer canceled his/her order 👌",
+            orientation: Orientation.Right,
+          topPosition:150,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Cancel').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TaskActions_Cancel').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Update Task Details (1/2)",
+            selector: '#TripTaskActionsStep',
+            content: "Whenever you want to update the task, you can easily do so using this icon.",
+            orientation: Orientation.Right,
+          topPosition:200,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Update').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Update').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Task Location",
+            selector: '#TripTaskActionsStep',
+            content: "With this icon, you are able to view the task location on map (pick-up to drop-off), while viewing the Estimated Time of Arrival (ETA).",
+            orientation: Orientation.Right,
+            topPosition:200,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Map').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Map').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "Pickup & Drop-off",
+            selector: '#TripTaskActionsStep',
+            content: "Next up, you can find the distance between the pick-up and drop-off locations. In addition, you are able to view the full address of the drop-off location 📍",
+            orientation: Orientation.Right,
+            topPosition:200,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Pickup').classList.add("b-2", "bc-b500", "radius-6")
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_Pickup').classList.remove("b-2", "bc-b500", "radius-6")
+            }
+    
+          },
+          {
+            title: "TripTaskActionsStep_ShowDetails",
+            selector: '#TripTaskActionsStep',
+            content: "Click on it to show the details of the task.",
+            orientation: Orientation.Right,
+            topPosition:200,
+  
+            action: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_ShowDetails').classList.add("b-2", "bc-b500", "radius-6",'py-2')
+    
+            },
+            closeAction: () => {
+              document.getElementById('TripTaskActionsStep').querySelector('#TripTaskActionsStep_ShowDetails').classList.remove("b-2", "bc-b500", "radius-6",'py-2')
+            }
+    
+          },
+          
+          
+    
+        ],
+ };
 
 
   /*************************** Methods ***********************/
@@ -505,17 +1081,30 @@ export class GuidedTourData {
   getGroupingList() {
     throw new Error('Method not implemented.');
   }
-  getTripListByGrouping(arg0: any) {
+  getTripListByGrouping(arg?: any) {
     throw new Error('Method not implemented.');
   }
   showLiveTracking() {
     throw new Error('Method not implemented.');
 
   }
-
+  onOrderClick(arg?:any) {
+    throw new Error('Method not implemented.');
+  }
+  excuteActionOnTask(action: any, item: any) {
+    throw new Error('Method not implemented.');
+  }
+  showTaskAction() {
+    throw new Error('Method not implemented.');
+  }
+   onTasksTabClick(i: any) {
+    throw new Error('Function not implemented.');
+  }
 }
 
 function scrollToView(id: string) {
   var elment = document.getElementById(id);
   elment.scrollIntoView(true);
 }
+
+

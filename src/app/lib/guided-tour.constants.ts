@@ -21,6 +21,7 @@ export interface TourStep {
     /** Adds padding around tour highlighting in pixels, this overwrites the default for this step. Is not dependent on useHighlightPadding being true */
     highlightPadding?: number;
     highlightHeight?: number;
+    highlightWidth?: number;
     subSelector?:string;
     hiddenSteps?: boolean;
     hiddenBtnPrev?: boolean;

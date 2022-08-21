@@ -267,7 +267,6 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         }
 
         if (this.currentTourStep.orientation === Orientation.Right) {
-            console.log('Right');
             return (this.selectedElementRect.left + this.selectedElementRect.width + paddingAdjustment);
         }
      

@@ -9,9 +9,9 @@ export const environment = {
   allowDynamicApi:false,
   // withDynamicApi:true,
   // api: 'http://localhost:5000',
-  // api:'https://api.tayar.info'
+  api:'https://api.tayar.info'
   // api:'https://api.tayar.app'
-  api:'https://api.roboost.app'
+  // api:'https://api.roboost.app'
   // api:'https://ibnalsham-api.roboost.app'
   // api:'https://new-api.roboost.app'
   // api:'https://abotarek-api.roboost.app'

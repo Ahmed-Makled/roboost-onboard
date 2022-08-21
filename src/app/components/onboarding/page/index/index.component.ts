@@ -62,12 +62,13 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
   tripLog: TripLogViewModel = new TripLogViewModel()
   zoom = 11;
   previous: any;
+  orderStatus = OrderStatus
 
   currentIndexTour = null
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _pageService: OnboardingDispatchService,
+    public _pageService: OnboardingDispatchService,
     public _sharedService: SharedService,
     private _listService: ListService,
     private _taskAction: TaskActionService,
@@ -75,11 +76,11 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     private _dispatchUtils: DispatchUtilsService,
     private _dragDropUtils: DragDropUtilsService,
     private guidedTourService: GuidedTourTestService,
-    private DummyDataService: DummyDataService
+    public DummyDataService: DummyDataService
 
 
   ) {
-    super(_sharedService);
+    super(_sharedService,DummyDataService);
   }
 
   public onTourStart(): void {
@@ -89,6 +90,9 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
       if (res == FilterTourStepEnum.TripCardInfo) this.guidedTourService.startTour(this.dispatchTripInfoTour);
       if (res == FilterTourStepEnum.TripActions) this.guidedTourService.startTour(this.dispatchTripActionsTour);
       if (res == FilterTourStepEnum.TripTaskActions) this.guidedTourService.startTour(this.dispatchTripTaskActionsTour);
+      if (res == FilterTourStepEnum.AllTasks) this.guidedTourService.startTour(this.dispatchAllTaskTour);
+      if (res == FilterTourStepEnum.TaskCardInfo) this.guidedTourService.startTour(this.dispatchTaskCardInfoTour);
+      if (res == FilterTourStepEnum.TaskCardAction) this.guidedTourService.startTour(this.dispatchTaskCardActionsTour);
 
     })
   }

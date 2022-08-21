@@ -23,6 +23,11 @@ export class DummyDataService {
     'Cairo', 'Giza', 'Madīnat as Sādis min Uktūbar', 'Shubrā al Khaymah', 'Al Maḩallah al Kubrá', 'Al Fayyūm',
     'Az Zaqāzīq', 'Ismailia', 'Damietta', 'Shibīn al Kawm', 'Al Qūşīyah'
   ]
+
+  CustomerListNames = [
+    'خالد كشميري',  'يَعقوب قمر الدين دبيازة', 'محمد سمبل', 'خضر كراويتة', 'عثمان عبد الجليل ششا', 'Al Fayyūm',
+    'خالد كشميري', 'يَعقوب قمر الدين دبيازة', 'محمد سمبل', 'خضر كراويتة', 'عثمان عبد الجليل ششا', 'Al Fayyūm',
+  ]
   constructor() {
     this.GenerateData()
 
@@ -43,13 +48,13 @@ export class DummyDataService {
         "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": null, "Mobile": null,
         "Address": this.AddressListNames[i], "ServicesCount": 0,
         "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
-        "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
+        "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -903,
         "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
         "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([2]), "StatusName": null,
         "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
         "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-        "IsTopPriority": `${i % 2 == 1 ? true : false}`, "IsPaused": `${i % 2 == 0 ? true : false}`, "Rate": 0,
-        "RateName": null, "Note": null, "OrderDeliveryTime": `${i}`, "IsTransite": `${i % 2 == 0 ? true : false}`,
+        "IsTopPriority": false, "IsPaused": false, "Rate": 0,
+        "RateName": null, "Note": null, "OrderDeliveryTime": `${i}`, "IsTransite": false,
         "District": null, "ServicesData": null, "Services": null
       }
 
@@ -69,17 +74,17 @@ export class DummyDataService {
       }
       for (let j = 1; j < 30; j++) {
         orderObj = {
-          "ID": `3691741${j}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
+          "ID": `3691741${j}`, "TripID": null, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
           "BranchName": this.StoreListNames[i],
-          "OrderNumber": `AE5AA554-7${j}`, "Code": `7w1HQXoJ6P${j}`, "Name": null, "Mobile": null,
+          "OrderNumber": `AE5AA554-7${j}`, "Code": `7w1HQXoJ6P${j}`, "Name": this.CustomerListNames[i], "Mobile": null,
           "Address": this.AddressListNames[i], "ServicesCount": 0,
-          "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
+          "PlannedDistance": 184.09, "Distance": 10, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
           "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
           "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-          "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([9,1,9,9,9,1,9,1,1,1,9,1,9]), "StatusName": null,
+          "Duration": 0, "Priority": null, "Amount":66.66, "Status": j==1?1:randomArrayShuffle([9,1,9,9,9,1,9,1,1,1,9,1,9]), "StatusName": null,
           "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
           "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-          "IsTopPriority": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]), "IsPaused": randomArrayShuffle([true, false]), "Rate": 0,
+          "IsTopPriority": j==1?false:randomArrayShuffle([false, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]), "IsPaused": j==1?false:randomArrayShuffle([true, false]), "Rate": 0,
           "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]),
           "District": null, "ServicesData": null, "Services": null
         }

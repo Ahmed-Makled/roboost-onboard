@@ -315,8 +315,8 @@
                               <div [cdkDragDisabled]="isOrderDelivered(order)" [cdkDragData]="order"
                                 [cdkDragStartDelay]="pageUtils.dragDelayTime" (cdkDragMoved)="onDragMoved($event)"
                                 cdkDrag>
-                                <order-card [item]="order" (orderClick)="onOrderClick($event)"
-                                  [URLOnMaps]="getOrderUrlONMaps(order)"></order-card>
+                                <order-card-board [item]="order" (orderClick)="onOrderClick($event)"
+                                  [URLOnMaps]="getOrderUrlONMaps(order)"></order-card-board>
                               </div>
                             </div>
                             <div class="order-card text-center" *ngIf="getTripOrderList(item.ID,false).length == 0">
@@ -340,14 +340,14 @@
         </div>
       </div>
       <div id="AllTaskStep" class="card dispatch-end-section rb-mt-12 mb-md-4">
-        <div class="" [class]="isMobileView()?'':'card-header ' + (isSingleStore()?'p-1':'flow-hidden p-0 pe-3')">
-          <div [class]="isMobileView()?'':'d-flex align-items-center'">
+        <div id="AllTasksStep"  class="" [class]="isMobileView()?'':'card-header ' + (isSingleStore()?'p-1':'flow-hidden p-0 pe-3')">
+          <div  [class]="isMobileView()?'':'d-flex align-items-center'">
             <div class="tab-filter-container"
               [class]="isMobileView()?('row g-0 row-cols-'+getTabList().length):isSingleStore()?'row g-1':'remain-w scroll-x hide-scroll me-3'">
               <ng-container *ngFor="let item of getTabList(); let i=index">
                 <div
                   [class]="isMobileView()?'col':isSingleStore()?(i > 1 ?('col-'+(12/(getTabList().length-2))):'col-6'):'d-flex align-items-center'">
-                  <div class="tab-content"
+                  <div [id]="item.ID ==orderStatus.SCHEDULED?'AllTasksStep_Scheduled': item.ID == orderStatus.READY?'AllTasksStep_Ready':'AllTaskStep_All' " class="tab-content"
                     [class.active]="pageUtils.CurrentTasksTab == item.ID && (pageUtils.withShowTaskSection||!isMobileView())"
                     [class]="isSingleStore()?'w-100':(i + 1 == getTabList().length)?'border-end-0':''"
                     [ngClass]="(pageUtils.CurrentTasksTab == item.ID) && (pageUtils.withShowTaskSection||!isMobileView())?item.Code:''"
@@ -365,10 +365,9 @@
               </ng-container>
             </div>
             <div class="d-none d-sm-flex ms-auto" *ngIf="!isSingleStore()">
-              <fast-task [tasks]="orders" [storeList]="storeList" [serviceList]="serviceList"
-                (onCreateTask)="onCreateTask()"></fast-task>
-              <button class="rb-btn rb-btn-primary rb-btn-sm ms-2" (click)="showCreateTripTemplate()"
-                *ngIf="hasFeature(featureEnum.Trip_CreateSpecialTrip)">
+              <fast-task-board [tasks]="orders" [storeList]="storeList" [serviceList]="serviceList"
+                (onCreateTask)="onCreateTask()"></fast-task-board>
+              <button id="AllTasksStep_SpecialTripBtn" class="rb-btn rb-btn-primary rb-btn-sm ms-2" (click)="showCreateTripTemplate()">
                 <img src="/assets/rb-icon/robot_slash.svg" class="rect-16 me-1">
                 <span class="rb-btn-text">{{'system.special-trip'|translate}}</span>
               </button>
@@ -450,12 +449,12 @@
                         *ngFor="let item of DummyDataService.DummyOrders"
                         attr.orderId="{{item.ID}}" (cdkDropListDropped)="drop($event)" [cdkDropListData]="orders"
                         cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate">
-                        <div cdkDrag [cdkDragStartDelay]="pageUtils.dragDelayTime"
+                        <div  [id]="i==0?'TaskCardInfoStep':''" cdkDrag [cdkDragStartDelay]="pageUtils.dragDelayTime"
                           [cdkDragDisabled]="isOrderDelivered(item)" [cdkDragData]="item"
                           (cdkDragMoved)="onDragMoved($event)">
-                          <order-card [item]="item" (orderClick)="onOrderClick($event)"
+                          <order-card-board [item]="item" (orderClick)="onOrderClick($event)"
                             [URLOnMaps]="getOrderUrlONMaps(item)" [withSelect]="canShowPageCreateTrip()">
-                          </order-card>
+                          </order-card-board>
                         </div>
 
                       </div>
@@ -482,8 +481,9 @@
     </div>
   </div>
 </div>
+<!-- trip task actions popup -->
 <ng-template #actionTamplate>
-  <div class="modal-body">
+  <div id='TripTaskActionsStep'   class="modal-body">
     <div class="d-flex align-items-center align-items-md-start flex-colomn flex-md-row">
       <div class="flex-colomn mt-md-4 mb-1 mb-md-0"
         [class]="selectedOrder.ShowTaskLog || selectedOrder.ShowTaskDetails ?'d-none d-md-flex':'d-flex'">
@@ -513,101 +513,95 @@
         <div class="action-section">
           <div class="row row-cols-3 g-2 mx-0">
             <div class="col "
-              *ngIf="hasFeature(featureEnum.Task_PauseOrder) && !selectedOrder.IsPaused && !isSchedualed(selectedOrder) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)&& !isOnTrip(selectedOrder)">
-              <div class="action-box" (click)="pauseOrder(selectedOrder);modalRef.hide()">
+              *ngIf="!selectedOrder.IsPaused && !isSchedualed(selectedOrder) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)&& !isOnTrip(selectedOrder)">
+              <div id="TaskActions_Pause" class="action-box" (click)="pauseOrder(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/pause.svg" title="Paused Order" class="rect-40">
                 <p class="font-12 bold">{{'system.pause'|translate}}</p>
               </div>
             </div>
-            <div class="col " *ngIf="hasFeature(featureEnum.Task_UnPauseOrder) && selectedOrder.IsPaused">
+            <div class="col " *ngIf="selectedOrder.IsPaused&& false">
               <div class="action-box" (click)="unPauseOrder(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/resume.svg" title="play Order" class="rect-40">
                 <p class="font-12 bold">{{'system.play'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_AddToTrip) && !isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
+            <div  id="TaskActions_Specific" class="col"
+              *ngIf="!isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showAddToTripTemplate(selectedOrder)">
                 <img src="/assets/rb-icon/specific_trip.svg" class="rect-40"
                   title="{{'system.add-to-specific-trip'|translate}}">
                 <p class="font-12 bold">{{'system.add-to-specific-trip'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_ChangeTrip) && isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
+            <div id='TripTaskActionsStep_changeTrip'  class="col"
+              *ngIf="isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showChangeTripTemplate();">
                 <img src="/assets/rb-icon/change_trip.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.change-trip'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_ChangePriority) && !selectedOrder.IsTopPriority && !isOrderDelivered(selectedOrder)&& !isCantDelivered(selectedOrder)">
+            <div id="TaskActions_TopPriority"  class="col"
+              *ngIf="!selectedOrder.IsTopPriority && !isOrderDelivered(selectedOrder)&& !isCantDelivered(selectedOrder)">
               <div class="action-box" (click)="changeOrderPriority(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/top_priority.svg" class="rect-40">
                 <p class="font-12 bold">{{'dispatch.top-priority'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_DeliverOrder) && isCreated(selectedOrder)||isReady(selectedOrder)">
+            <div id='TaskActions_ManualDeliver' class="col"
+              *ngIf="isCreated(selectedOrder)||isReady(selectedOrder)">
               <div class="action-box" (click)="setOrderAsDelivered(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/delivered.svg" class="rect-40 ">
                 <p class="font-12 bold">{{'system.manual-deliver'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_CancelOrder) && !isOnTrip(selectedOrder) && !isSchedualed(selectedOrder)">
+            <div id='TaskActions_Cancel' class="col"
+              *ngIf="!isOnTrip(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showCancelOrderConfirmation();">
                 <img src="/assets/rb-icon/cancel.svg" class="rect-40">
                 <p class="font-12 bold">{{'shared.cancel'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_RemoveFromTrip) && isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
+            <div id='TripTaskActionsStep_remove' class="col"
+              *ngIf="isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showRemoveOrderFromTripConfirmation()">
                 <img src="/assets/rb-icon/remove.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.remove-from-trip'|translate}}</p>
               </div>
             </div>
             <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_SetAsReady) && isCreated(selectedOrder) || isSchedualed(selectedOrder)">
+              *ngIf="isCreated(selectedOrder) || isSchedualed(selectedOrder)">
               <div class="action-box" (click)="setOrderAsReady(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/ready.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.order-ready'|translate}}</p>
               </div>
             </div>
             <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_SetAsInProgress) && isNew(selectedOrder) || isSchedualed(selectedOrder)">
+              *ngIf=" isNew(selectedOrder) || isSchedualed(selectedOrder)">
               <div class="action-box" (click)="setOrderAsInProgress(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/in_progress.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.set-in-progress'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="hasFeature(featureEnum.Task_ScheduleOrder) && (isNew(selectedOrder) || isCreated(selectedOrder) ||isReady(selectedOrder)) && !selectedOrder.IsTransite">
+            <div  id='TripTaskActionsStep_reschedule' class="col"
+              *ngIf=" (isNew(selectedOrder) || isCreated(selectedOrder) ||isReady(selectedOrder)) && !selectedOrder.IsTransite">
               <div class="action-box" (click)="modalRef.hide();showScheduledOrderTemplate(selectedOrder)">
                 <img src="/assets/rb-icon/calendar_monochrome.svg" class="rect-40 ">
                 <p class="font-12 bold">{{'system.reschedule'|translate}}</p>
               </div>
             </div>
-            <div class="col "
-              *ngIf="hasFeature(featureEnum.Task_UpdateOrderInfo) && (isCreated(selectedOrder)||isReady(selectedOrder) ||isOnTrip(selectedOrder) || isCantDelivered(selectedOrder)) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)">
+            <!-- <div class="col "
+            *ngIf="(!isOrderDelivered(selectedOrder) || !isOrderCanceled(selectedOrder))">
+            <div class="action-box" (click)="modalRef.hide();cancelOTP()">
+              <img src="/assets/rb-icon/otp_code_cancel.svg" class="rect-40">
+              <p class="font-12 bold">{{'dispatch.cancel-otp'|translate}}</p>
+            </div>
+          </div> -->
+            <div id='TripTaskActionsStep_Update'  class="col "
+              *ngIf="(isCreated(selectedOrder)||isReady(selectedOrder) ||isOnTrip(selectedOrder) || isCantDelivered(selectedOrder)) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showUpdateTaskTemplate()">
                 <img src="/assets/rb-icon/edit_order.svg" class="rect-40">
                 <p class="font-12 bold">{{'dispatch.update-task'|translate}}</p>
               </div>
-            </div>
-            <div class="col "
-              *ngIf="hasFeature(featureEnum.Task_cancelOTP) && selectedOrder.DeliveryVerificationCode && (!isOrderDelivered(selectedOrder) || !isOrderCanceled(selectedOrder))">
-              <div class="action-box" (click)="modalRef.hide();cancelOTP()">
-                <img src="/assets/rb-icon/otp_code_cancel.svg" class="rect-40">
-                <p class="font-12 bold">{{'dispatch.cancel-otp'|translate}}</p>
-              </div>
-            </div>
-            <div class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)">
-              <a class="action-box" target="_blank" [href]="getOrderUrlONMaps(selectedOrder)">
-                <img src="/assets/rb-icon/show_on_map.svg" class="rect-40">
-                <p class="font-12 bold">{{'system.show-on-map-eTA'|translate}}</p>
-              </a>
             </div>
             <div class="col">
               <div class="action-box" (click)="getTaskLog()">
@@ -615,28 +609,37 @@
                 <p class="font-12 bold">{{'system.task-log-items'|translate}}</p>
               </div>
             </div>
+            <div  class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)" id='TripTaskActionsStep_Map' >
+              <a class="action-box" target="_blank" [href]="getOrderUrlONMaps(selectedOrder)">
+                <img src="/assets/rb-icon/show_on_map.svg" class="rect-40">
+                <p class="font-12 bold">{{'system.show-on-map-eTA'|translate}}</p>
+              </a>
+            </div>
+         
           </div>
         </div>
         <hr class="m-0">
         <div class="px-3">
-          <div class="d-flex align-items-start rb-mt-12">
-            <div class="d-flex">
-              <img src="/assets/rb-icon/stop-circle-fill.svg" alt="" class="rect-16 me-2">
+          <div id="TripTaskActionsStep_Pickup">
+            <div class="d-flex align-items-start rb-mt-12">
+              <div class="d-flex">
+                <img src="/assets/rb-icon/stop-circle-fill.svg" alt="" class="rect-16 me-2">
+              </div>
+              <p class="font-12 c-g900 text-truncate me-2">{{selectedOrder.BranchName}}</p>
+              <p class="font-12 c-g900 ms-auto text-nowrap">{{selectedOrder.Distance}} {{'shared.km'|translate}}</p>
             </div>
-            <p class="font-12 c-g900 text-truncate me-2">{{selectedOrder.BranchName}}</p>
-            <p class="font-12 c-g900 ms-auto text-nowrap">{{selectedOrder.Distance}} {{'shared.km'|translate}}</p>
-          </div>
-          <div class="w-16 d-flex justify-content-center mt-1">
-            <img src="/assets/rb-icon/vertical_line.svg" class="rect-8">
-          </div>
-          <div class="d-flex align-items-start mt-1" *ngIf="selectedOrder.Address">
-            <div class="d-flex">
-              <img src="/assets/rb-icon/map-pin-2-fill.svg" alt="" class="rect-16 me-2">
+            <div class="w-16 d-flex justify-content-center mt-1">
+              <img src="/assets/rb-icon/vertical_line.svg" class="rect-8">
             </div>
-            <p class="font-12 c-g900 max-lines-2" [title]="selectedOrder.Address">{{selectedOrder.Address}}</p>
-          </div>
-          <div class="p-note rb-mt-12" *ngIf="selectedOrder.Note">
-            <p class="c-g900 font-10 text-truncate">{{selectedOrder.Note}}</p>
+            <div class="d-flex align-items-start mt-1" *ngIf="selectedOrder.Address">
+              <div class="d-flex">
+                <img src="/assets/rb-icon/map-pin-2-fill.svg" alt="" class="rect-16 me-2">
+              </div>
+              <p class="font-12 c-g900 max-lines-2" [title]="selectedOrder.Address">{{selectedOrder.Address}}</p>
+            </div>
+            <div class="p-note rb-mt-12" *ngIf="selectedOrder.Note">
+              <p class="c-g900 font-10 text-truncate">{{selectedOrder.Note}}</p>
+            </div>
           </div>
           <!-- <div class="d-flex align-items-center mt-2">
             <img src="/assets/rb-icon/check.svg" class="rect-14 me-1">
@@ -676,7 +679,7 @@
             <!-- <div class="col-6 pr-1">
             <button class="btn bg-d5 c-001">Show Items</button>
           </div> -->
-            <div class="col-12">
+            <div class="col-12" id="TripTaskActionsStep_ShowDetails" >
               <a routerLink="/task/details/{{selectedOrder.Code}}" (click)="modalRef.hide()">
                 <button
                   class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100">{{'dispatch.go-task-details'|translate}}</button>
@@ -995,7 +998,7 @@
 
       <div class="order-list mt-2 trip-orders">
         <div class="rb-mb-6" *ngFor="let order of  getTripOrderList(selectedTrip.ID)">
-          <order-card [item]="order" [URLOnMaps]="getOrderUrlONMaps(order)"></order-card>
+          <order-card-board [item]="order" [URLOnMaps]="getOrderUrlONMaps(order)"></order-card-board>
         </div>
       </div>
     </div>
@@ -1261,7 +1264,7 @@
                   </div>
                 </div>
                 <div class="mt-3 box-shadow">
-                  <order-card [item]="selectedOrder" [URLOnMaps]="getOrderUrlONMaps(selectedOrder)"></order-card>
+                  <order-card-board [item]="selectedOrder" [URLOnMaps]="getOrderUrlONMaps(selectedOrder)"></order-card-board>
                 </div>
               </div>
             </div>
@@ -1424,8 +1427,8 @@
                     [class]="isMobileView()?'d-flex scroll-x hide-scroll': 'row gx-2 mx-0 ' + (isSingleStore()?'row-cols-1':'row-cols-2 row-cols-md-3')">
                     <div class="" [class]="isMobileView()?'me-2':'col mb-2'"
                       *ngFor="let item of getCreateTripOrderList(isMobileView()||isSingleStore()); let i=index">
-                      <order-card [item]="item" [withSelect]="!isSingleStore()&&!isMobileView()"
-                        [URLOnMaps]="getOrderUrlONMaps(item)"></order-card>
+                      <order-card-board [item]="item" [withSelect]="!isSingleStore()&&!isMobileView()"
+                        [URLOnMaps]="getOrderUrlONMaps(item)"></order-card-board>
                     </div>
                   </div>
                   <p class="rb-p-sm c-00f bold mx-2" *ngIf="getCreateTripOrderList().length==0">

@@ -6,7 +6,7 @@
      [style.top.px]="overlayTop"
     [style.left.px]="overlayLeft"
     [style.height.px]="currentTourStep.highlightHeight?overlayHeight + currentTourStep.highlightHeight:overlayHeight"
-    [style.width.px]="overlayWidth"
+    [style.width.px]="currentTourStep.highlightWidth?overlayWidth + currentTourStep.highlightWidth:overlayWidth"
     [ngStyle]="{opacity: currentTourStep.hiddenOverLay?'0':''}"
     >
   </div>
@@ -70,7 +70,7 @@
         </button>
 
         <button *ngIf="guidedTourService.onLastStep"
-          [class]="'rb-btn rb-btn-primary rb-btn-md' " 
+          class="rb-btn rb-btn-primary rb-btn-md  " 
           [class.ms-auto]='!guidedTourService.onLastStep'
           (click)="guidedTourService.nextStep()">
           <span class="rb-btn-text">{{ doneText }}</span>

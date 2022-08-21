@@ -18,6 +18,9 @@ export class TourList{
     { ID: FilterTourStepEnum.TripCardInfo,Name: "Trip Card Info", Selected: false },
     { ID: FilterTourStepEnum.TripActions,Name: "Trip Actions", Selected: false },
     { ID: FilterTourStepEnum.TripTaskActions,Name: "Trip Task Action ", Selected: false },
+    { ID: FilterTourStepEnum.AllTasks,Name: "Task Section", Selected: false },
+    { ID: FilterTourStepEnum.TaskCardInfo,Name: "Task Card Info", Selected: false },
+    { ID: FilterTourStepEnum.TaskCardAction,Name: "Task Actions ", Selected: false },
    
   ];
   SearchValue:FilterTourStepEnum = FilterTourStepEnum.General;
@@ -28,6 +31,9 @@ export enum FilterTourStepEnum {
   TripCardInfo =3,
   TripActions =4,
   TripTaskActions =5,
+  AllTasks =6,
+  TaskCardInfo =7,
+  TaskCardAction =8,
  
 }
 @Component({
