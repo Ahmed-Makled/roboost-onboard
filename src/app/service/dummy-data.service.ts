@@ -45,12 +45,12 @@ export class DummyDataService {
       let orderObjTrip = {
         "ID": `3691741${i}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
         "BranchName": this.StoreListNames[i],
-        "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": null, "Mobile": null,
-        "Address": this.AddressListNames[i], "ServicesCount": 0,
+        "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": this.CustomerListNames[i], "Mobile": null,
+        "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.', "ServicesCount": 0,
         "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
         "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -903,
         "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-        "Duration": 0, "Priority": null, "Amount": 0, "Status": randomArrayShuffle([2]), "StatusName": null,
+        "Duration": 0, "Priority": null, "Amount":66.66, "Status": randomArrayShuffle([2]), "StatusName": null,
         "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
         "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
         "IsTopPriority": false, "IsPaused": false, "Rate": 0,
@@ -77,7 +77,7 @@ export class DummyDataService {
           "ID": `3691741${j}`, "TripID": null, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
           "BranchName": this.StoreListNames[i],
           "OrderNumber": `AE5AA554-7${j}`, "Code": `7w1HQXoJ6P${j}`, "Name": this.CustomerListNames[i], "Mobile": null,
-          "Address": this.AddressListNames[i], "ServicesCount": 0,
+          "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.', "ServicesCount": 0,
           "PlannedDistance": 184.09, "Distance": 10, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
           "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
           "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
@@ -86,7 +86,7 @@ export class DummyDataService {
           "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
           "IsTopPriority": j==1?false:randomArrayShuffle([false, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]), "IsPaused": j==1?false:randomArrayShuffle([true, false]), "Rate": 0,
           "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]),
-          "District": null, "ServicesData": null, "Services": null
+          "District": null, "ServicesData": null,"Services": [ { "ServiceID": 7, "Name": "قياس السكر", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 6, "Name": "قياس ضغط الدم", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 4, "Name": "مشاوير صيدليه", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 } ] 
         }
         this.DummyOrders.push(orderObj)
 

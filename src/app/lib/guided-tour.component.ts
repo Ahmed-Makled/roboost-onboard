@@ -296,46 +296,67 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         return null;
     }
 
-
     public get overlayTop(): number {
         if (this.selectedElementRect) {
-            // return this.selectedElementRect. - this.getHighlightPadding();
-
-            if (this.currentTourStep && this.currentTourStep.sub) 
-            return  this.subELementRect(this.currentTourStep.sub).top - (this.getHighlightPadding() * 2) ;
-        else   return this.selectedElementRect.top - (this.getHighlightPadding() * 2) ;
+            return this.selectedElementRect.top - this.getHighlightPadding();
         }
-
-
-        
         return 0;
     }
 
     public get overlayLeft(): number {
         if (this.selectedElementRect) {
-            // return this.selectedElementRect.left - this.getHighlightPadding();
-
-            if (this.currentTourStep && this.currentTourStep.sub) 
-            return  this.subELementRect(this.currentTourStep.sub).left - (this.getHighlightPadding() * 2) ;
-        else   return this.selectedElementRect.left - (this.getHighlightPadding() * 2) ;
+            return this.selectedElementRect.left - this.getHighlightPadding();
         }
         return 0;
     }
 
     public get overlayHeight(): number {
         if (this.selectedElementRect) {
-         if (this.currentTourStep && this.currentTourStep.sub) 
-            return  this.subELementRect(this.currentTourStep.sub).height + (this.getHighlightPadding() * 2) ;
-        else   return this.selectedElementRect.height + (this.getHighlightPadding() * 2) ;
+            return this.selectedElementRect.height + (this.getHighlightPadding() * 2);
         }
         return 0;
     }
 
     public get overlayWidth(): number {
-        if (this.currentTourStep && this.currentTourStep.sub) 
-        return  this.subELementRect(this.currentTourStep.sub).width + (this.getHighlightPadding() * 2) ;
-    else   return this.selectedElementRect.width + (this.getHighlightPadding() * 2) ;
+        if (this.selectedElementRect) {
+            return this.selectedElementRect.width + (this.getHighlightPadding() * 2);
+        }
+        return 0;
     }
+
+    // public get overlayTop(): number {
+    //     if (this.selectedElementRect) {
+    //         // return this.selectedElementRect. - this.getHighlightPadding();
+
+    //         if (this.currentTourStep && this.currentTourStep.sub) 
+    //         return  this.subELementRect(this.currentTourStep.sub).top - (this.getHighlightPadding() * 2) ;
+    //     else   return this.selectedElementRect.top - (this.getHighlightPadding() * 2) ;
+    //     }
+
+
+        
+    //     return 0;
+    // }
+    // public get overlayLeft(): number {
+    //     if (this.selectedElementRect) {
+    //         return this.selectedElementRect.left - this.getHighlightPadding();
+    //     }
+    //     return 0;
+    // }
+    // public get overlayHeight(): number {
+    //     if (this.selectedElementRect) {
+    //      if (this.currentTourStep && this.currentTourStep.sub) 
+    //         return  this.subELementRect(this.currentTourStep.sub).height + (this.getHighlightPadding() * 2) ;
+    //     else   return this.selectedElementRect.height + (this.getHighlightPadding() * 2) ;
+    //     }
+    //     return 0;
+    // }
+
+    // public get overlayWidth(): number {
+    //     if (this.currentTourStep && this.currentTourStep.sub) 
+    //     return  this.subELementRect(this.currentTourStep.sub).width + (this.getHighlightPadding() * 2) ;
+    // else   return this.selectedElementRect.width + (this.getHighlightPadding() * 2) ;
+    // }
 
     private getHighlightPadding(): number {
         let paddingAdjustment = this.currentTourStep.useHighlightPadding ? this.highlightPadding : 0;

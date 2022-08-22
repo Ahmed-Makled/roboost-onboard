@@ -481,9 +481,9 @@
     </div>
   </div>
 </div>
-<!-- trip task actions popup -->
+<!--  task actions popup -->
 <ng-template #actionTamplate>
-  <div id='TripTaskActionsStep'   class="modal-body">
+  <div class="modal-body">
     <div class="d-flex align-items-center align-items-md-start flex-colomn flex-md-row">
       <div class="flex-colomn mt-md-4 mb-1 mb-md-0"
         [class]="selectedOrder.ShowTaskLog || selectedOrder.ShowTaskDetails ?'d-none d-md-flex':'d-flex'">
@@ -496,7 +496,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-300 bg-white"
+      <div  id='TripTaskActionsStep'   class="modal-300 bg-white"
         [ngClass]="{'d-none d-md-block': selectedOrder.ShowTaskLog || selectedOrder.ShowTaskDetails}">
         <div class="px-3 py-2">
           <div class="d-flex align-items-center mb-1">
@@ -533,7 +533,7 @@
                 <p class="font-12 bold">{{'system.add-to-specific-trip'|translate}}</p>
               </div>
             </div>
-            <div id='TripTaskActionsStep_changeTrip'  class="col"
+            <div id='TaskActionsStep_changeTrip'  class="col"
               *ngIf="isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showChangeTripTemplate();">
                 <img src="/assets/rb-icon/change_trip.svg" class="rect-40">
@@ -561,7 +561,7 @@
                 <p class="font-12 bold">{{'shared.cancel'|translate}}</p>
               </div>
             </div>
-            <div id='TripTaskActionsStep_remove' class="col"
+            <div id='TaskActionsStep_remove' class="col"
               *ngIf="isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showRemoveOrderFromTripConfirmation()">
                 <img src="/assets/rb-icon/remove.svg" class="rect-40">
@@ -596,20 +596,20 @@
               <p class="font-12 bold">{{'dispatch.cancel-otp'|translate}}</p>
             </div>
           </div> -->
-            <div id='TripTaskActionsStep_Update'  class="col "
+            <div id='TaskActionsStep_Update'  class="col "
               *ngIf="(isCreated(selectedOrder)||isReady(selectedOrder) ||isOnTrip(selectedOrder) || isCantDelivered(selectedOrder)) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showUpdateTaskTemplate()">
                 <img src="/assets/rb-icon/edit_order.svg" class="rect-40">
                 <p class="font-12 bold">{{'dispatch.update-task'|translate}}</p>
               </div>
             </div>
-            <div class="col">
+            <div id='TaskActionsStep_Log' class="col">
               <div class="action-box" (click)="getTaskLog()">
                 <img src="/assets/rb-icon/show_log.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.task-log-items'|translate}}</p>
               </div>
             </div>
-            <div  class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)" id='TripTaskActionsStep_Map' >
+            <div  class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)" id='TaskActionsStep_Map' >
               <a class="action-box" target="_blank" [href]="getOrderUrlONMaps(selectedOrder)">
                 <img src="/assets/rb-icon/show_on_map.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.show-on-map-eTA'|translate}}</p>
@@ -620,7 +620,7 @@
         </div>
         <hr class="m-0">
         <div class="px-3">
-          <div id="TripTaskActionsStep_Pickup">
+          <div id="TaskActionsStep_Pickup">
             <div class="d-flex align-items-start rb-mt-12">
               <div class="d-flex">
                 <img src="/assets/rb-icon/stop-circle-fill.svg" alt="" class="rect-16 me-2">
@@ -679,22 +679,22 @@
             <!-- <div class="col-6 pr-1">
             <button class="btn bg-d5 c-001">Show Items</button>
           </div> -->
-            <div class="col-12" id="TripTaskActionsStep_ShowDetails" >
+            <!-- <div class="col-12" id="TaskActionsStep_ShowDetails" >
               <a routerLink="/task/details/{{selectedOrder.Code}}" (click)="modalRef.hide()">
                 <button
                   class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100">{{'dispatch.go-task-details'|translate}}</button>
               </a>
-            </div>
-            <div class="col-12 mt-2">
-              <button class="rb-btn rb-btn-secondary rb-btn-md d-flex justify-content-center w-100"
+            </div> -->
+            <div  id="TaskActionsStep_ShowDetails"class="col-12 ">
+              <button class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100"
                 (click)="selectedOrder.ShowTaskDetails=true">{{'dispatch.show-task-details'|translate}}</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
+      <div  class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
         *ngIf="selectedOrder.ShowTaskDetails">
-        <div class="log-modal w-100 bg-white py-2">
+        <div id="TaskDetailsStep"  class="log-modal w-100 bg-white py-2">
           <div class="modal-header mt-n2">
             <div class="d-flex align-items-center w-100 d-md-none">
               <i class="uil uil-arrow-left c-g900 d-flex font-18 li-h0 me-2"
@@ -812,7 +812,7 @@
       </div>
       <div class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
         *ngIf="selectedOrder.ShowTaskLog">
-        <div class="log-modal w-100 bg-white ">
+        <div id="TaskLogStep2"  class="log-modal w-100 bg-white ">
           <div class="modal-header d-md-none ">
             <div class="d-flex align-items-center w-100">
               <i class="uil uil-arrow-left c-g900 d-flex font-18 li-h0 me-2"
@@ -1126,55 +1126,58 @@
   </div>
 </ng-template>
 <ng-template #updateOrderInfoTemplate>
-  <div class="modal-content">
-    <div class="modal-header bg-g25">
-      <h5 class="modal-title font-14 c-002 me-3">{{'dispatch.update-task'|translate}}</h5>
-      <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+  <div  id="UpdateTaskStep">
+    <div class="modal-content">
+      <div class="modal-header bg-g25">
+        <h5 class="modal-title font-14 c-002 me-3">{{'dispatch.update-task'|translate}}</h5>
+        <i class="uil uil-times c-g600 font-16 pointer ms-auto" (click)="modalRef.hide()"></i>
+      </div>
     </div>
-  </div>
-  <div class="modal-body">
-    <p class="font-16 c-g900 mb-3">{{'system.order'|translate}} <span class="bold">#{{selectedOrder.OrderNumber}}</span>
-    </p>
-    <form class="form" [formGroup]="updateOrderInfoForm">
-      <div class="col-12 mt-2">
-        <ng-control [form]="updateOrderInfoForm" control="Address" label="{{'shared.address' | translate}}"
-          placeholder="{{'search.enter-address'|translate}}"></ng-control>
-      </div>
-      <button class='rb-btn rb-btn-secondary rb-btn-md mt-3' *ngIf="!selectedOrder.Note && !showNote"
-        (click)="showNote=true">
-        <i class="uil uil-comment-add"></i>
-        <span class="rb-btn-text">{{'search.add-note'|translate}}</span>
-      </button>
-      <div class="col-12 mt-3" *ngIf="selectedOrder.Note || showNote">
-        <fieldset class="form-group">
-          <label class="label-md">{{'shared.note'|translate}}</label>
-          <textarea class="form-control" rows="4" formControlName="Note"
-            placeholder="{{'search.enter-address'|translate}}"></textarea>
-        </fieldset>
-      </div>
-    </form>
-    <hr class="my-3">
-    <div *ngIf="serviceList.length>0">
-      <p class="rb-p-s bold ">{{'system.services'|translate}}</p>
-      <div class="d-flex scroll-x text-center mt-3 mx-n2">
-        <div class="rb-avatar rb-avatar-lg mx-2" *ngFor="let item of serviceList"
-          (click)="item.Selected = !item.Selected">
-          <div class="avatar-img circle">
-            <img [class.b-2]="item.Selected" [class.bc-b500]="item.Selected" [src]="item.Icon"
-              onerror="this.onerror=null; this.src='./assets/image/skill.png'" [title]="item.Name">
+    <div class="modal-body">
+      <p class="font-16 c-g900 mb-3">{{'system.order'|translate}} <span class="bold">#{{selectedOrder.OrderNumber}}</span>
+      </p>
+      <form class="form" [formGroup]="updateOrderInfoForm">
+        <div class="col-12 mt-2">
+          <ng-control [form]="updateOrderInfoForm" control="Address" label="{{'shared.address' | translate}}"
+            placeholder="{{'search.enter-address'|translate}}"></ng-control>
+        </div>
+        <button class='rb-btn rb-btn-secondary rb-btn-md mt-3' *ngIf="!selectedOrder.Note && !showNote"
+          (click)="showNote=true">
+          <i class="uil uil-comment-add"></i>
+          <span class="rb-btn-text">{{'search.add-note'|translate}}</span>
+        </button>
+        <div class="col-12 mt-3" *ngIf="selectedOrder.Note || showNote">
+          <fieldset class="form-group">
+            <label class="label-md">{{'shared.note'|translate}}</label>
+            <textarea class="form-control" rows="4" formControlName="Note"
+              placeholder="{{'search.enter-address'|translate}}"></textarea>
+          </fieldset>
+        </div>
+      </form>
+      <hr class="my-3">
+      <div *ngIf="serviceList.length>0">
+        <p class="rb-p-s bold ">{{'system.services'|translate}}</p>
+        <div class="d-flex scroll-x text-center mt-3 mx-n2">
+          <div class="rb-avatar rb-avatar-lg mx-2" *ngFor="let item of serviceList"
+            (click)="item.Selected = !item.Selected">
+            <div class="avatar-img circle">
+              <img [class.b-2]="item.Selected" [class.bc-b500]="item.Selected" [src]="item.Icon"
+                onerror="this.onerror=null; this.src='./assets/image/skill.png'" [title]="item.Name">
+            </div>
+            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6" [class.c-b500]="item.Selected" title="{{item.Name}}">
+              {{item.Name}}</p>
           </div>
-          <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6" [class.c-b500]="item.Selected" title="{{item.Name}}">
-            {{item.Name}}</p>
         </div>
       </div>
     </div>
+    <div class="modal-footer">
+      <button type="button" class="rb-btn rb-btn-invisible rb-btn-md ms-auto"
+        (click)="modalRef.hide()">{{'shared.back'|translate}}</button>
+      <button type="button" class="rb-btn rb-btn-primary rb-btn-md" [disabled]="disabledSubmit(updateOrderInfoForm)"
+        (click)="modalRef.hide();updateInfo()">{{'shared.save'|translate}}</button>
+    </div>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="rb-btn rb-btn-invisible rb-btn-md ms-auto"
-      (click)="modalRef.hide()">{{'shared.back'|translate}}</button>
-    <button type="button" class="rb-btn rb-btn-primary rb-btn-md" [disabled]="disabledSubmit(updateOrderInfoForm)"
-      (click)="modalRef.hide();updateInfo()">{{'shared.save'|translate}}</button>
-  </div>
+  
 </ng-template>
 <ng-template #cancelOrderTemplate>
   <div class="modal-content confirm-modal">

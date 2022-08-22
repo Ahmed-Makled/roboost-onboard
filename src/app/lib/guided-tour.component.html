@@ -14,7 +14,7 @@
 
 
 
-<div *ngIf="currentTourStep && !isOrbShowing">
+<div *ngIf="currentTourStep">
   <div #tourStep *ngIf="currentTourStep " class="tour-step tour-{{ currentTourStep.orientation }}"
    [ngClass]="{'page-tour-step': !currentTourStep.selector }"
     [style.top.px]="(currentTourStep.selector && selectedElementRect ? currentTourStep.topPosition?(topPosition+currentTourStep.topPosition):topPosition  : null)"
@@ -60,22 +60,20 @@
           <span class="rb-btn-text">{{ backText }}</span>
         </button>
 
-        <button *ngIf="!guidedTourService.onLastStep && !guidedTourService.onResizeMessage"
-          [class]="'rb-btn rb-btn-primary rb-btn-md ' + currentTourStep?.classBtnNext " [class.ms-auto]='guidedTourService.onFirstStep'
+        <button *ngIf="!guidedTourService.onResizeMessage"
+          [class]="'rb-btn rb-btn-primary rb-btn-md ' + currentTourStep?.classBtnNext " [class.ms-auto]='guidedTourService.onFirstStep || guidedTourService.onLastStep'
           (click)="guidedTourService.nextStep()">
-          <span class="rb-btn-text">{{ currentTourStep.textBtnNext?currentTourStep.textBtnNext: nextText }}</span>
+          <span class="rb-btn-text">{{ currentTourStep.textBtnNext?currentTourStep.textBtnNext:  guidedTourService.onLastStep ?doneText : nextText}}</span>
           <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
             <ng-container *ngTemplateOutlet="progress"></ng-container>
           </ng-container>
         </button>
 
-        <button *ngIf="guidedTourService.onLastStep"
-          class="rb-btn rb-btn-primary rb-btn-md  " 
-          [class.ms-auto]='!guidedTourService.onLastStep'
+        <!-- <button *ngIf="guidedTourService.onLastStep"
+          class="rb-btn rb-btn-primary rb-btn-md ms-auto " 
           (click)="guidedTourService.nextStep()">
           <span class="rb-btn-text">{{ doneText }}</span>
-
-        </button>
+        </button> -->
 
         <button *ngIf="guidedTourService.onResizeMessage" class="rb-btn rb-btn-primary rb-btn-md"
           (click)="guidedTourService.resetTour()">

@@ -72,7 +72,7 @@
   </div>
   <div class="d-flex align-items-center mt-2">
     <p id="AddressCustomer" class="rb-p-xxs c-g900 bold" [class]="isOnTrip()?'text-truncate me-2':'max-lines-2 me-2'"  [title]="item.Address">{{item.Address}}</p>
-    <div class="d-flex align-content-center ms-auto">
+    <div id="ServiceSkills" class="d-flex align-content-center ms-auto">
       <ng-container class="" *ngFor="let skill of item.Services; let i = index">
         <img [src]="skill.Image" [title]="skill.Name" [class.m-inline]="i==0" class="rect-16 ms-1"
           onerror="this.onerror=null; this.src='./assets/image/skill.png'">
