@@ -27,7 +27,7 @@
         <img src="/assets/rb-icon/times_circle_solid-gray.svg" class="rect-20 pointer" (click)="pageUtils.showSingleSearch=false">
       </div>
     </div>
-    <div id='TaskNumberStep' class="filter-search" [class.filter-sticky]="pageUtils.filterSearchInput"
+    <div class="filter-search" [class.filter-sticky]="pageUtils.filterSearchInput"
       *ngIf="!isSingleStore() || isMobileView()">
       <div class="d-flex align-items-center rb-py-6 remain-w">
         <div class="rb-dropdown">
@@ -63,7 +63,7 @@
         </div>
       </div>
     </div>
-    <div id="FilterBYStep" class="filter-search sticky-top rb-py-6" [class.top-40]="pageUtils.filterSearchInput" *ngIf="!isSingleStore()" > 
+    <div class="filter-search sticky-top rb-py-6" [class.top-40]="pageUtils.filterSearchInput" *ngIf="!isSingleStore()">
       <div class="rb-dropdown rb-me-12">
         <a class="rb-dropdown-header" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
           aria-expanded="false">
@@ -95,8 +95,8 @@
     </div>
     <div class="dispatch-container px-sm-3 rb-py-12" [class.page-create-trip]="canShowPageCreateTrip()"
       [class]="isSingleStore()?'single-store pt-1':''" [class.show-tasks]="pageUtils.withShowTaskSection">
-      <div id="KpiStep"  class="scroll-x hide-scroll px-3 px-sm-0 m-0" *ngIf="!isSingleStore()">
-        <app-kpai [isKpisSearching]="pageUtils.IsKpisSearching" [IsOrderSearching]="pageUtils.IsOrderSearching" [orderKpi]="orderKpi" [tripKpi]="tripKpi"></app-kpai>
+      <div class="scroll-x hide-scroll px-3 px-sm-0 m-0" *ngIf="!isSingleStore()">
+        <app-kpai [isKpisSearching]="pageUtils.IsKpisSearching" [orderKpi]="orderKpi" [tripKpi]="tripKpi"></app-kpai>
       </div>
       <div class="dispatch-start-section" [class.hide-scroll]="isMobileView()">
         <div class="card mt-2" id="accordionAgentCard">
@@ -249,24 +249,21 @@
                       <div class="trip-card"
                         *ngIf="!pageUtils.WithUrgentTripsTasks || getTripOrderList(item.ID,pageUtils.WithUrgentTripsTasks).length > 0"
                         (click)="showTripActionsTemplate(item,$event,true)">
-                        <div id="TripInfoStep_header" class="trip-header">
-                          <ng-container *ngIf="item.DeliverymanID != 0" >
+                        <div class="trip-header">
+                          <ng-container *ngIf="item.DeliverymanID != 0">
                             <a><img [src]="item.DeliverymanImage" class="rect-32 radius-6"
                                 onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
                             </a>
                             <div class="rb-ms-6 w-100 me-auto text-truncate">
                               <p class="rb-p-xs c-b900 text-truncate bold" [title]="item.DeliverymanName">{{item.DeliverymanName}}
                               </p>
-                              <div  class="d-flex align-items-center justify-content-between rb-pb-2">
-                                <p id="TripInfoStep_hubName" class="c-b500 text-truncate bold" [class]="isSingleStore()?'rb-p-xxs':'rb-p-xs'">
+                              <div class="d-flex align-items-center justify-content-between rb-pb-2">
+                                <p class="c-b500 text-truncate bold" [class]="isSingleStore()?'rb-p-xxs':'rb-p-xs'">
                                   {{isSingleStore()?item.BranchName:getStoreName(item.BranchID)}}
                                 </p>
-                                <div id="TripInfoStep_status">
-                                  <div class="trip-badge" >
-                                    <p class="badge-text">{{item.StatusName}} </p>
-                                  </div>
+                                <div class="trip-badge">
+                                  <p class="badge-text">{{item.StatusName}} </p>
                                 </div>
-                                
                               </div>
                             </div>
                           </ng-container>
@@ -303,8 +300,8 @@
                         <div class="px-2">
                           <div class="px-1 mt-2">
                             <div class="d-flex align-items-center w-100">
-                              <div id="TripInfoStep_number" class="d-flex align-items-center me-1">
-                                <p  class="rb-p-sm c-g900 bold"><a
+                              <div class="d-flex align-items-center me-1">
+                                <p class="rb-p-sm c-g900 bold"><a
                                     [routerLink]="[ '/trip/details', item.Code ]">#{{item.Number}}</a></p>
                                 <p class="font-10 c-g900 text-nowrap rb-ms-6">
                                   [{{getTripDeliveredOrderList(item.ID).length}}/{{getTripOrderList(item.ID).length}}]
@@ -312,8 +309,8 @@
                                 <img src="/assets/rb-icon/robot_slash_blue.svg" class="rect-16 ms-1"
                                   *ngIf="item.IsSpecialTrip" title="{{'system.special-trip'|translate}}">
                               </div>
-                              <div class="d-flex ms-auto"  >
-                              <div class="d-flex align-items-center" *ngIf="item.ArrivalTime" id="TripInfoStep_waitTime">
+                              <div class="ms-auto">
+                              <div class="d-flex align-items-center" *ngIf="item.ArrivalTime">
                                 <i class="uil uil-store-alt font-12 lh-normal"
                                   [class]="item.PickupTime?'c-gr600':'c-g900'"></i>
                                 <div class="rb-badge badge-xxs ms-1"
@@ -371,7 +368,7 @@
           </div>
         </div>
       </div>
-      <div id="AllTaskStep" class="card dispatch-end-section rb-mt-12 mb-md-4">
+      <div class="card dispatch-end-section rb-mt-12">
         <div class="" [class]="isMobileView()?'':'card-header ' + (isSingleStore()?'p-1':'flow-hidden p-0 pe-3')">
           <div [class]="isMobileView()?'':'d-flex align-items-center'">
             <div class="tab-filter-container"
@@ -1610,29 +1607,4 @@
       </div>
     </div>
   </div>
-</ng-template>
-
-
-<ng-template #TourCompleteTemplate>
-
-  <div class="modal-body p-0">
-    <div class="modal-content p-3">
-      <div class="text-center p-3">
-
-        <h6 class="rb-h6 c-b500 bold">Now you're all setup, we're happy to have you on Roboost!</h6>
-
-        <p class="rb-p-sm c-g500 mt-3 mb-2 ">If you're ready for a more thorough tour of the specifics of our major dispatching features, let's go! 🤩</p>
-        
-        <div class="d-flex justify-content-center mt-4">
-
-          <button  class="rb-btn rb-btn-success rb-btn-md " (click)="modalRef.hide()"   >
-            <span class="rb-btn-text">I'm Ready!</span>
-            </button>
-        </div>
-      </div>
-    
-    </div>
-  </div>
-
-
 </ng-template>

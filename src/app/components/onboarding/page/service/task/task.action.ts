@@ -177,11 +177,11 @@ export class TaskActionService {
   getTaskLog(item: DispatchOrderViewModel, taskLog: TaskLogViewModel) {
     item.ShowTaskLog = true
     taskLog.IsLoading = true
-    this._taskService.getTaskLog(item.Code).subscribe((res) => {
-      taskLog.Logs = res.Data
-      taskLog.IsLoading = false
-      this._sharedService.sortBy(taskLog.Logs, { prop: "CreatedDate", desc: true })
-    })
+    // this._taskService.getTaskLog(item.Code).subscribe((res) => {
+    //   taskLog.Logs = res.Data
+    //   taskLog.IsLoading = false
+    //   this._sharedService.sortBy(taskLog.Logs, { prop: "CreatedDate", desc: true })
+    // })
   }
 
   showChangeStoreTemplate(model: AgentChangeStoreViewModel, item: DeliverymanViewModel, template: any) {

@@ -22,8 +22,15 @@
                 <span class="text"> {{getSelectedTourStep().Name}} </span>
                 <i class="uil uil-angle-down"></i>
               </a>
-              <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+              <!-- <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
                 <li *ngFor="let item of tourList.SearchByList"  (click)="tourList.SearchValue = item.ID; startTour() "  >
+                  <a class="dropdown-item">{{item.Name}}</a>
+                </li>
+              </ul> -->
+
+              <ul class="dropdown-menu " aria-labelledby="dropdownMenuLink">
+                <li *ngFor="let item of tourList.SearchByList" 
+                routerLink="/onboarding" [queryParams]="{step: item.ID}">
                   <a class="dropdown-item">{{item.Name}}</a>
                 </li>
               </ul>

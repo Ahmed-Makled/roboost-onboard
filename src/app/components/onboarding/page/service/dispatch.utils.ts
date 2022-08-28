@@ -17,7 +17,7 @@ import { TaskUtilsService } from './task/task.utils';
 export class DispatchUtilsService {
 
   constructor(
-    private _dispatchService: OnboardingDispatchService, 
+    private _dispatchService: OnboardingDispatchService,
     private _taskUtils: TaskUtilsService,
     private _sharedService: SharedService) { }
   /// --------------- Search ------------ ///
@@ -66,7 +66,7 @@ export class DispatchUtilsService {
   }
 
   /// --------------- Filter ------------ ///
-  getAgentList(id:number): DispatchAgentViewModel[] {
+  getAgentList(id: number): DispatchAgentViewModel[] {
     if (this._dispatchService.areaList.filter(i => i.Selected).length > 0) {
       let areaSelected = this._dispatchService.areaList.filter(i => i.Selected)
       return this.getAgents(id).filter(trip => areaSelected.some(filter => ((filter.ID === trip.AreaID))));
@@ -100,10 +100,17 @@ export class DispatchUtilsService {
     else return this.getOrders(items)
   }
   getFiltterByList(): DispatchSelectItemViewModel[] {
-    if (this._dispatchService.filter.FiltterType == GroupingTypeEnum.AREA) return this._dispatchService.areaList.filter(i => i.NumberOfTasks > 0)
-    else return this._dispatchService.storeList.filter(i => i.NumberOfTasks > 0)
+    // console.log(this._dispatchService.storeList);
+    if (this._dispatchService.filter.FiltterType == GroupingTypeEnum.AREA) { 
+      console.log('object area');
+      return this._dispatchService.areaList.filter(i => i.NumberOfTasks > 0) 
+    }
+    else {
+      // console.log('object store',this._dispatchService.storeList.filter(i => i) );
+      return this._dispatchService.storeList.filter(i => i.NumberOfTasks > 0) 
+    }
   }
-  onFilterClick(item: DispatchSelectItemViewModel,filterBy:number) {
+  onFilterClick(item: DispatchSelectItemViewModel, filterBy: number) {
     if (this._dispatchService.filter.FiltterType != filterBy) {
       if (filterBy == GroupingTypeEnum.AREA) {
         this._dispatchService.areaList.forEach(element => {
@@ -122,8 +129,8 @@ export class DispatchUtilsService {
   getFilterByValue(): string {
     return this._dispatchService.filter.FiltterByList.find(i => i.ID == this._dispatchService.filter.FiltterType)?.Name
   }
-  
-  
+
+
   /// --------------- Grouping ------------ ///
   defaultGroupList: SelectItem[] = [{ Name: "", Selected: false, Code: "" }]
   isGroupingNone() {
@@ -160,26 +167,26 @@ export class DispatchUtilsService {
   }
 
 
-  
+
   /// --------------- Sorting ------------ ///
-  setNumberOfAgents() {
-    this._dispatchService.areaList.forEach((element) => { element.NumberOfAgents = this._dispatchService.agents.filter((i) => i.AreaID == element.ID).length })
-    this._dispatchService.storeList.forEach((element) => { element.NumberOfAgents = this._dispatchService.agents.filter((i) => i.BranchID == element.ID).length })
-    this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfAgents", desc: true })
-    this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfAgents", desc: true })
-  }
-  setNumberOfTrips() {
-    this._dispatchService.areaList.forEach((i) => i.NumberOfTrips = this._dispatchService.trips.filter((x) => x.AreaID == i.ID).length)
-    this._dispatchService.storeList.forEach((element) => { element.NumberOfTrips = this._dispatchService.trips.filter((i) => i.BranchID == element.ID).length })
-    this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfTrips", desc: true })
-    this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfTrips", desc: true })
-  }
-  setNumberOfOrders() {
-    this._dispatchService.areaList.forEach((i) => i.NumberOfTasks = this._dispatchService.tasks.filter((x) => x.AreaID == i.ID).length)
-    this._dispatchService.storeList.forEach((element) => { element.NumberOfTasks = this._dispatchService.tasks.filter((i) => i.BranchID == element.ID).length })
-    this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfTasks", desc: true })
-    this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfTasks", desc: true })
-  }
+  // setNumberOfAgents() {
+  //   this._dispatchService.areaList.forEach((element) => { element.NumberOfAgents = this._dispatchService.agents.filter((i) => i.AreaID == element.ID).length })
+  //   this._dispatchService.storeList.forEach((element) => { element.NumberOfAgents = this._dispatchService.agents.filter((i) => i.BranchID == element.ID).length })
+  //   this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfAgents", desc: true })
+  //   this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfAgents", desc: true })
+  // }
+  // setNumberOfTrips() {
+  //   this._dispatchService.areaList.forEach((i) => i.NumberOfTrips = this._dispatchService.trips.filter((x) => x.AreaID == i.ID).length)
+  //   this._dispatchService.storeList.forEach((element) => { element.NumberOfTrips = this._dispatchService.trips.filter((i) => i.BranchID == element.ID).length })
+  //   this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfTrips", desc: true })
+  //   this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfTrips", desc: true })
+  // }
+  // setNumberOfOrders() {
+  //   this._dispatchService.areaList.forEach((i) => i.NumberOfTasks = this._dispatchService.tasks.filter((x) => x.AreaID == i.ID).length)
+  //   this._dispatchService.storeList.forEach((element) => { element.NumberOfTasks = this._dispatchService.tasks.filter((i) => i.BranchID == element.ID).length })
+  //   this._sharedService.sortBy(this._dispatchService.areaList, { prop: "NumberOfTasks", desc: true })
+  //   this._sharedService.sortBy(this._dispatchService.storeList, { prop: "NumberOfTasks", desc: true })
+  // }
   // ---------------------------- //
 
 
@@ -231,15 +238,15 @@ export class DispatchUtilsService {
   }
   getFilterAndSorting(params: any) {
     if (params) {
-      if(params['groupBy']) this._dispatchService.filter.GroupByValue = +params['groupBy'];
-      if(params['sortBy']) this._dispatchService.filter.SortingValue = +params['sortBy'];
-      if(params['withRecent']) this._dispatchService.filter.RecentValue = (params['withRecent'] == "true") ? RecentOldestEnum.RECENT : RecentOldestEnum.OLDEST;
-      if(params['filterType']) this._dispatchService.filter.FiltterType = +params['filterType'];
+      if (params['groupBy']) this._dispatchService.filter.GroupByValue = +params['groupBy'];
+      if (params['sortBy']) this._dispatchService.filter.SortingValue = +params['sortBy'];
+      if (params['withRecent']) this._dispatchService.filter.RecentValue = (params['withRecent'] == "true") ? RecentOldestEnum.RECENT : RecentOldestEnum.OLDEST;
+      if (params['filterType']) this._dispatchService.filter.FiltterType = +params['filterType'];
       if (params['filterBy']) {
         this._dispatchService.filter.FiltterValue = params['filterBy']
         this._dispatchService.filter.FiltterValue.split('_').forEach(element => {
           if (this._dispatchService.filter.FiltterType == GroupingTypeEnum.AREA)
-          this._dispatchService.areaList.find(i => i.ID == +element).Selected = true
+            this._dispatchService.areaList.find(i => i.ID == +element).Selected = true
           else this._dispatchService.storeList.find(i => i.ID == +element).Selected = true
         });
       }

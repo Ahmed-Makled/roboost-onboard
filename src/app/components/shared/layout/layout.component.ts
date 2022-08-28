@@ -27,13 +27,13 @@ export class TourList{
 
 }
 export enum FilterTourStepEnum {
-  General = 1,
-  TripCardInfo =3,
-  TripActions =4,
-  TripTaskActions =5,
-  AllTasks =6,
-  TaskCardInfo =7,
-  TaskCardAction =8,
+  General = 0,
+  TripCardInfo =1,
+  TripActions =2,
+  TripTaskActions =3,
+  AllTasks =4,
+  TaskCardInfo =5,
+  TaskCardAction =6,
  
 }
 @Component({
@@ -53,7 +53,6 @@ export class LayoutComponent implements OnInit {
     { ID: LanguageTypeEnum.AR, Name: "العربية", Url: 'ar', Selected: false }
   ]
   language: SelectItem = new SelectItem()
-
   moduleList: UserPagesViewModel[] = []
   tourList:TourList =  new TourList()
 
@@ -67,7 +66,6 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this._localizationService.setLanguage('en')
     if(environment.allowDynamicApi && !this.sharedService._storageService.hasApi()){
       this.sharedService.logOut()
     } 

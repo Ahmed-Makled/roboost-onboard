@@ -24,7 +24,7 @@
     <div *ngIf="currentTourStep.selector && !currentTourStep.hiddenOverLay " class="tour-arrow"></div>
 
 
-    <div class="tour-block" *ngIf="!currentTourStep.hiddenOverLay">
+    <div class="tour-block rb-pb-n1" *ngIf="!currentTourStep.hiddenOverLay">
 
       
 
@@ -33,8 +33,8 @@
         <ng-container *ngTemplateOutlet="progress"></ng-container>
       </div>
 
-      <div class="d-flex align-items-center justify-content-between">
-        <h3 [class]="'tour-title rb-h6 bold '+ currentTourStep.titleClass "
+      <div class="d-flex align-items-center justify-content-between rb-mb-12">
+        <h3 [class]="'tour-title rb-h6 bold mb-0 '+ currentTourStep.titleClass "
           *ngIf="(currentTourStep.title && currentTourStep.selector)|| (currentTourStep.title && !currentTourStep.selector)"
           [innerHTML]=" currentTourStep.title">
         </h3>
@@ -47,7 +47,7 @@
         <p class="rb-p-sm c-g500" [innerHTML]="currentTourStep.content"></p>
       </div>
 
-      <div class="tour-buttons">
+      <div class="tour-buttons pb-1">
         <div
           *ngIf="progressIndicatorLocation === progressIndicatorLocations.BottomOfTourBlock && !guidedTourService.onResizeMessage &&  !currentTourStep.hiddenSteps"
           class="tour-progress-indicator">
@@ -55,20 +55,33 @@
         </div>
 
         <button
+          *ngIf="currentTourStep.showLearnMoreBtn"
+          class="rb-btn rb-btn-invisible rb-btn-md c-b500 ms-auto rb-me-12" [routerLink]="currentTourStep.learnMoreLink" >
+          <span class="rb-btn-text">Learn more</span>
+        </button>
+        <button
           *ngIf="!guidedTourService.onFirstStep && !guidedTourService.onResizeMessage && !currentTourStep.hiddenBtnPrev"
-          class="rb-btn rb-btn-secondary rb-btn-md c-b500 ms-auto rb-me-12" (click)="guidedTourService.backStep()">
+          class="rb-btn rb-btn-secondary rb-btn-md c-b500 ms-auto rb-me-12" [class.ms-auto]="!currentTourStep.showLearnMoreBtn" (click)="guidedTourService.backStep()">
           <span class="rb-btn-text">{{ backText }}</span>
         </button>
 
+        <button *ngIf="currentTourStep.hiddenBtnPrev &&guidedTourService.onLastStep "
+        [class]="'rb-btn rb-btn-secondary rb-btn-md ms-auto'  " 
+        (click)="guidedTourService.skipTour()">
+        <span class="rb-btn-text">Done</span>
+       
+      </button>
+
         <button *ngIf="!guidedTourService.onResizeMessage"
-          [class]="'rb-btn rb-btn-primary rb-btn-md ' + currentTourStep?.classBtnNext " [class.ms-auto]='guidedTourService.onFirstStep || guidedTourService.onLastStep'
+          [class]="'rb-btn rb-btn-primary rb-btn-md ' + currentTourStep?.classBtnNext " [class.ms-auto]='guidedTourService.onFirstStep || (guidedTourService.onLastStep && guidedTourService.onFirstStep ) ||currentTourStep.hiddenBtnPrev'
           (click)="guidedTourService.nextStep()">
           <span class="rb-btn-text">{{ currentTourStep.textBtnNext?currentTourStep.textBtnNext:  guidedTourService.onLastStep ?doneText : nextText}}</span>
           <ng-container *ngIf="progressIndicatorLocation === progressIndicatorLocations.InsideNextButton">
             <ng-container *ngTemplateOutlet="progress"></ng-container>
           </ng-container>
         </button>
-
+        
+      
         <!-- <button *ngIf="guidedTourService.onLastStep"
           class="rb-btn rb-btn-primary rb-btn-md ms-auto " 
           (click)="guidedTourService.nextStep()">

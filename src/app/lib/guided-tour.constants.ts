@@ -22,7 +22,6 @@ export interface TourStep {
     highlightPadding?: number;
     highlightHeight?: number;
     highlightWidth?: number;
-    subSelector?:string;
     hiddenSteps?: boolean;
     hiddenBtnPrev?: boolean;
     textBtnNext?: string;
@@ -30,8 +29,9 @@ export interface TourStep {
     overlayRadius?: number;
     topPosition?:number;
     hiddenOverLay?: boolean;
-
-    sub?: string;
+    showLearnMoreBtn?: boolean;
+    learnMoreLink?:string
+    delay?:number
 }
 export interface GuidedTour {
     /** Identifier for tour */
@@ -43,7 +43,7 @@ export interface GuidedTour {
     /** Function will be called when tour is skipped */
     skipCallback?: (stepSkippedOn: number) => void;
     /** Function will be called when tour is completed */
-    completeCallback?: () => void;
+    completeCallback: () => void;
     /** Minimum size of screen in pixels before the tour is run, if the tour is resized below this value the user will be told to resize */
     minimumScreenSize?: number;
     /** Dialog shown if the window width is smaller than the defined minimum screen size. */

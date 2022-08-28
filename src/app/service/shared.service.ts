@@ -45,7 +45,6 @@ export class SharedService {
   }
   
   fireEventSartTour(number) {
-    console.log(number);
     this.StartTourEvent.emit(number);
   }
   constructor(

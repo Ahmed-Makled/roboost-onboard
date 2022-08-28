@@ -37,7 +37,6 @@ export class TripActionService {
     //     callback()
     //   }
       this._dispatchService.trips = this.DummyDataService.DummyTrips
-      console.log(this._dispatchService.trips);
       this._dispatchService.trips.filter(i => i.DeliverymanID == 0).forEach(element => {
         element.SpentTime = 0
       });

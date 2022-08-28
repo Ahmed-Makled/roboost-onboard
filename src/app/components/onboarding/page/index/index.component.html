@@ -124,7 +124,7 @@
                     <span class="fi-counter"> {{getAgentsByStatus(item.ID).length}} </span>
                   </div>
                 </ng-container>
-            
+
               </div>
               <div class="ms-auto">
                 <button class='btn-accordion' #btnAccordionAgent type="button" data-bs-toggle="collapse"
@@ -244,11 +244,11 @@
                         *ngIf="!pageUtils.WithUrgentTripsTasks || getTripOrderList(item.ID,pageUtils.WithUrgentTripsTasks).length > 0"
                         (click)="showTripActionsTemplate(item,$event,true)">
                         <div id="TripInfoStep_header" class="trip-header">
-                          <ng-container *ngIf="item.DeliverymanID != 0" >
+                          <ng-container *ngIf="item.DeliverymanID != 0">
                             <a><img [src]="item.DeliverymanImage" class="rect-32 radius-6"
                                 onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
                             </a>
-                            <div class="rb-ms-6 w-100 me-auto text-truncate">
+                            <div class="rb-ps-6 w-100 me-auto text-truncate rb-pe-2">
                               <p class="rb-p-xs c-b900 text-truncate bold" [title]="item.DeliverymanName">
                                 {{item.DeliverymanName}}
                               </p>
@@ -257,10 +257,8 @@
                                   [class]="isSingleStore()?'rb-p-xxs':'rb-p-xs'">
                                   {{isSingleStore()?item.BranchName:getStoreName(item.BranchID)}}
                                 </p>
-                                <div id="TripInfoStep_status">
-                                  <div class="trip-badge">
-                                    <p class="badge-text">{{item.StatusName}} </p>
-                                  </div>
+                                <div id="TripInfoStep_status" class="trip-badge">
+                                  <p class="badge-text">{{item.StatusName}} </p>
                                 </div>
 
                               </div>
@@ -275,7 +273,7 @@
                           <p class="rb-p-xs c-b900"
                             *ngIf="!hasFeature(featureEnum.Trip_AssignToDM) && item.DeliverymanID == 0">
                             {{'dispatch.no-agent-assigned'|translate}}</p>
-                          
+
                         </div>
                         <div class="px-2">
                           <div class="px-1 mt-2">
@@ -299,18 +297,18 @@
                                     <p class="badge-text">{{item.ArrivalTimeSecond | timer:'mm:ss'}}</p>
                                   </div>
                                 </div>
-                                <p  id="TripInfoStep_timer" class="rb-p-sm c-g900 bold rb-ms-6">{{item.SpentTime | timer:'mm:ss'}}</p>
+                                <p id="TripInfoStep_timer" class="rb-p-sm c-g900 bold rb-ms-6">{{item.SpentTime |
+                                  timer:'mm:ss'}}</p>
                               </div>
-                          
+
                             </div>
                           </div>
                           <div class="trip-order-list smooth-scroll pe-1 me-n1 mt-2" id="2" attr.tripId="{{item.ID}}"
                             cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="item.Orders"
                             [cdkDropListEnterPredicate]="canDropOrderToTrip" [class.prevent-placeholder]="!canDrop(2)">
-                            <div
-                              *ngFor="let order of item.Orders;let i=index"
-                              [class.mt-1]="i>0" (click)="showTripActionsTemplate(item,$event,false)"
-                              attr.orderId="{{order.ID}}" [id]="order.Status==2&&i==0?'TripInfoStep_orderCard':''">
+                            <div *ngFor="let order of item.Orders;let i=index" [class.mt-1]="i>0"
+                              (click)="showTripActionsTemplate(item,$event,false)" attr.orderId="{{order.ID}}"
+                              [id]="order.Status==2&&i==0?'TripInfoStep_orderCard':''">
 
                               <div [cdkDragDisabled]="isOrderDelivered(order)" [cdkDragData]="order"
                                 [cdkDragStartDelay]="pageUtils.dragDelayTime" (cdkDragMoved)="onDragMoved($event)"
@@ -319,14 +317,14 @@
                                   [URLOnMaps]="getOrderUrlONMaps(order)"></order-card-board>
                               </div>
                             </div>
-                            <div class="order-card text-center" *ngIf="getTripOrderList(item.ID,false).length == 0">
+                            <!-- <div class="order-card text-center" *ngIf="getTripOrderList(item.ID,false).length == 0">
                               <p class="rb-p-sm c-g500 bold" *ngIf="!pageUtils.IsOrderSearching">
                                 {{'dispatch.no-tasks'|translate}}</p>
                               <div class="d-flex align-items-center" *ngIf="pageUtils.IsOrderSearching">
                                 <img src="/assets/image/spinner_loading.gif" class="rect-24 ms-auto">
                                 <p class="rb-p-sm c-g900 bold ms-2 me-auto">{{'dispatch.loading-tasks'|translate}}</p>
                               </div>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
 
@@ -340,14 +338,17 @@
         </div>
       </div>
       <div id="AllTaskStep" class="card dispatch-end-section rb-mt-12 mb-md-4">
-        <div id="AllTasksStep"  class="" [class]="isMobileView()?'':'card-header ' + (isSingleStore()?'p-1':'flow-hidden p-0 pe-3')">
-          <div  [class]="isMobileView()?'':'d-flex align-items-center'">
+        <div id="AllTasksStep" class=""
+          [class]="isMobileView()?'':'card-header ' + (isSingleStore()?'p-1':'flow-hidden p-0 pe-3')">
+          <div [class]="isMobileView()?'':'d-flex align-items-center'">
             <div class="tab-filter-container"
               [class]="isMobileView()?('row g-0 row-cols-'+getTabList().length):isSingleStore()?'row g-1':'remain-w scroll-x hide-scroll me-3'">
               <ng-container *ngFor="let item of getTabList(); let i=index">
                 <div
                   [class]="isMobileView()?'col':isSingleStore()?(i > 1 ?('col-'+(12/(getTabList().length-2))):'col-6'):'d-flex align-items-center'">
-                  <div [id]="item.ID ==orderStatus.SCHEDULED?'AllTasksStep_Scheduled': item.ID == orderStatus.READY?'AllTasksStep_Ready':'AllTaskStep_All' " class="tab-content"
+                  <div
+                    [id]="item.ID ==orderStatus.SCHEDULED?'AllTasksStep_Scheduled': item.ID == orderStatus.READY?'AllTasksStep_Ready':'AllTaskStep_All' "
+                    class="tab-content"
                     [class.active]="pageUtils.CurrentTasksTab == item.ID && (pageUtils.withShowTaskSection||!isMobileView())"
                     [class]="isSingleStore()?'w-100':(i + 1 == getTabList().length)?'border-end-0':''"
                     [ngClass]="(pageUtils.CurrentTasksTab == item.ID) && (pageUtils.withShowTaskSection||!isMobileView())?item.Code:''"
@@ -367,7 +368,8 @@
             <div class="d-none d-sm-flex ms-auto" *ngIf="!isSingleStore()">
               <fast-task-board [tasks]="orders" [storeList]="storeList" [serviceList]="serviceList"
                 (onCreateTask)="onCreateTask()"></fast-task-board>
-              <button id="AllTasksStep_SpecialTripBtn" class="rb-btn rb-btn-primary rb-btn-sm ms-2" (click)="showCreateTripTemplate()">
+              <button id="AllTasksStep_SpecialTripBtn" class="rb-btn rb-btn-primary rb-btn-sm ms-2"
+                (click)="showCreateTripTemplate()">
                 <img src="/assets/rb-icon/robot_slash.svg" class="rect-16 me-1">
                 <span class="rb-btn-text">{{'system.special-trip'|translate}}</span>
               </button>
@@ -441,15 +443,15 @@
                   </div>
                   <div [class.order-group-list]="!isGroupingNone()"
                     *ngIf="(getOrderList(getTasks(pageUtils.CurrentTasksTab)).length == 0 && i == 0) || getOrderCountForCol(groupItem)>0 || pageUtils.pageCreateTrip">
-                    <div class="row g-1 row-cols-2 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xl-5 row-cols-xxl-6" [class]="getOrderRowClass(groupItem)"
-                  
-                      [autoScrollDisabled]="true" [id]="pageUtils.CurrentTasksTab">
+                    <div
+                      class="row g-1 row-cols-2 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-xl-5 row-cols-xxl-6"
+                      [class]="getOrderRowClass(groupItem)" [autoScrollDisabled]="true"
+                      [id]="pageUtils.CurrentTasksTab">
 
-                      <div class="col"
-                        *ngFor="let item of DummyDataService.DummyOrders"
-                        attr.orderId="{{item.ID}}" (cdkDropListDropped)="drop($event)" [cdkDropListData]="orders"
-                        cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate">
-                        <div  [id]="i==0?'TaskCardInfoStep':''" cdkDrag [cdkDragStartDelay]="pageUtils.dragDelayTime"
+                      <div class="col" *ngFor="let item of DummyDataService.DummyOrders" attr.orderId="{{item.ID}}"
+                        (cdkDropListDropped)="drop($event)" [cdkDropListData]="orders" cdkDropList
+                        [cdkDropListEnterPredicate]="dropListEnterPredicate">
+                        <div [id]="i==0?'TaskCardInfoStep':''" cdkDrag [cdkDragStartDelay]="pageUtils.dragDelayTime"
                           [cdkDragDisabled]="isOrderDelivered(item)" [cdkDragData]="item"
                           (cdkDragMoved)="onDragMoved($event)">
                           <order-card-board [item]="item" (orderClick)="onOrderClick($event)"
@@ -496,7 +498,7 @@
           </div>
         </div>
       </div>
-      <div  id='TripTaskActionsStep'   class="modal-300 bg-white"
+      <div id='TripTaskActionsStep' class="modal-300 bg-white"
         [ngClass]="{'d-none d-md-block': selectedOrder.ShowTaskLog || selectedOrder.ShowTaskDetails}">
         <div class="px-3 py-2">
           <div class="d-flex align-items-center mb-1">
@@ -525,7 +527,7 @@
                 <p class="font-12 bold">{{'system.play'|translate}}</p>
               </div>
             </div>
-            <div  id="TaskActions_Specific" class="col"
+            <div id="TaskActions_Specific" class="col"
               *ngIf="!isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showAddToTripTemplate(selectedOrder)">
                 <img src="/assets/rb-icon/specific_trip.svg" class="rect-40"
@@ -533,29 +535,27 @@
                 <p class="font-12 bold">{{'system.add-to-specific-trip'|translate}}</p>
               </div>
             </div>
-            <div id='TaskActionsStep_changeTrip'  class="col"
+            <div id='TaskActionsStep_changeTrip' class="col"
               *ngIf="isOnTrip(selectedOrder) && !isOrderDelivered(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showChangeTripTemplate();">
                 <img src="/assets/rb-icon/change_trip.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.change-trip'|translate}}</p>
               </div>
             </div>
-            <div id="TaskActions_TopPriority"  class="col"
+            <div id="TaskActions_TopPriority" class="col"
               *ngIf="!selectedOrder.IsTopPriority && !isOrderDelivered(selectedOrder)&& !isCantDelivered(selectedOrder)">
               <div class="action-box" (click)="changeOrderPriority(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/top_priority.svg" class="rect-40">
                 <p class="font-12 bold">{{'dispatch.top-priority'|translate}}</p>
               </div>
             </div>
-            <div id='TaskActions_ManualDeliver' class="col"
-              *ngIf="isCreated(selectedOrder)||isReady(selectedOrder)">
+            <div id='TaskActions_ManualDeliver' class="col" *ngIf="isCreated(selectedOrder)||isReady(selectedOrder)">
               <div class="action-box" (click)="setOrderAsDelivered(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/delivered.svg" class="rect-40 ">
                 <p class="font-12 bold">{{'system.manual-deliver'|translate}}</p>
               </div>
             </div>
-            <div id='TaskActions_Cancel' class="col"
-              *ngIf="!isOnTrip(selectedOrder) && !isSchedualed(selectedOrder)">
+            <div id='TaskActions_Cancel' class="col" *ngIf="!isOnTrip(selectedOrder) && !isSchedualed(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showCancelOrderConfirmation();">
                 <img src="/assets/rb-icon/cancel.svg" class="rect-40">
                 <p class="font-12 bold">{{'shared.cancel'|translate}}</p>
@@ -568,21 +568,19 @@
                 <p class="font-12 bold">{{'system.remove-from-trip'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf="isCreated(selectedOrder) || isSchedualed(selectedOrder)">
+            <div class="col" *ngIf="isCreated(selectedOrder) || isSchedualed(selectedOrder)">
               <div class="action-box" (click)="setOrderAsReady(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/ready.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.order-ready'|translate}}</p>
               </div>
             </div>
-            <div class="col"
-              *ngIf=" isNew(selectedOrder) || isSchedualed(selectedOrder)">
+            <div class="col" *ngIf=" isNew(selectedOrder) || isSchedualed(selectedOrder)">
               <div class="action-box" (click)="setOrderAsInProgress(selectedOrder);modalRef.hide()">
                 <img src="/assets/rb-icon/in_progress.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.set-in-progress'|translate}}</p>
               </div>
             </div>
-            <div  id='TripTaskActionsStep_reschedule' class="col"
+            <div id='TripTaskActionsStep_reschedule' class="col"
               *ngIf=" (isNew(selectedOrder) || isCreated(selectedOrder) ||isReady(selectedOrder)) && !selectedOrder.IsTransite">
               <div class="action-box" (click)="modalRef.hide();showScheduledOrderTemplate(selectedOrder)">
                 <img src="/assets/rb-icon/calendar_monochrome.svg" class="rect-40 ">
@@ -596,7 +594,7 @@
               <p class="font-12 bold">{{'dispatch.cancel-otp'|translate}}</p>
             </div>
           </div> -->
-            <div id='TaskActionsStep_Update'  class="col "
+            <div id='TaskActionsStep_Update' class="col "
               *ngIf="(isCreated(selectedOrder)||isReady(selectedOrder) ||isOnTrip(selectedOrder) || isCantDelivered(selectedOrder)) && !isOrderDelivered(selectedOrder) && !isCantDelivered(selectedOrder)">
               <div class="action-box" (click)="modalRef.hide();showUpdateTaskTemplate()">
                 <img src="/assets/rb-icon/edit_order.svg" class="rect-40">
@@ -609,13 +607,14 @@
                 <p class="font-12 bold">{{'system.task-log-items'|translate}}</p>
               </div>
             </div>
-            <div  class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)" id='TaskActionsStep_Map' >
+            <div class="col" *ngIf="getOrderLatitude(selectedOrder) && getOrderLongtude(selectedOrder)"
+              id='TaskActionsStep_Map'>
               <a class="action-box" target="_blank" [href]="getOrderUrlONMaps(selectedOrder)">
                 <img src="/assets/rb-icon/show_on_map.svg" class="rect-40">
                 <p class="font-12 bold">{{'system.show-on-map-eTA'|translate}}</p>
               </a>
             </div>
-         
+
           </div>
         </div>
         <hr class="m-0">
@@ -685,16 +684,17 @@
                   class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100">{{'dispatch.go-task-details'|translate}}</button>
               </a>
             </div> -->
-            <div  id="TaskActionsStep_ShowDetails"class="col-12 ">
-              <button class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100"
+            <div class="col-12 ">
+              <button id="TaskActionsStep_ShowDetails"
+                class="rb-btn rb-btn-primary rb-btn-md d-flex justify-content-center w-100"
                 (click)="selectedOrder.ShowTaskDetails=true">{{'dispatch.show-task-details'|translate}}</button>
             </div>
           </div>
         </div>
       </div>
-      <div  class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
+      <div class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
         *ngIf="selectedOrder.ShowTaskDetails">
-        <div id="TaskDetailsStep"  class="log-modal w-100 bg-white py-2">
+        <div id="TaskDetailsStep" class="log-modal w-100 bg-white py-2">
           <div class="modal-header mt-n2">
             <div class="d-flex align-items-center w-100 d-md-none">
               <i class="uil uil-arrow-left c-g900 d-flex font-18 li-h0 me-2"
@@ -728,27 +728,9 @@
             <div class="p-note rb-mt-12" *ngIf="selectedOrder.Note">
               <p class="c-g900 font-10 text-truncate">{{selectedOrder.Note}}</p>
             </div>
-            <!-- <div class="d-flex align-items-center mt-2">
-              <img src="/assets/rb-icon/check.svg" class="rect-14 me-1">
-              <p class="font-11 c-g500">Prepared by: <span class="bold">Ahmed Hashem</span></p>
-            </div> -->
+   
             <div class="row mt-2 mx-0 g-0">
-              <!-- <div class="col-4 m-0" *ngIf="false">
-                <p class="font-11 c-g500 text-center">
-                  {{'dispatch.pickup-time'|translate}}
-                </p>
-                <p class="font-14 c-gr600 text-center">
-                  {{selectedOrder.PickupTime|date:'hh:mm a'}}
-                </p>
-              </div>
-              <div class="col-4 m-0" *ngIf="false">
-                <p class="font-11 c-g500 text-center">
-                  {{'dispatch.deliver-time'|translate}}
-                </p>
-                <p class="font-14 c-gr600 text-center">
-                  03:10 PM
-                </p>
-              </div> -->
+       
               <div class="col-12 m-0">
                 <div class="d-flex align-items-center bg-g25 radius-6 py-2 rb-px-12 ">
                   <p class="font-11 c-g500">
@@ -761,46 +743,7 @@
               </div>
             </div>
           </div>
-          <!-- <div *ngIf="taskLog.Items.length>0">
-            <hr class="my-3">
-            <div class="px-3">
-              <p class="font-12 bold pb-2">{{'system.items'|translate}} ({{taskLog.Items.length}})</p>
-              <div class="row align-items-start rb-mt-12 g-0" *ngFor="let item of taskLog.Items">
-                <div class="col-7">
-                  <p class="font-12 c-g900 me-2">{{item.Name}}</p>
-                </div>
-                <div class="col-2">
-                  <p class="font-12 c-g900 bold">x{{item.Quantity}}</p>
-                </div>
-                <div class="col-3">
-                  <p class="font-12 c-g900 bold text-nowrap text-end">{{item.Price}} {{'system.currency'|translate}}
-                  </p>
-                </div>
-              </div>
-              <hr class="rb-my-12">
-              <div class="d-flex align-items-center">
-                <p class="font-12 c-b500 bold">{{'shared.total'|translate}}</p>
-                <p class="font-12 c-b500 bold ms-auto">{{getTotalItem()|price}} {{'system.currency'|translate}}</p>
-              </div>
-            </div>
-          </div> -->
-          <!-- 
-          <div *ngIf="taskLog.Services.length>0">
-            <hr class="my-3">
-            <div class="px-3">
-              <p class="font-12 bold pb-2">{{'system.services'|translate}} ({{taskLog.Services.length}})</p>
-              <div class="d-flex align-items-center rb-mt-12">
-                <div class="rb-avatar rb-avatar-lg me-3" *ngFor="let Service of taskLog.Services">
-                  <div class="avatar-img circle">
-                    <img [src]="Service.Image"
-                      onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
-                  </div>
-                  <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 text-center" title="{{Service.Name}}">
-                    {{Service.Name}}</p>
-                </div>
-              </div>
-            </div>
-          </div> -->
+        
         </div>
         <div class="rb-mt-12 d-none d-none d-md-block">
           <button class='rb-btn rb-btn-invisible rb-btn-md bc-g100'
@@ -812,7 +755,7 @@
       </div>
       <div class="modal-300 d-flex flex-column justify-content-center align-items-center ms-sm-3 shadow-none"
         *ngIf="selectedOrder.ShowTaskLog">
-        <div id="TaskLogStep2"  class="log-modal w-100 bg-white ">
+        <div id="TaskLogStep2" class="log-modal w-100 bg-white ">
           <div class="modal-header d-md-none ">
             <div class="d-flex align-items-center w-100">
               <i class="uil uil-arrow-left c-g900 d-flex font-18 li-h0 me-2"
@@ -823,70 +766,143 @@
           </div>
           <div class="p-3">
             <p class="font-12 bold mb-3">{{'dispatch.task-log'|translate}}</p>
-            <div *ngIf="taskLog.IsLoading">
-              <loading title="Loading Log..." [inline]="true"></loading>
-            </div>
-            <div class="scroll-y hide-scroll" *ngIf="!taskLog.IsLoading">
-              <ng-container *ngFor="let item of taskLog.Logs;let last = last">
-                <div class="d-flex align-items-center" [class.mb-2]="last">
+        
+            <div class="scroll-y hide-scroll" >
+              <ng-container>
+
+                <div class="d-flex align-items-center">
                   <div class="d-flex me-2">
-                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16"
-                      [ngClass]="{'filter-img-blue': getTaskLogCreated(item), 'filter-img-green':getTaskLogDeliverd(item)  }">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 filter-img-green"
+                     >
                   </div>
-                  <div class="rb-badge badge-sm c-g900 px-1 radius-4 flow-hidden"
-                    [ngClass]="{'bg-lb500 ': getTaskLogCreated(item), 'bg-gr600 ': getTaskLogDeliverd(item)}">
-                    <P class="rb-p-xs bold li-h0 action-name text-truncate" [title]="item.ActionName"
-                      [ngClass]="{'c-white ': getTaskLogCreated(item) || getTaskLogDeliverd(item)}">
-                      {{item.ActionName}}</P>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden bg-gr600">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-white" >
+                      COMPLETED</P>
                   </div>
-                  <p class="font-10 no-wrap c-g900 ms-2">{{item.CreatedDate | date:'hh:mm a'}}</p>
+                  <p class="font-10 no-wrap c-g900 ms-2">01:24 PM</p>
                 </div>
-                <div class="w-16 d-flex justify-content-center my-1" *ngIf="!last">
+                <div class="w-16 d-flex justify-content-center my-1">
                   <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
                 </div>
+
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 filter-img-green"
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden bg-gr600">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-white" >
+                      DELIVERED</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g900 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      RECEIVED ORDER</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      ARRIVE AT BRANCH</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      STARTED</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      REQUEST ACCEPTED</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      RECIEVED</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16 "
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-g900" >
+                      SEND REQUEST TO DELIVERYMAN</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+                <div class="w-16 d-flex justify-content-center my-1">
+                  <img src="/assets/rb-icon/vertical_line.svg" class="rect-11">
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex me-2">
+                    <img src="/assets/rb-icon/stop-circle-fill.svg" class="rect-16  filter-img-blue"
+                     >
+                  </div>
+                  <div class="rb-badge badge-sm c-gr600 px-1 radius-4 flow-hidden bg-lb500 ">
+                    <P class="rb-p-xs bold li-h0 action-name text-truncate c-white" >
+                      READY</P>
+                  </div>
+                  <p class="font-10 no-wrap c-g600 ms-2">01:24 PM</p>
+                </div>
+           
+
+
               </ng-container>
             </div>
           </div>
-          <!-- <div *ngIf="taskLog.Items.length>0">
-              <hr class="my-3">
-              <div class="px-3">
-                <p class="font-12 bold pb-2">{{'system.items'|translate}} ({{taskLog.Items.length}})</p>
-                <div class="row align-items-start rb-mt-12 g-0" *ngFor="let item of taskLog.Items">
-                  <div class="col-7">
-                    <p class="font-12 c-g900 me-2">{{item.Name}}</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="font-12 c-g900 bold">x{{item.Quantity}}</p>
-                  </div>
-                  <div class="col-3">
-                    <p class="font-12 c-g900 bold text-nowrap text-end">{{item.Price}} {{'system.currency'|translate}}
-                    </p>
-                  </div>
-                </div>
-                <hr class="rb-my-12">
-                <div class="d-flex align-items-center">
-                  <p class="font-12 c-b500 bold">{{'shared.total'|translate}}</p>
-                  <p class="font-12 c-b500 bold ms-auto">{{getTotalItem()|price}} {{'system.currency'|translate}}</p>
-                </div>
-              </div>
-            </div> -->
-          <!-- 
-            <div *ngIf="taskLog.Services.length>0">
-              <hr class="my-3">
-              <div class="px-3">
-                <p class="font-12 bold pb-2">{{'system.services'|translate}} ({{taskLog.Services.length}})</p>
-                <div class="d-flex align-items-center rb-mt-12">
-                  <div class="rb-avatar rb-avatar-lg me-3" *ngFor="let Service of taskLog.Services">
-                    <div class="avatar-img circle">
-                      <img [src]="Service.Image"
-                        onerror="this.onerror=null; this.src='./assets/image/deliveryman_character.png'">
-                    </div>
-                    <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 text-center" title="{{Service.Name}}">
-                      {{Service.Name}}</p>
-                  </div>
-                </div>
-              </div>
-            </div> -->
+       
         </div>
         <div class="rb-mt-12 d-none d-none d-md-block">
           <button class='rb-btn rb-btn-invisible rb-btn-md bc-g100' (click)="selectedOrder.ShowTaskLog=false">
@@ -902,7 +918,7 @@
 <!-- trip Actions popup -->
 <ng-template #tripActionsTemplate>
   <div class="modal-body d-flex align-items-start">
-    <div id='TripActionsStep'  class="modal-300 bg-white"
+    <div id='TripActionsStep' class="modal-300 bg-white"
       [ngClass]="{'d-none d-md-block': selectedTrip.showTracking || selectedTrip.showTripLog}">
       <div class="px-3 py-2">
         <div class="d-flex align-items-center mb-1">
@@ -936,7 +952,8 @@
           <!-- <div class="col p-2"
             *ngIf="hasFeature(featureEnum.Trip_CloseTrip) && !isTripDelivered(selectedTrip.ID) && selectedTrip.DeliverymanID"> -->
           <div class="col p-2">
-            <div id="TripsActionStep_changeAgent" class="action-box" (click)="modalRef.hide();showChangeTripAgentTemplate(selectedTrip)">
+            <div id="TripsActionStep_changeAgent" class="action-box"
+              (click)="modalRef.hide();showChangeTripAgentTemplate(selectedTrip)">
               <img src="/assets/rb-icon/change_agent.svg" class="rect-40">
               <p class="font-12 bold pt-1">{{'system.change-agent'|translate}}</p>
             </div>
@@ -954,14 +971,14 @@
             </div>
           </div>
           <!-- <div id="TripsActionStep_complete"  class="col p-2" *ngIf="hasFeature(featureEnum.Trip_CloseTrip) && isTripDelivered(selectedTrip.ID)"> -->
-          <div id="TripsActionStep_complete"  class="col p-2" >
+          <div id="TripsActionStep_complete" class="col p-2">
             <div class="action-box" (click)="modalRef.hide();closeTrip(selectedTrip)">
               <img src="/assets/rb-icon/completed.svg" title="close Trip" class="rect-40">
               <p class="font-12 bold">{{'shared.complete'|translate}}</p>
             </div>
           </div>
           <!-- <div id="TripsActionStep_cancel" class="col p-2 " *ngIf="hasFeature(featureEnum.Trip_CancelTrip) && !isTripDelivered(selectedTrip.ID)"> -->
-          <div id="TripsActionStep_cancel" class="col p-2 " >
+          <div id="TripsActionStep_cancel" class="col p-2 ">
             <div class="action-box" (click)="modalRef.hide();showCancelTripConfirmation()">
               <img src="/assets/rb-icon/cancel_1.svg" class="rect-40">
               <p class="font-12 bold pt-1">{{'shared.cancel'|translate}}</p>
@@ -980,7 +997,8 @@
       </div>
     </div>
     <!-- trip orders -->
-    <div class="trip-card d-none p-3 ms-3 mb-2" *ngIf="!selectedTrip.showTracking && !selectedTrip.hiddenOrders && selectedTrip.Orders.length>0"
+    <div class="trip-card d-none p-3 ms-3 mb-2"
+      *ngIf="!selectedTrip.showTracking && !selectedTrip.hiddenOrders && selectedTrip.Orders.length>0"
       [class]="selectedTrip.showTripLog?'d-lg-block':'d-md-block'">
       <div class="d-flex align-items-center mb-1 ">
         <div class="rb-badge badge-xs bg-lb500 c-white px-2">{{selectedTrip.StatusName}}</div>
@@ -1003,7 +1021,8 @@
       </div>
     </div>
     <!-- trip tracking -->
-    <div id="TripsActionStep_livetracking2" class="d-flex flex-column justify-content-center align-items-center ms-3" *ngIf="selectedTrip.showTracking">
+    <div id="TripsActionStep_livetracking2" class="d-flex flex-column justify-content-center align-items-center ms-3"
+      *ngIf="selectedTrip.showTracking">
       <div class="map">
         <agm-map [disableDefaultUI]='true' [latitude]="isDmHasLocation()?getTripAgent(selectedTrip).Latitude:30.0444"
           [longitude]="isDmHasLocation()?getTripAgent(selectedTrip).Longitude: 31.2357"
@@ -1126,7 +1145,7 @@
   </div>
 </ng-template>
 <ng-template #updateOrderInfoTemplate>
-  <div  id="UpdateTaskStep">
+  <div id="UpdateTaskStep">
     <div class="modal-content">
       <div class="modal-header bg-g25">
         <h5 class="modal-title font-14 c-002 me-3">{{'dispatch.update-task'|translate}}</h5>
@@ -1134,7 +1153,8 @@
       </div>
     </div>
     <div class="modal-body">
-      <p class="font-16 c-g900 mb-3">{{'system.order'|translate}} <span class="bold">#{{selectedOrder.OrderNumber}}</span>
+      <p class="font-16 c-g900 mb-3">{{'system.order'|translate}} <span
+          class="bold">#{{selectedOrder.OrderNumber}}</span>
       </p>
       <form class="form" [formGroup]="updateOrderInfoForm">
         <div class="col-12 mt-2">
@@ -1155,20 +1175,55 @@
         </div>
       </form>
       <hr class="my-3">
-      <div *ngIf="serviceList.length>0">
+
+      <div >
         <p class="rb-p-s bold ">{{'system.services'|translate}}</p>
         <div class="d-flex scroll-x text-center mt-3 mx-n2">
-          <div class="rb-avatar rb-avatar-lg mx-2" *ngFor="let item of serviceList"
-            (click)="item.Selected = !item.Selected">
+
+          
+          <div class="rb-avatar rb-avatar-lg mx-2">
             <div class="avatar-img circle">
-              <img [class.b-2]="item.Selected" [class.bc-b500]="item.Selected" [src]="item.Icon"
-                onerror="this.onerror=null; this.src='./assets/image/skill.png'" [title]="item.Name">
+              <img [src]="'/assets/image/skill.png'"
+               title="Glucose Measurement" class="bc-b500 b-2">
             </div>
-            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6" [class.c-b500]="item.Selected" title="{{item.Name}}">
-              {{item.Name}}</p>
+            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 c-b500" title='Glucose Measuremen'>
+              Glucose Measurement</p>
           </div>
+
+          <div class="rb-avatar rb-avatar-lg mx-2">
+            <div class="avatar-img circle">
+              <img [src]="'/assets/image/skill.png'"
+               title="Blood Pressure" class="bc-b500 b-2">
+            </div>
+            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 c-b500" title='Blood Pressure'>
+              Blood Pressure</p>
+          </div>
+
+          <div class="rb-avatar rb-avatar-lg mx-2">
+            <div class="avatar-img circle">
+              <img [src]="'/assets/image/skill.png'"
+               title="Delivery Service" class="bc-b500 b-2">
+            </div>
+            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 c-b500" title='Delivery Service'>
+              Delivery Service</p>
+          </div>
+
+          <div class="rb-avatar rb-avatar-lg mx-2">
+            <div class="avatar-img circle">
+              <img [src]="'/assets/image/skill.png'"
+               title="Injection At Home" >
+            </div>
+            <p class="rb-p-xxs bold c-g900 avatar-name rb-mt-6 " title='Injection At Home'>
+              Injection At Home</p>
+          </div>
+
+
+
+
         </div>
       </div>
+
+
     </div>
     <div class="modal-footer">
       <button type="button" class="rb-btn rb-btn-invisible rb-btn-md ms-auto"
@@ -1177,7 +1232,7 @@
         (click)="modalRef.hide();updateInfo()">{{'shared.save'|translate}}</button>
     </div>
   </div>
-  
+
 </ng-template>
 <ng-template #cancelOrderTemplate>
   <div class="modal-content confirm-modal">
@@ -1267,7 +1322,8 @@
                   </div>
                 </div>
                 <div class="mt-3 box-shadow">
-                  <order-card-board [item]="selectedOrder" [URLOnMaps]="getOrderUrlONMaps(selectedOrder)"></order-card-board>
+                  <order-card-board [item]="selectedOrder" [URLOnMaps]="getOrderUrlONMaps(selectedOrder)">
+                  </order-card-board>
                 </div>
               </div>
             </div>
@@ -1560,22 +1616,87 @@
 
 <ng-template #TourCompleteTemplate>
 
-  <div class="modal-body p-0">
-    <div class="modal-content p-3">
-      <div class="text-center p-3">
+  <div class="modal-body p-3">
+    <div class="modal-content p-3 text-center">
+      <ng-container *ngIf="!$flagEndStep">
+      
 
-        <h6 class="rb-h6 c-b500 bold">Now you're all setup, we're happy to have you on Roboost!</h6>
+            <h6 class="rb-h6 c-g900 bold mb-3">Great! You're done with {{$tourList.SearchByList[currentIndexTour].Name}} section guide</h6>
+            <!-- <h6 class="rb-h6 c-g900 bold mb-3">Great! You've finished the last module of the Smart Assistant</h6> -->
+            <p class="rb-p-sm c-g500 mb-3" *ngIf="currentIndexTour != filterTourStepEnum.TaskCardAction ">Ready for the next <span class='c-b900 bold'>"{{getNextTourStep().Name}}"</span> ? </p>
+            <p class="rb-p-sm c-b500 mb-3" *ngIf="currentIndexTour == filterTourStepEnum.TaskCardAction ">End of Smart Assistant</p>
 
-        <p class="rb-p-sm c-g500 mt-3 mb-2 ">If you're ready for a more thorough tour of the specifics of our major
-          dispatching features, let's go! 🤩</p>
+            <button class="rb-btn rb-btn-primary  rb-btn-lg justify-content-center mt-2 w-100"
+              (click)="$flagEndStep=!$flagEndStep">
+              <span class="rb-btn-text">{{currentIndexTour == filterTourStepEnum.TaskCardAction ?'Go to Smart Assistant Menu':'Continue'}}</span>
+            </button>
 
-        <div class="d-flex justify-content-center mt-4">
+            <button class="rb-btn rb-btn-secondary  rb-btn-lg justify-content-center mt-2 w-100"
+              routerLink="/live-operation/live-dashboard">
+              <span class="rb-btn-text">Close, Back to Live Operation</span>
+            </button>
 
-          <button class="rb-btn rb-btn-success rb-btn-md " (click)="modalRef.hide()">
-            <span class="rb-btn-text">I'm Ready!</span>
+
+
+
+
+      </ng-container>
+
+
+      <ng-container *ngIf="$flagEndStep">
+        <div class="text-center p-3">
+      <img src="./assets/image/Group 95234.svg" class="rect-40">
+
+          <h6 class="rb-h6 c-r-500 bold rb-mt-12 mb-3">ASSIST ME WITH</h6>
+          <p class="rb-p-sm c-g500 mb-3" >Choose which section you need to guide.</p>
+
+
+          <div class="d-flex flex-colomn  mt-3">
+            <ng-container *ngFor="let item of $tourList.SearchByList; let i = index;let last = last">
+              <button  class="rb-btn rb-btn-lg mb-2 w-100 "   [ngClass]="i> currentIndexTour ? 'rb-btn-secondary c-b500' : 'rb-btn-primary'"
+                (click)="startNextModule(item)">
+                <span class="rb-btn-icon  right ms-auto bold"><i class="uil uil-angle-left-b"></i> </span>
+                <span class="rb-btn-text bold">{{item.Name}} <div class="circle-point d-inline-block" *ngIf="item.ID==getNextTourStep()?.ID  "></div></span>
+              </button>
+            </ng-container>
+            <button class="rb-btn rb-btn-secondary  rb-btn-lg justify-content-center w-100"
+            routerLink="/live-operation/live-dashboard">
+            <span class="rb-btn-text">Close, Back to Live Operation</span>
           </button>
+
+
+          </div>
         </div>
-      </div>
+
+      </ng-container>
+
+    </div>
+  </div>
+
+
+</ng-template>
+
+
+<ng-template #WelcomeTourTemplate>
+  <div class="modal-body p-3">
+    <div class="modal-content p-3 text-center">
+      <img src="./assets/img/roboost-logo.svg" class="welcome-roboost-logo">
+
+      <h6 class="rb-h6 c-g900 bold rb-mt-12 mb-3">Smart Assistant Mode</h6>
+      <!-- <p class="rb-p-md c-g900 mb-3">You will start toure guide <span class="c-b500 bold">{{$tourList.SearchByList[currentIndexTour].Name}}</span> </p> -->
+      <p class="rb-p-sm c-g500 mb-3">Starting the <span
+          class='c-g900 bold'>"{{$tourList.SearchByList[currentIndexTour].Name}}"</span> Section Guide </p>
+
+      <button class="rb-btn rb-btn-primary  rb-btn-lg justify-content-center mt-2 w-100"
+        (click)="letsStart()">
+        <span class="rb-btn-text">Let's start</span>
+      </button>
+
+      <button class="rb-btn rb-btn-secondary  rb-btn-lg justify-content-center mt-2 w-100"
+        routerLink="/live-operation/live-dashboard">
+        <span class="rb-btn-text">Close, Back to Live Operation</span>
+      </button>
+
 
     </div>
   </div>

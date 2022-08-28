@@ -9,7 +9,15 @@ export class DummyDataService {
   DummyAgents = []
   DummyStores = []
   DummyOrders = []
-  // DummyRunningOrders = []
+  DummyTaskDispatchKpi = {
+    "AvgDeliveryTime": 11.8,
+    "TotalOrders": 66,
+    "DeliveredOrders": 24,
+    "CanceledOrders": 1
+  };
+  DummyTripDispatchKpi = {
+    "ExcellentTrips": 100.0
+  };
 
   StoreListNames = [
     'Zalando', 'Mansoura Store', 'Smart Store', 'Shopperia Store', 'RedFox Store', 'Magnolia Store',
@@ -25,7 +33,7 @@ export class DummyDataService {
   ]
 
   CustomerListNames = [
-    'خالد كشميري',  'يَعقوب قمر الدين دبيازة', 'محمد سمبل', 'خضر كراويتة', 'عثمان عبد الجليل ششا', 'Al Fayyūm',
+    'خالد كشميري', 'يَعقوب قمر الدين دبيازة', 'محمد سمبل', 'خضر كراويتة', 'عثمان عبد الجليل ششا', 'Al Fayyūm',
     'خالد كشميري', 'يَعقوب قمر الدين دبيازة', 'محمد سمبل', 'خضر كراويتة', 'عثمان عبد الجليل ششا', 'Al Fayyūm',
   ]
   constructor() {
@@ -39,54 +47,101 @@ export class DummyDataService {
 
       let storObj = {
         "Name": this.StoreListNames[i], "Code": `p3sqRmBHLcN+${i}`, "ID": `${i}`, "Longitude": 31.340478, "Latitude": 30.0796471,
-        "NumberOfAgents": `${i}`, "NumberOfTrips": ` ${i}`, "NumberOfTasks": `${i}`
+        "NumberOfAgents": `${i}`, "NumberOfTrips": i, "NumberOfTasks": 13,
       }
 
+      // let orderObjTrip = {
+      //   "ID": `3691741${i}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
+      //   "BranchName": this.StoreListNames[i],
+      //   "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": this.CustomerListNames[i], "Mobile": null,
+      //   "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.', "ServicesCount": 0,
+      //   "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime":  new Date(),
+      //   "Date": new Date(), "SpentTime": 92728, "RemainingTime": 60,
+      //   "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
+      //   "Duration": 0, "Priority": null, "Amount":66.66, "Status": randomArrayShuffle([2]), "StatusName": null,
+      //   "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
+      //   "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
+      //   "IsTopPriority": false, "IsPaused": false, "Rate": 0,
+      //   "RateName": null, "Note": null, "OrderDeliveryTime": `${i}`, "IsTransite": false,
+      //   "District": null, "ServicesData": null, "Services": null
+      // }
+
       let orderObjTrip = {
-        "ID": `3691741${i}`, "TripID": `1941874${i}`, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
+        "ID": `3691741${i}`,
+        "TripID": `186${i}`,
+        "CustomerID": 0,
+        "BranchID": ` ${i}`,
+        "AreaID": `1${i}`,
         "BranchName": this.StoreListNames[i],
-        "OrderNumber": `AE5AA554-7${i}`, "Code": `7w1HQXoJ6P${i}`, "Name": this.CustomerListNames[i], "Mobile": null,
-        "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.', "ServicesCount": 0,
-        "PlannedDistance": 184.09, "Distance": 0, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
-        "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -903,
-        "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-        "Duration": 0, "Priority": null, "Amount":66.66, "Status": randomArrayShuffle([2]), "StatusName": null,
-        "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
-        "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-        "IsTopPriority": false, "IsPaused": false, "Rate": 0,
-        "RateName": null, "Note": null, "OrderDeliveryTime": `${i}`, "IsTransite": false,
-        "District": null, "ServicesData": null, "Services": null
+        "OrderNumber": `17355${i}`,
+        "Code": `1ST68P5Yg4${i}`,
+        "Name": this.CustomerListNames[i],
+        "Mobile": '01066181942',
+        "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.',
+        "ServicesCount": 0,
+        "PlannedDistance": 0.24,
+        "Distance": 0,
+        "PlannedDeliveryTime": "2022-08-24T12:40:00",
+        "Date": "2022-08-24T12:10:00",
+        "SpentTime": 511,
+        "RemainingTime": 1288,
+        "DeliveryTimeStatusName": null,
+        "DeliveryTimeStatus": 0,
+        "DistanceStatus": 0,
+        "DistanceStatusName": null,
+        "Duration": 0,
+        "Priority": null,
+        "Amount": 0.05,
+        "Status": 2,
+        "StatusName": null,
+        "PlannedLongitude": 30.9986335,
+        "PlannedLatitude": 30.7918739,
+        "Longitude": 0,
+        "Latitude": 0,
+        "HasGoogleLocation": true,
+        "IsTopPriority": false,
+        "IsPaused": false,
+        "Rate": 0,
+        "RateName": null,
+        "Note": null,
+        "OrderDeliveryTime": 30,
+        "IsTransite": false,
+        "District": null,
+        "ServicesData": null,
+        "DeliveryVerificationCode": null,
+        "Services": null
       }
+
 
 
 
       let orderObj
-      let orders =[]
+      let orders = []
       for (let j = 1; j < 5; j++) {
         orders.push(orderObjTrip)
         let agentObj = {
-          "ID": `11${i}`, "Name": this.AgentListNames[i], "StatusName": "On Duty", "StatusID": randomArrayShuffle([2, 1,3,3, 1,2]),
-          "StatusColor":  randomArrayShuffle(['#03A8FF', '#32cc3e','#e61721']), "Image": "./assets/image/onboard/"+i+'.jpg',
+          "ID": `11${i}`, "Name": this.AgentListNames[i], "StatusName": "On Duty", "StatusID": randomArrayShuffle([2, 1, 3, 3, 1, 2]),
+          "StatusColor": randomArrayShuffle(['#03A8FF', '#32cc3e', '#e61721']), "Image": "./assets/image/onboard/" + i + '.jpg',
           "BranchID": `${i}`, "BranchName": this.StoreListNames[i], "AreaID": `1097${i}`, "Longitude": 31.390185, "Latitude": 30.0539764
         }
         this.DummyAgents.push(agentObj)
 
       }
-      for (let j = 1; j < 30; j++) {
+      for (let j = 1; j < 10; j++) {
         orderObj = {
           "ID": `3691741${j}`, "TripID": null, "CustomerID": 0, "BranchID": ` ${i}`, "AreaID": `1097${i}`,
           "BranchName": this.StoreListNames[i],
           "OrderNumber": `AE5AA554-7${j}`, "Code": `7w1HQXoJ6P${j}`, "Name": this.CustomerListNames[i], "Mobile": null,
           "Address": 'الشيخ زايد- 236 الحي التاسع المجاورة.', "ServicesCount": 0,
-          "PlannedDistance": 184.09, "Distance": 10, "PlannedDeliveryTime": "2022-07-31T12:11:03.16",
-          "Date": "2022-07-31T11:31:03", "SpentTime": 92728, "RemainingTime": -90328,
+          "PlannedDistance": 184.09, "Distance": 10, "PlannedDeliveryTime": new Date(),
+          "Date": new Date(), "SpentTime": 10, "RemainingTime": 60,
           "DeliveryTimeStatusName": null, "DeliveryTimeStatus": 0, "DistanceStatus": 0, "DistanceStatusName": null,
-          "Duration": 0, "Priority": null, "Amount":66.66, "Status": j==1?1:randomArrayShuffle([9,1,9,9,9,1,9,1,1,1,9,1,9]), "StatusName": null,
+          "Duration": 0, "Priority": null, "Amount": 66.66, "Status": j == 1 ? 1 : randomArrayShuffle([9, 1, 9, 9, 9, 1, 9, 1, 1, 1, 9, 1, 9]), "StatusName": null,
           "PlannedLongitude": 29.9697291, "PlannedLatitude": 31.2398227,
           "Longitude": 0, "Latitude": 0, "HasGoogleLocation": true,
-          "IsTopPriority": j==1?false:randomArrayShuffle([false, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]), "IsPaused": j==1?false:randomArrayShuffle([true, false]), "Rate": 0,
-          "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false, true, false,false,true,true, false,true,true,true,false,true, false,false,false,]),
-          "District": null, "ServicesData": null,"Services": [ { "ServiceID": 7, "Name": "قياس السكر", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 6, "Name": "قياس ضغط الدم", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 4, "Name": "مشاوير صيدليه", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 } ] 
+          "IsTopPriority": j == 1 ? false : randomArrayShuffle([false, false, true, false, false, true, true, false, true, true, true, false, true, false, false, false,]), "IsPaused": j == 1 ? false : randomArrayShuffle([true, false]), "Rate": 0,
+          "RateName": null, "Note": null, "OrderDeliveryTime": `${j}`, "IsTransite": randomArrayShuffle([true, false, true, false, false, true, true, false, true, true, true, false, true, false, false, false,]),
+          "District": null, "ServicesData": null, "Services": [{ "ServiceID": 7, "Name": "قياس السكر", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 6, "Name": "قياس ضغط الدم", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }, { "ServiceID": 4, "Name": "مشاوير صيدليه", "Image": "https://api.tayar.info/uploads/icon/Default_Service.png", "OrderID": 0 }]
         }
         this.DummyOrders.push(orderObj)
 
@@ -94,17 +149,57 @@ export class DummyDataService {
 
 
 
+      // let tripObj = {
+      //   "ID": `1941874${i}`, "Number": `225${i}`, "Code": `OfKOPgqmFk${i}`, "DeliverymanID": `11${i}`, "DeliverymanName": this.AgentListNames[i],
+      //   "DeliverymanImage":"./assets/image/onboard/"+i+'.jpg', "BranchID": `${i}`,
+      //   "AreaID": `1097${i}`, "BranchName": this.StoreListNames[i], "Status": 10,
+      //   "StatusName": "Started", "StartTime": null,
+      //   "CloseTime": null, "CreatedDate": "2022-08-24T12:12:17.0503048", "RateStatus": 0, "RateStatusName": "NOT_RATED",
+      //   "PlannedCompleteTime": "2022-08-24T13:22:16.9575477", "IsPaused": false, "PlannedDuration": 0,
+      //   "ServingTime": 5, "SpentTime": 92770, "ExcelantMaxTime": 315, "GoodMaxTime": 375, "LateMaxTime": 450,
+      //   "Performance": { "ID": 186883, "Rate": 1, "StatusName": "EXCELLENT", "RemainingTime": 315, "Color": "#47bd83" },
+      //   "PlannedCompleteTimeInt": -97075, "IsSpecialTrip": false, "ArrivalTime": new Date(),
+      //   "PickupTime":  new Date(), "ArrivalTimeSecond": 6,
+      //   "Orders": orders
+      // }
+
       let tripObj = {
-        "ID": `1941874${i}`, "Number": `225${i}`, "Code": `OfKOPgqmFk${i}`, "DeliverymanID": `11${i}`, "DeliverymanName": this.AgentListNames[i],
-        "DeliverymanImage":"./assets/image/onboard/"+i+'.jpg', "BranchID": `${i}`,
-        "AreaID": `1097${i}`, "BranchName": this.StoreListNames[i], "Status": 10,
-        "StatusName": "Started", "StartTime": "2022-07-31T11:30:38.2903258",
-        "CloseTime": null, "CreatedDate": "2022-07-31T11:30:23.4584394", "RateStatus": 0, "RateStatusName": "NOT_RATED",
-        "PlannedCompleteTime": "2022-07-31T12:40:23.3113493", "IsPaused": false, "PlannedDuration": 0,
-        "ServingTime": 5, "SpentTime": 92770, "ExcelantMaxTime": 315, "GoodMaxTime": 375, "LateMaxTime": 450,
-        "Performance": { "ID": 1941874, "Rate": 4, "StatusName": "TOO LATE", "RemainingTime": 0, "Color": "#b5062b" },
-        "PlannedCompleteTimeInt": -97075, "IsSpecialTrip": false, "ArrivalTime": "2022-07-31T16:52:58.28",
-        "PickupTime": "2022-07-31T16:53:04.557", "ArrivalTimeSecond": 6,
+        "ID": `186${i}`,
+        "Number": `225${i}`,
+        "Code": `OfKOPgqmFk${i}`,
+        "DeliverymanID": `11${i}`,
+        "DeliverymanName": this.AgentListNames[i],
+        "DeliverymanImage": "./assets/image/onboard/" + i + '.jpg',
+        "BranchID": `${i}`,
+        "AreaID": `1${i}`,
+        "BranchName": this.StoreListNames[i],
+        "Status": 10,
+        "StatusName": "Started",
+        "StartTime": "2022-08-24T12:15:43.7360339",
+        "CloseTime": null,
+        "CreatedDate": "2022-08-24T12:12:17.0503048",
+        "RateStatus": 0,
+        "RateStatusName": "NOT_RATED",
+        "PlannedCompleteTime": "2022-08-24T13:22:16.9575477",
+        "IsPaused": false,
+        "PlannedDuration": 0,
+        "ServingTime": 5,
+        "SpentTime": 171,
+        "ExcelantMaxTime": 315,
+        "GoodMaxTime": 375,
+        "LateMaxTime": 450,
+        "Performance": {
+          "ID": 186883,
+          "Rate": 1,
+          "StatusName": "EXCELLENT",
+          "RemainingTime": 148,
+          "Color": "#47bd83"
+        },
+        "PlannedCompleteTimeInt": 138,
+        "IsSpecialTrip": false,
+        "ArrivalTime": "2022-08-24T13:22:16.9575477",
+        "PickupTime": null,
+        "ArrivalTimeSecond": 0,
         "Orders": orders
       }
       this.DummyTrips.push(tripObj)
@@ -124,7 +219,7 @@ function randomArrayShuffle(array) {
     array[i] = array[j];
     array[j] = temp;
   }
-    return array[0] 
+  return array[0]
 
-   
+
 }

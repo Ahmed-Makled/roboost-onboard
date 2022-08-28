@@ -377,7 +377,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 40px;
-  line-height: 48px;
+  line-height: 48px !important;
 }
 .rb-h1.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -389,7 +389,7 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h1 {
     font-size: 36px;
-    line-height: 44px;
+    line-height: 44px !important;
   }
 }
 
@@ -397,7 +397,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 36px;
-  line-height: 44px;
+  line-height: 44px !important;
 }
 .rb-h2.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -409,7 +409,7 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h2 {
     font-size: 32px;
-    line-height: 40px;
+    line-height: 40px !important;
   }
 }
 
@@ -417,7 +417,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 32px;
-  line-height: 40px;
+  line-height: 40px !important;
 }
 .rb-h3.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -429,7 +429,7 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h3 {
     font-size: 28px;
-    line-height: 36px;
+    line-height: 36px !important;
   }
 }
 
@@ -437,7 +437,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 28px;
-  line-height: 36px;
+  line-height: 36px !important;
 }
 .rb-h4.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -449,7 +449,7 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h4 {
     font-size: 24px;
-    line-height: 32px;
+    line-height: 32px !important;
   }
 }
 
@@ -457,7 +457,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 24px;
-  line-height: 32px;
+  line-height: 32px !important;
 }
 .rb-h5.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -469,7 +469,7 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h5 {
     font-size: 20px;
-    line-height: 28px;
+    line-height: 28px !important;
   }
 }
 
@@ -477,7 +477,7 @@ ul {
   font-family: "AMPLESOFTPRO-REGULAR";
   letter-spacing: 0.05px;
   font-size: 20px;
-  line-height: 28px;
+  line-height: 24px !important;
 }
 .rb-h6.meduim {
   font-family: "AMPLESOFTPRO-MEDIUM";
@@ -489,45 +489,45 @@ ul {
 @media (max-width: 767.98px) {
   .rb-h6 {
     font-size: 18px;
-    line-height: 24px;
+    line-height: 20px !important;
   }
 }
 
 /*___________________________________________*paragraphs*_____________________________________________________*/
 .rb-p-lg {
   font-size: 18px;
-  line-height: 28px;
+  line-height: 28px !important;
 }
 
 .rb-p-md {
   font-size: 16px;
-  line-height: 24px;
+  line-height: 24px !important;
 }
 
 .rb-p-sm {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 20px !important;
 }
 
 .rb-p-xs {
   font-size: 12px;
-  line-height: 15px;
+  line-height: 15px !important;
 }
 
 .rb-p-xxs {
   font-size: 10px;
-  line-height: 12px;
+  line-height: 12px !important;
 }
 
 /*overline*/
 .rb-overline-lg {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 20px !important;
 }
 
 .rb-overline-sm {
   font-size: 12px;
-  line-height: 20px;
+  line-height: 20px !important;
 }
 
 /*___________________________________________*Colors*_____________________________________________________*/
@@ -3022,9 +3022,6 @@ ul {
   color: #FFFFFF;
   background-color: #0003BC;
 }
-.rb-btn.rb-btn-primary:hover .rb-btn-icon.right, .rb-btn.rb-btn-primary.hover .rb-btn-icon.right {
-  background-color: #0F61FD;
-}
 .rb-btn.rb-btn-primary:active, .rb-btn.rb-btn-primary.active {
   background-color: #000286;
 }
@@ -3041,9 +3038,6 @@ ul {
 .rb-btn.rb-btn-primary:disabled .rb-btn-icon.right, .rb-btn.rb-btn-primary.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-primary .rb-btn-icon.right {
-  background-color: #0F61FD;
-}
 .rb-btn.rb-btn-danger {
   background-color: #D50000;
   color: #FFFFFF;
@@ -3051,9 +3045,6 @@ ul {
 .rb-btn.rb-btn-danger:hover, .rb-btn.rb-btn-danger.hover {
   color: #FFFFFF;
   background-color: #AB0000;
-}
-.rb-btn.rb-btn-danger:hover .rb-btn-icon.right, .rb-btn.rb-btn-danger.hover .rb-btn-icon.right {
-  background-color: #D50000;
 }
 .rb-btn.rb-btn-danger:active, .rb-btn.rb-btn-danger.active {
   background-color: #810000;
@@ -3071,26 +3062,20 @@ ul {
 .rb-btn.rb-btn-danger:disabled .rb-btn-icon.right, .rb-btn.rb-btn-danger.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-danger .rb-btn-icon.right {
-  background-color: #D50000;
-}
 .rb-btn.rb-btn-success {
-  background-color: #00C853;
+  background-color: #009F42;
   color: #FFFFFF;
 }
 .rb-btn.rb-btn-success:hover, .rb-btn.rb-btn-success.hover {
   color: #FFFFFF;
   background-color: #009F42;
 }
-.rb-btn.rb-btn-success:hover .rb-btn-icon.right, .rb-btn.rb-btn-success.hover .rb-btn-icon.right {
-  background-color: #00C853;
-}
 .rb-btn.rb-btn-success:active, .rb-btn.rb-btn-success.active {
   background-color: #007732;
 }
 .rb-btn.rb-btn-success:focus, .rb-btn.rb-btn-success.foucs {
   border-color: #007732;
-  background-color: #00C853;
+  background-color: #009F42;
 }
 .rb-btn.rb-btn-success:disabled, .rb-btn.rb-btn-success.disabled {
   color: #828B97 !important;
@@ -3101,9 +3086,6 @@ ul {
 .rb-btn.rb-btn-success:disabled .rb-btn-icon.right, .rb-btn.rb-btn-success.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-success .rb-btn-icon.right {
-  background-color: #00C853;
-}
 .rb-btn.rb-btn-secondary {
   background-color: #F0F1F2;
   color: #15171A;
@@ -3111,9 +3093,6 @@ ul {
 .rb-btn.rb-btn-secondary:hover, .rb-btn.rb-btn-secondary.hover {
   color: #15171A;
   background-color: #E6E8EA;
-}
-.rb-btn.rb-btn-secondary:hover .rb-btn-icon.right, .rb-btn.rb-btn-secondary.hover .rb-btn-icon.right {
-  background-color: #F0F1F2;
 }
 .rb-btn.rb-btn-secondary:active, .rb-btn.rb-btn-secondary.active {
   background-color: #E6E8EA;
@@ -3131,9 +3110,6 @@ ul {
 .rb-btn.rb-btn-secondary:disabled .rb-btn-icon.right, .rb-btn.rb-btn-secondary.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-secondary .rb-btn-icon.right {
-  background-color: #F0F1F2;
-}
 .rb-btn.rb-btn-secondary .rb-btn-count {
   background-color: rgba(21, 23, 26, 0.1019607843);
 }
@@ -3143,9 +3119,6 @@ ul {
 }
 .rb-btn.rb-btn-outline:hover, .rb-btn.rb-btn-outline.hover {
   color: #0F61FD;
-  background-color: #F0F1F2;
-}
-.rb-btn.rb-btn-outline:hover .rb-btn-icon.right, .rb-btn.rb-btn-outline.hover .rb-btn-icon.right {
   background-color: #F0F1F2;
 }
 .rb-btn.rb-btn-outline:active, .rb-btn.rb-btn-outline.active {
@@ -3164,9 +3137,6 @@ ul {
 .rb-btn.rb-btn-outline:disabled .rb-btn-icon.right, .rb-btn.rb-btn-outline.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-outline .rb-btn-icon.right {
-  background-color: #F0F1F2;
-}
 .rb-btn.rb-btn-outline .rb-btn-count {
   background-color: rgba(0, 5, 241, 0.1019607843);
 }
@@ -3176,9 +3146,6 @@ ul {
 }
 .rb-btn.rb-btn-invisible:hover, .rb-btn.rb-btn-invisible.hover {
   color: #0F61FD;
-  background-color: #FFFFFF;
-}
-.rb-btn.rb-btn-invisible:hover .rb-btn-icon.right, .rb-btn.rb-btn-invisible.hover .rb-btn-icon.right {
   background-color: #FFFFFF;
 }
 .rb-btn.rb-btn-invisible:active, .rb-btn.rb-btn-invisible.active {
@@ -3197,11 +3164,11 @@ ul {
 .rb-btn.rb-btn-invisible:disabled .rb-btn-icon.right, .rb-btn.rb-btn-invisible.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
 }
-.rb-btn.rb-btn-invisible .rb-btn-icon.right {
-  background-color: #FFFFFF;
-}
 .rb-btn.rb-btn-invisible .rb-btn-count {
   background-color: rgba(0, 5, 241, 0.1019607843);
+}
+.rb-btn.rb-btn-invisible:hover {
+  box-shadow: 0px 1px 0px rgba(21, 23, 26, 0.1490196078) !important;
 }
 .rb-btn.rb-btn-warning {
   background-color: #FF6D00;
@@ -3210,9 +3177,6 @@ ul {
 .rb-btn.rb-btn-warning:hover, .rb-btn.rb-btn-warning.hover {
   color: #FFFFFF;
   background-color: #CC5800;
-}
-.rb-btn.rb-btn-warning:hover .rb-btn-icon.right, .rb-btn.rb-btn-warning.hover .rb-btn-icon.right {
-  background-color: #FF6D00;
 }
 .rb-btn.rb-btn-warning:active, .rb-btn.rb-btn-warning.active {
   background-color: #994200;
@@ -3229,9 +3193,6 @@ ul {
 }
 .rb-btn.rb-btn-warning:disabled .rb-btn-icon.right, .rb-btn.rb-btn-warning.disabled .rb-btn-icon.right {
   background-color: #CDD1D5;
-}
-.rb-btn.rb-btn-warning .rb-btn-icon.right {
-  background-color: #FF6D00;
 }
 
 .btn-accordion {
@@ -4077,6 +4038,7 @@ ul {
   box-shadow: inset 0px -2px 0px #B3B7BA;
 }
 .tab .tab-links .tab-item.active {
+  box-shadow: inset 0px -2px 0px #0F61FD;
   color: #0F61FD;
   font-family: "amplesoft-bold", "CAIRO-BOLD";
 }
@@ -4817,6 +4779,7 @@ ngx-guided-tour-custom .guided-tour-user-input-mask {
 }
 ngx-guided-tour-custom .guided-tour-spotlight-overlay {
   z-index: 1082;
+  border-radius: 8px !important;
 }
 ngx-guided-tour-custom .tour-orb {
   z-index: 1079;
@@ -4872,6 +4835,16 @@ ngx-guided-tour-custom .tour-step .tour-block {
   box-shadow: 0 0.4rem 0.6rem #4c4c4c;
 }
 
+.sub-step__active {
+  border-radius: 4px !important;
+  outline: 2px solid #0F61FD;
+  outline-offset: 2px;
+}
+
+.border-outline {
+  outline: 2px solid #0F61FD;
+}
+
 ngx-guided-tour-custom .guided-tour-user-input-mask {
   position: fixed;
   top: 0;
@@ -4885,7 +4858,7 @@ ngx-guided-tour-custom .guided-tour-user-input-mask {
 }
 ngx-guided-tour-custom .guided-tour-spotlight-overlay {
   position: fixed;
-  box-shadow: 0 0 0 9999px rgba(21, 23, 26, 0.4), 0 0 1.5rem rgba(21, 23, 26, 0.4);
+  box-shadow: 0 0 0 9999px rgba(21, 23, 26, 0.65), 0 0 1.5rem rgba(21, 23, 26, 0.4);
 }
 ngx-guided-tour-custom .tour-orb {
   position: fixed;

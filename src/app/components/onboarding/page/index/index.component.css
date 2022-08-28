@@ -142,3 +142,19 @@
   flex: 1 1 auto;
 }
 
+.bg-lb10{
+  background-color: #0F61FD0F !important;
+}
+.welcome-roboost-logo{
+  width: 108px;
+  height: 24px;
+  margin: auto;
+}
+
+.circle-point{
+  width: 6px;
+  height: 6px;
+  background: #0F61FD ;
+  margin-inline-start: 8px;
+  border-radius: 50%;
+}

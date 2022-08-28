@@ -5,14 +5,13 @@ import { GuidedTour, TourStep, Orientation, OrientationConfiguration } from './g
 import { cloneDeep } from 'lodash';
 import { DOCUMENT } from "@angular/common";
 import { WindowRefTestService } from "./windowref.service";
+import { SharedService } from '../service/shared.service';
 
 @Injectable()
 export class GuidedTourTestService {
     public guidedTourCurrentStepStream: Observable<TourStep>;
-    public guidedTourOrbShowingStream: Observable<boolean>;
 
     private _guidedTourCurrentStepSubject = new Subject<TourStep>();
-    private _guidedTourOrbShowingSubject = new Subject<boolean>();
     private _currentTourStepIndex = 0;
     private _currentTour: GuidedTour = null;
     private _onFirstStep = true;
@@ -22,10 +21,10 @@ export class GuidedTourTestService {
     constructor(
         public errorHandler: ErrorHandler,
         private windowRef: WindowRefTestService,
+        private _sharedService: SharedService,
         @Inject(DOCUMENT) private dom
     ) {
         this.guidedTourCurrentStepStream = this._guidedTourCurrentStepSubject.asObservable();
-        this.guidedTourOrbShowingStream = this._guidedTourOrbShowingSubject.asObservable();
 
         fromEvent(this.windowRef.nativeWindow, 'resize').pipe(debounceTime(200)).subscribe(() => {
             if (this._currentTour && this._currentTourStepIndex > -1) {
@@ -70,10 +69,7 @@ export class GuidedTourTestService {
                 }
             }
         } else {
-            if (this._currentTour.completeCallback) {
-                this._currentTour.completeCallback();
-            }
-            this.resetTour();
+                this._currentTour.completeCallback()
         }
     }
 
@@ -110,6 +106,9 @@ export class GuidedTourTestService {
             this._currentTour.skipCallback(this._currentTourStepIndex);
         }
         this.resetTour();
+
+        // this._sharedService.router.navigate(['/live-operation/live-dashboard'])
+
     }
 
     public resetTour(): void {
@@ -124,15 +123,12 @@ export class GuidedTourTestService {
         this._currentTour.steps = this._currentTour.steps.filter(step => !step.skipStep);
         this._currentTourStepIndex = 0;
         this._setFirstAndLast();
-        this._guidedTourOrbShowingSubject.next(this._currentTour.useOrb);
         if (
             this._currentTour.steps.length > 0
             && (!this._currentTour.minimumScreenSize
                 || (this.windowRef.nativeWindow.innerWidth >= this._currentTour.minimumScreenSize))
         ) {
-            if (!this._currentTour.useOrb) {
-                this.dom.body.classList.add('tour-open');
-            }
+          
             if (this._currentTour.steps[this._currentTourStepIndex].action) {
                 this._currentTour.steps[this._currentTourStepIndex].action();
             }
@@ -144,10 +140,7 @@ export class GuidedTourTestService {
         }
     }
 
-    public activateOrb(): void {
-        this._guidedTourOrbShowingSubject.next(false);
-        this.dom.body.classList.add('tour-open');
-    }
+   
 
     private _setFirstAndLast(): void {
         this._onLastStep = (this._currentTour.steps.length - 1) === this._currentTourStepIndex;

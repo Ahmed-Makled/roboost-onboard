@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { DeliveryTimeStatus } from 'src/app/enum/delivery-time-status';
 import { FeatureEnum } from 'src/app/enum/feature.enum';
 import { OrderStatus } from 'src/app/enum/order-status.enum';
+import { DummyDataService } from 'src/app/service/dummy-data.service';
 import { SharedService } from 'src/app/service/shared.service';
 import { OnboardingDispatchService } from '../../onboarding.service';
 import { DispatchOrderViewModel } from '../../view-models/dispatch.model';
@@ -17,6 +18,7 @@ export class TaskUtilsService {
   constructor(
     private _dispatchService: OnboardingDispatchService, 
     private _sharedService: SharedService, 
+    private _dummyService: DummyDataService
   ) { }
   //////////////////////
   addToTrip(item:DispatchOrderViewModel,tripID:number){

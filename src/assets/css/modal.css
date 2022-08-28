@@ -25,7 +25,9 @@
   margin-inline-start: auto;
   color: #555D66;
 }
-
+/* .fade {
+  transition: unset !important;
+} */
 
 
 .confirm-modal .modal-body {
@@ -39,7 +41,8 @@
 
 .modal-title {
   font-size: 14px;
-  font-weight: bold;
+    font-family: "AMPLESOFTPRO-bold", "CAIRO-bold";
+
   color: #24292f;
 }
 
@@ -51,6 +54,9 @@
 }
 .modal-500 {
   width: 500px;
+}
+.modal-400 {
+  width: 400px;
 }
 .modal-440 {
   width: 440px;
@@ -204,7 +210,8 @@
 .footer-section .btn {
   padding: 7px;
   font-size: 14px !important;
-  font-weight: bold;
+    font-family: "AMPLESOFTPRO-bold", "CAIRO-bold" !important;
+
   width: 100% !important;
   line-height: 1.2;
 }

@@ -54,10 +54,7 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
             }
         });
         
-        // this.guidedTourService.guidedTourOrbShowingStream.subscribe((value: boolean) => {
-        //     this.isOrbShowing = value;
-        // });
-
+        
         this.resizeSubscription = fromEvent(this.windowRef.nativeWindow, 'resize').subscribe(() => {
             this.updateStepLocation();
         });
@@ -143,13 +140,7 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
     }
 
 
-
-    // public handleOrb(): void {
-    //     this.guidedTourService.activateOrb();
-    //     if (this.currentTourStep && this.currentTourStep.selector) {
-    //         this.scrollToAndSetElement();
-    //     }
-    // }
+    
 
     private isTourOnScreen(): boolean {
         return this.tourStep
@@ -187,8 +178,12 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
             event.stopPropagation();
         } else {
             this.guidedTourService.nextStep();
+
         }
     }
+    
+
+
 
     public updateStepLocation(): void {
         if (this.currentTourStep && this.currentTourStep.selector) {
@@ -217,33 +212,12 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
             return this.selectedElementRect.top + this.selectedElementRect.height + paddingAdjustment;
         }
 
-        if( this.currentTourStep.subSelector)
-            return this.subELementRect(this.currentTourStep.subSelector).top  - (this.subELementRect(this.currentTourStep.subSelector).height / 2)  
-        else
+      
         return this.selectedElementRect.top - this.getHighlightPadding(); 
     }
 
-    public  subELementRect(el) {
-
-        return   this.dom.querySelector(el).getBoundingClientRect() as DOMRect
-    }
     
 
-
-    // public get orbTopPosition(): number {
-    //     if (this.isBottom()) {
-    //         return this.selectedElementRect.top + this.selectedElementRect.height;
-    //     }
-
-    //     if (
-    //         this.currentTourStep.orientation === Orientation.Right
-    //         || this.currentTourStep.orientation === Orientation.Left
-    //     ) {
-    //         return (this.selectedElementRect.top + (this.selectedElementRect.height / 2));
-    //     }
-
-    //     return this.selectedElementRect.top;
-    // }
 
     private get calculatedLeftPosition(): number {
         const paddingAdjustment = this.getHighlightPadding();
@@ -324,39 +298,7 @@ export class GuidedTourCustomComponent implements AfterViewInit, OnDestroy {
         return 0;
     }
 
-    // public get overlayTop(): number {
-    //     if (this.selectedElementRect) {
-    //         // return this.selectedElementRect. - this.getHighlightPadding();
-
-    //         if (this.currentTourStep && this.currentTourStep.sub) 
-    //         return  this.subELementRect(this.currentTourStep.sub).top - (this.getHighlightPadding() * 2) ;
-    //     else   return this.selectedElementRect.top - (this.getHighlightPadding() * 2) ;
-    //     }
-
-
-        
-    //     return 0;
-    // }
-    // public get overlayLeft(): number {
-    //     if (this.selectedElementRect) {
-    //         return this.selectedElementRect.left - this.getHighlightPadding();
-    //     }
-    //     return 0;
-    // }
-    // public get overlayHeight(): number {
-    //     if (this.selectedElementRect) {
-    //      if (this.currentTourStep && this.currentTourStep.sub) 
-    //         return  this.subELementRect(this.currentTourStep.sub).height + (this.getHighlightPadding() * 2) ;
-    //     else   return this.selectedElementRect.height + (this.getHighlightPadding() * 2) ;
-    //     }
-    //     return 0;
-    // }
-
-    // public get overlayWidth(): number {
-    //     if (this.currentTourStep && this.currentTourStep.sub) 
-    //     return  this.subELementRect(this.currentTourStep.sub).width + (this.getHighlightPadding() * 2) ;
-    // else   return this.selectedElementRect.width + (this.getHighlightPadding() * 2) ;
-    // }
+    
 
     private getHighlightPadding(): number {
         let paddingAdjustment = this.currentTourStep.useHighlightPadding ? this.highlightPadding : 0;

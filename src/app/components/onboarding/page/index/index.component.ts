@@ -26,7 +26,7 @@ import { DispatchActionEnum } from '../view-models/dispatch-action.enum';
 
 import { GuidedTourTestService } from 'src/app/lib/guided-tour.service';
 import { GuidedTour, Orientation, TourStep } from 'src/app/lib/guided-tour.constants';
-import { FilterTourStepEnum } from 'src/app/components/shared/layout/layout.component';
+import { FilterTourStepEnum, TourList } from 'src/app/components/shared/layout/layout.component';
 import { OnboardingDispatchService } from '../onboarding.service';
 import { TaskActionService } from '../service/task/task.action';
 import { TripActionService } from '../service/trip/trip.action';
@@ -63,9 +63,11 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
   zoom = 11;
   previous: any;
   orderStatus = OrderStatus
-
+  filterTourStepEnum =FilterTourStepEnum
   currentIndexTour = null
 
+  $tourList = new TourList()
+  $flagEndStep:boolean=false
   constructor(
     private _activatedRoute: ActivatedRoute,
     public _pageService: OnboardingDispatchService,
@@ -75,37 +77,69 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     private _tripAction: TripActionService,
     private _dispatchUtils: DispatchUtilsService,
     private _dragDropUtils: DragDropUtilsService,
-    private guidedTourService: GuidedTourTestService,
+    public guidedTourService: GuidedTourTestService,
     public DummyDataService: DummyDataService
 
 
   ) {
-    super(_sharedService,DummyDataService);
+    super(_sharedService,DummyDataService,guidedTourService);
   }
 
-  public onTourStart(): void {
-    this._sharedService.StartTourEvent.subscribe(res => {
-      this.currentIndexTour = res
-      if (res == FilterTourStepEnum.General) this.guidedTourService.startTour(this.dispatchGeneralTour);
-      if (res == FilterTourStepEnum.TripCardInfo) this.guidedTourService.startTour(this.dispatchTripInfoTour);
-      if (res == FilterTourStepEnum.TripActions) this.guidedTourService.startTour(this.dispatchTripActionsTour);
-      if (res == FilterTourStepEnum.TripTaskActions) this.guidedTourService.startTour(this.dispatchTripTaskActionsTour);
-      if (res == FilterTourStepEnum.AllTasks) this.guidedTourService.startTour(this.dispatchAllTaskTour);
-      if (res == FilterTourStepEnum.TaskCardInfo) this.guidedTourService.startTour(this.dispatchTaskCardInfoTour);
-      if (res == FilterTourStepEnum.TaskCardAction) this.guidedTourService.startTour(this.dispatchTaskCardActionsTour);
+  public onTourStart(index): void {
+      console.log('%cStepTour',"font-size:20px;color:red",index);
 
-    })
+    // this._sharedService.StartTourEvent.subscribe(res => {
+    //   console.log('%cStepTour',"font-size:20px;color:red",res);
+    //   this.currentIndexTour = res
+    //   if (res == FilterTourStepEnum.General) this.guidedTourService.startTour(this.dispatchGeneralTour);
+    //   if (res == FilterTourStepEnum.TripCardInfo) this.guidedTourService.startTour(this.dispatchTripInfoTour);
+    //   if (res == FilterTourStepEnum.TripActions) this.guidedTourService.startTour(this.dispatchTripActionsTour);
+    //   if (res == FilterTourStepEnum.TripTaskActions) this.guidedTourService.startTour(this.dispatchTripTaskActionsTour);
+    //   if (res == FilterTourStepEnum.AllTasks) this.guidedTourService.startTour(this.dispatchAllTaskTour);
+    //   if (res == FilterTourStepEnum.TaskCardInfo) this.guidedTourService.startTour(this.dispatchTaskCardInfoTour);
+    //   if (res == FilterTourStepEnum.TaskCardAction) this.guidedTourService.startTour(this.dispatchTaskCardActionsTour);
+    // })
+
+      if (index == FilterTourStepEnum.General) this.guidedTourService.startTour(this.dispatchGeneralTour);
+      if (index == FilterTourStepEnum.TripCardInfo) this.guidedTourService.startTour(this.dispatchTripInfoTour);
+      if (index == FilterTourStepEnum.TripActions) this.guidedTourService.startTour(this.dispatchTripActionsTour);
+      if (index == FilterTourStepEnum.TripTaskActions) this.guidedTourService.startTour(this.dispatchTripTaskActionsTour);
+      if (index == FilterTourStepEnum.AllTasks) this.guidedTourService.startTour(this.dispatchAllTaskTour);
+      if (index == FilterTourStepEnum.TaskCardInfo) this.guidedTourService.startTour(this.dispatchTaskCardInfoTour);
+      if (index == FilterTourStepEnum.TaskCardAction) this.guidedTourService.startTour(this.dispatchTaskCardActionsTour);
   }
 
   @ViewChild('TourCompleteTemplate', { static: false }) TourCompleteTemplate: any;
+  @ViewChild('WelcomeTourTemplate', { static: false }) WelcomeTourTemplate: any;
 
   showCompleteTourTemplate() {
-    this.modalRef = this._sharedService.modalService.show(this.TourCompleteTemplate, { class: 'modal-300' });
+    this.modalRef = this._sharedService.modalService.show(this.TourCompleteTemplate,
+    { class: 'modal-400' ,keyboard:false,backdrop:true,ignoreBackdropClick:true});
 
   }
+  showWelcomeTourTemplate() {
+    this.modalRef = this._sharedService.modalService.show(this.WelcomeTourTemplate, 
+      { class: 'modal-400', keyboard:false,backdrop:true,ignoreBackdropClick:true});
 
+  }
+  getSelectedTourStep(index) {
+    return this.$tourList.SearchByList.find(i => i.ID == index)
+  }
+  getNextTourStep() {
+    return this.$tourList.SearchByList[Number(this.currentIndexTour)+1]
+  }
 
-
+  letsStart(){
+    this.modalRef.hide(); 
+    this.onTourStart(this.currentIndexTour);
+    // this.$tourList.SearchValue = this.$tourList.SearchByList[this.currentIndexTour].Name ;
+  }
+ startNextModule(item) {
+    this.modalRef.hide(); 
+    this.$flagEndStep=!this.$flagEndStep ;
+    // this.onTourStart(item.ID)
+    this._sharedService.router.navigate(['/onboarding'],{ queryParams:{step: item.ID}})
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.pageUtils.SecondInterval)
@@ -113,12 +147,13 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     this.modalRef?.hide();
   }
   ngAfterViewInit() {
+    
     const onMove$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.moved)), switchMap(obs => merge(...obs)), tap(this.triggerScroll));
     this.subs.add(onMove$.subscribe());
     const onDown$ = this.dragEls.changes.pipe(startWith(this.dragEls), map((d: QueryList<CdkDrag>) => d.toArray()), map(dragels => dragels.map(drag => drag.ended)), switchMap(obs => merge(...obs)), tap(this.cancelScroll));
     this.subs.add(onDown$.subscribe());
   }
-
+  
   ngOnInit() {
     this._pageService.page = this.page
     this._pageService.pageUtils = this.pageUtils
@@ -136,8 +171,16 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
   isMobileView(): boolean {
     return this._sharedService.isMobileView()
   }
-
+  flag:boolean = false
   initializePage() {
+    this._sharedService.activatedRoute.queryParams.subscribe(param=>{
+      this.currentIndexTour=param['step']
+      if(this.flag){
+        this.onTourStart(this.currentIndexTour)
+      }
+      this.flag = true
+    })
+
     this.setTaskTabs()
     forkJoin([
       // this._listService.getAreaList(),
@@ -156,10 +199,12 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
       this.getServiceList()
       this.getKpi()
       this.page.isPageLoaded = true
+        if (this.currentIndexTour)
+       this.showWelcomeTourTemplate()
+    
     });
     this.mapStoreList()
-    this.onTourStart()
-
+    // this.onTourStart(0)
   }
 
   getRunningAgent() {
@@ -173,13 +218,13 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     // })
     this.agents = this.DummyDataService.DummyAgents;
     this._pageService.agents = this.agents
-    this._dispatchUtils.setNumberOfAgents()
+    // this._dispatchUtils.setNumberOfAgents()
     this.pageUtils.IsAgentSearching = false
   }
   getRunningTrips() {
     this._tripAction.getRunningTrips(() => {
       this.trips = this._pageService.trips
-      this._dispatchUtils.setNumberOfTrips()
+      // this._dispatchUtils.setNumberOfTrips()
       let isRecent = this.filter.RecentOrOldest.find(i => i.Selected).ID == RecentOldestEnum.RECENT
       this._sharedService.sortBy(this.getTripList(), { prop: "SpentTime", desc: !isRecent })
     })
@@ -187,20 +232,25 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
   getRunningOrders() {
     this._taskAction.getRunningOrders(() => {
       this.orders = this._pageService.tasks
-      this._dispatchUtils.setNumberOfOrders()
+      // this._dispatchUtils.setNumberOfOrders()
       this.sortDispatch()
     })
   }
   getKpi() {
-    forkJoin([
-      this._taskAction._taskService.getOrderKPi(),
-      this._tripAction._tripService.getTripKPi()
-    ]).subscribe(res => {
-      this.orderKpi = res[0].Data
-      this.orderKpi.AvgDeliveryTime = res[0].Data.AvgDeliveryTime ?? 0
-      this.tripKpi = res[1].Data
+    // forkJoin([
+    //   this._taskAction._taskService.getOrderKPi(),
+    //   this._tripAction._tripService.getTripKPi()
+    // ]).subscribe(res => {
+    //   this.orderKpi = res[0].Data
+    //   this.orderKpi.AvgDeliveryTime = res[0].Data.AvgDeliveryTime ?? 0
+    //   this.tripKpi = res[1].Data
+    //   this.pageUtils.IsKpisSearching = false
+    // });
+    this.orderKpi =this.DummyDataService.DummyTaskDispatchKpi 
+    this.orderKpi.AvgDeliveryTime = this.DummyDataService.DummyTaskDispatchKpi.AvgDeliveryTime ?? 0
+    this.tripKpi =this.DummyDataService.DummyTripDispatchKpi 
       this.pageUtils.IsKpisSearching = false
-    });
+
   }
 
   getStoreList() {
@@ -216,6 +266,7 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     // })
     this.storeList = this.DummyDataService.DummyStores;
     this._pageService.storeList = this.storeList
+    console.log(this.storeList);
     if (!this.isSingleStore())
       this._activatedRoute.queryParams.subscribe((params) => {
         if (Object.keys(params).length > 0) {
@@ -224,9 +275,9 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
       })
   }
   getServiceList() {
-    this._listService.getServicesItems().subscribe((res) => {
-      this.serviceList = res.Data
-    })
+    // this._listService.getServicesItems().subscribe((res) => {
+    //   this.serviceList = res.Data
+    // })
   }
 
 
@@ -330,12 +381,12 @@ export class IndexComponent extends GuidedTourData implements OnInit, OnDestroy 
     this.createUpdateTaskForm()
     this.serviceList.forEach(element => { element.Selected = false; })
     if (this.selectedOrder.Services) {
-      this._taskAction._taskService.getOrderServices(this.selectedOrder.ID).subscribe(res => {
-        if (res.Success) {
-          let services = res.Data
-          this.serviceList.filter(i => services.some(x => x == i.ID)).forEach(element => { element.Selected = true })
-        }
-      })
+      // this._taskAction._taskService.getOrderServices(this.selectedOrder.ID).subscribe(res => {
+      //   if (res.Success) {
+      //     let services = res.Data
+      //     this.serviceList.filter(i => services.some(x => x == i.ID)).forEach(element => { element.Selected = true })
+      //   }
+      // })
     }
     this.modalRef = this._sharedService.modalService.show(this.updateOrderInfoTemplate, { class: 'modal-640' });
   }
